@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import logoImage from "../imports/PNG_image-2.png";
+import logoImage from "../imports/logo-new.png";
 import gummyImage from "../imports/PNG_image-3.png";
 
 export default function App() {
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-12"
          style={{
-           background: 'linear-gradient(135deg, #B8D4E5 0%, #A8C8DC 100%)',
+           background: '#c4e4f6',
            fontFamily: 'Inter, sans-serif'
          }}>
       <div className="w-full max-w-2xl">
