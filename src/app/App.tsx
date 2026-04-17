@@ -94,7 +94,7 @@ export default function App() {
               alt="GALOP Gummy"
               className="w-32 h-32 sm:w-48 sm:h-48 object-contain mx-[5px]"
               style={{
-                filter: 'drop-shadow(0 10px 30px rgba(226, 30, 38, 0.3)) drop-shadow(0 0 60px rgba(226, 30, 38, 0.15))',
+                filter: 'drop-shadow(0 8px 16px rgba(226, 30, 38, 0.25))',
                 display: 'block',
                 border: 'none',
                 outline: 'none',
