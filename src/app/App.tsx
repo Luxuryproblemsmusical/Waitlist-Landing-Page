@@ -42,11 +42,41 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 py-12"
+    <div className="min-h-screen flex flex-col items-center justify-start px-6 pt-0 pb-12"
          style={{
            background: '#c4e4f6',
            fontFamily: 'Inter, sans-serif'
          }}>
+      {/* Top Marquee Banner */}
+      <div style={{
+        width: '100vw',
+        marginLeft: 'calc(50% - 50vw)',
+        marginRight: 'calc(50% - 50vw)',
+        background: '#E21E26',
+        color: '#ffffff',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        padding: '10px 0',
+        marginBottom: '48px',
+        borderBottom: '1px solid rgba(0,0,0,0.05)'
+      }}>
+        <div style={{
+          display: 'inline-block',
+          animation: 'marquee 30s linear infinite',
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: '0.95rem',
+          letterSpacing: '0.25em',
+          textTransform: 'uppercase',
+          fontWeight: 500
+        }}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <span key={i} style={{ marginRight: '3rem' }}>
+              Launching Soon <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span> Join the Waitlist <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div className="w-full max-w-2xl">
         {/* Logo */}
         <div className="flex justify-center mb-8 animate-fade-in"
@@ -151,35 +181,43 @@ export default function App() {
 
         {/* Heading */}
         <div className="text-center mb-8">
-          <h1 className="mb-4"
+          {/* Kicker */}
+          <p className="mb-4"
+             style={{
+               fontFamily: 'Inter, sans-serif',
+               fontSize: '0.8rem',
+               fontWeight: 700,
+               color: '#E21E26',
+               textTransform: 'uppercase',
+               letterSpacing: '0.22em'
+             }}>
+            The multivitamin gummy for life on a GLP-1
+          </p>
+
+          {/* Main headline */}
+          <h1 className="mb-5"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: '3.5rem',
-                fontWeight: 600,
+                fontSize: 'clamp(2.5rem, 6vw, 3.75rem)',
+                fontWeight: 500,
                 color: '#E21E26',
-                letterSpacing: '0.05em',
-                lineHeight: 1.1,
-                textTransform: 'uppercase'
+                letterSpacing: '0.01em',
+                lineHeight: 1.05
               }}>
-            Coming Soon
+            Coming soon.
           </h1>
-          <p className="mx-auto max-w-lg"
-             style={{
-               fontFamily: "'Cormorant Garamond', serif",
-               fontSize: '1rem',
-               fontWeight: 400,
-               fontStyle: 'normal',
-               color: '#2d3748',
-               lineHeight: 1.6,
-               letterSpacing: '0.02em'
-             }}>Doctor-formulated multivitamin gummies designed for your <span style={{
-               fontStyle: 'normal',
+
+          {/* Highlights line */}
+          <p style={{
+               fontFamily: 'Inter, sans-serif',
+               fontSize: '0.8rem',
                fontWeight: 600,
                color: '#2d3748',
-               borderBottom: '1px solid #E21E26',
-               paddingBottom: '1px',
-               letterSpacing: '0.03em'
-             }}>GLP-1 Journey</span>.</p>
+               textTransform: 'uppercase',
+               letterSpacing: '0.22em'
+             }}>
+            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Strawberry
+          </p>
         </div>
 
         {/* Waitlist Form */}
@@ -216,7 +254,7 @@ export default function App() {
                   cursor: 'pointer'
                 }}
               >
-                {isSubmitting ? 'Joining…' : 'Join Waitlist'}
+                {isSubmitting ? 'Joining…' : 'Join the Waitlist'}
               </button>
             </form>
           ) : (
@@ -240,9 +278,48 @@ export default function App() {
           )}
         </div>
 
+        {/* Founder's Note */}
+        <div className="max-w-xl mx-auto mt-20 text-center">
+          <h2 className="mb-6"
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: '1.75rem',
+                fontWeight: 600,
+                color: '#E21E26',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase'
+              }}>
+            Why I made GALOP
+          </h2>
+          <p style={{
+               fontFamily: "'Cormorant Garamond', serif",
+               fontSize: '1.05rem',
+               fontWeight: 400,
+               color: '#2d3748',
+               lineHeight: 1.7,
+               letterSpacing: '0.01em'
+             }}>
+            I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. GLP-1 medications reduce your appetite, which means fewer nutrients reach your body. This is why people on GLP-1s often need higher doses of key vitamins to support their journey. A standard multivitamin wasn't built for this. So just like a pregnant person takes a prenatal, I found a doctor and built a multivitamin to optimize our journey. You deserve to feel like your absolute best self on a GLP-1. That's what GALOP is for.
+          </p>
+          <p className="mt-6" style={{
+               fontFamily: "'Cormorant Garamond', serif",
+               fontStyle: 'italic',
+               fontSize: '1.05rem',
+               color: '#2d3748',
+               letterSpacing: '0.02em'
+             }}>
+            — Sydney
+          </p>
+        </div>
+
       </div>
 
       <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
         @keyframes fadeIn {
           from {
             opacity: 0;
