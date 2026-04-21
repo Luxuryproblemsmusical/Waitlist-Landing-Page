@@ -52,7 +52,7 @@ export default function App() {
         width: '100vw',
         marginLeft: 'calc(50% - 50vw)',
         marginRight: 'calc(50% - 50vw)',
-        background: '#E21E26',
+        background: '#EF2A30',
         color: '#ffffff',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
@@ -86,16 +86,17 @@ export default function App() {
             alt=""
             aria-hidden="true"
             style={{
-              width: 'clamp(100px, 13vw, 180px)',
+              /* Horse width ~= width of "L" in GALOP (L ≈ 0.54 × font-size of 22vw) */
+              width: 'clamp(2.7rem, 11.9vw, 8.1rem)',
               height: 'auto',
-              marginBottom: 'clamp(14px, 2vw, 24px)'
+              marginBottom: 'clamp(14px, 2vw, 28px)'
             }}
           />
           <h1 aria-label="GALOP"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontWeight: 500,
-                color: '#E21E26',
+                color: '#EF2A30',
                 fontSize: 'clamp(5rem, 22vw, 15rem)',
                 lineHeight: 0.9,
                 letterSpacing: '-0.01em',
@@ -106,14 +107,15 @@ export default function App() {
           <p style={{
                marginTop: 'clamp(8px, 1.5vw, 18px)',
                fontFamily: 'Inter, sans-serif',
-               fontSize: 'clamp(0.7rem, 1.4vw, 0.95rem)',
+               fontSize: 'clamp(0.55rem, 2.4vw, 0.95rem)',
                fontWeight: 700,
-               color: '#E21E26',
+               color: '#EF2A30',
                textTransform: 'uppercase',
-               letterSpacing: '0.22em',
-               textAlign: 'center'
+               letterSpacing: 'clamp(0.12em, 0.4vw, 0.22em)',
+               textAlign: 'center',
+               whiteSpace: 'nowrap'
              }}>
-            The multivitamin gummy for life on a GLP-1
+            The multivitamin gummy for life on a&nbsp;GLP&#8209;1
           </p>
         </div>
 
@@ -149,7 +151,7 @@ export default function App() {
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
                 fontWeight: 600,
-                color: '#E21E26',
+                color: '#EF2A30',
                 letterSpacing: '-0.01em',
                 lineHeight: 1.05
               }}>
@@ -161,7 +163,7 @@ export default function App() {
                fontFamily: 'Inter, sans-serif',
                fontSize: 'clamp(0.7rem, 1.3vw, 0.9rem)',
                fontWeight: 700,
-               color: '#E21E26',
+               color: '#EF2A30',
                textTransform: 'uppercase',
                letterSpacing: '0.22em'
              }}>
@@ -183,7 +185,7 @@ export default function App() {
                 style={{
                   background: '#ffffff',
                   borderRadius: '9999px',
-                  border: '1px solid rgba(226, 30, 38, 0.15)',
+                  border: '1px solid rgba(239, 42, 48, 0.15)',
                   padding: '18px 28px',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '1rem',
@@ -196,7 +198,7 @@ export default function App() {
                 disabled={isSubmitting}
                 className="transition-all duration-300 hover:opacity-90 disabled:opacity-60"
                 style={{
-                  background: '#E21E26',
+                  background: '#EF2A30',
                   color: '#ffffff',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 700,
@@ -222,18 +224,18 @@ export default function App() {
                 padding: '18px 28px',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.95rem',
-                color: '#E21E26',
+                color: '#EF2A30',
                 fontWeight: 700,
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                border: '1px solid rgba(226, 30, 38, 0.2)'
+                border: '1px solid rgba(239, 42, 48, 0.2)'
               }}
             >
               Thank you
             </div>
           )}
           {error && (
-            <p className="mt-3 text-center text-sm" style={{ color: '#E21E26', fontFamily: "'Cormorant Garamond', serif" }}>{error}</p>
+            <p className="mt-3 text-center text-sm" style={{ color: '#EF2A30', fontFamily: "'Cormorant Garamond', serif" }}>{error}</p>
           )}
         </div>
 
@@ -245,7 +247,7 @@ export default function App() {
                fontFamily: 'Inter, sans-serif',
                fontSize: '0.8rem',
                fontWeight: 700,
-               color: '#E21E26',
+               color: '#EF2A30',
                textTransform: 'uppercase',
                letterSpacing: '0.22em',
                opacity: 0.85
@@ -258,7 +260,7 @@ export default function App() {
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: 'clamp(2rem, 4vw, 2.75rem)',
                 fontWeight: 600,
-                color: '#E21E26',
+                color: '#EF2A30',
                 letterSpacing: '-0.01em',
                 lineHeight: 1.1
               }}>
@@ -269,7 +271,7 @@ export default function App() {
                fontFamily: 'Inter, sans-serif',
                fontSize: '1.05rem',
                fontWeight: 700,
-               color: '#E21E26',
+               color: '#EF2A30',
                lineHeight: 1.6,
                letterSpacing: '0.005em'
              }}>
@@ -300,7 +302,7 @@ export default function App() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
                   lineHeight: 1.6,
-                  color: 'rgba(226, 30, 38, 0.7)',
+                  color: 'rgba(239, 42, 48, 0.7)',
                   letterSpacing: '0.02em'
                 }}>
           <p>© {new Date().getFullYear()} GALOP. All rights reserved.</p>
