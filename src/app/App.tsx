@@ -117,32 +117,9 @@ export default function App() {
           </p>
         </div>
 
-        {/* Hero Gummy with Infographic Lines */}
-        <div className="relative flex justify-center items-center mb-16 mt-8" style={{ height: '280px', width: '100%', maxWidth: '550px', margin: '0 auto' }}>
-          {/* Left Feature */}
-          <div className="absolute left-4 top-[52%] -translate-y-1/2 flex items-center gap-2 sm:gap-3 group cursor-pointer p-[0px] mx-[-5px] my-[0px]">
-            <p style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(0.7rem, 2.6vw, 0.95rem)',
-              fontWeight: 500,
-              color: '#2d3748',
-              whiteSpace: 'nowrap',
-              fontStyle: 'normal',
-              letterSpacing: '0.02em'
-            }}>Doctor-formulated</p>
-            <svg className="mx-[5px] my-[0px]" height="2" viewBox="0 0 50 2" preserveAspectRatio="none" className="w-7 sm:w-[50px]" style={{ overflow: 'visible' }}>
-              <line x1="0" y1="1" x2="50" y2="1"
-                    stroke="rgba(45, 55, 72, 0.3)"
-                    strokeWidth="1"
-                    fill="none"
-                    strokeLinecap="square"
-                    className="draw-line transition-all duration-500 group-hover:stroke-[#E21E26]"
-                    style={{ animation: 'drawLine 1.5s ease-out forwards', animationDelay: '0.3s' }} />
-            </svg>
-          </div>
-
-          {/* Gummy Center */}
-          <div className="animate-float z-10 px-[0px] py-[10px]"
+        {/* Hero Gummy */}
+        <div className="flex justify-center items-center mb-12 mt-8">
+          <div className="animate-float"
                style={{
                  animation: 'float 4s ease-in-out infinite',
                  background: 'transparent',
@@ -151,7 +128,7 @@ export default function App() {
             <img
               src={gummyImage}
               alt="GALOP Gummy"
-              className="w-32 h-32 sm:w-48 sm:h-48 object-contain mx-[5px]"
+              className="w-40 h-40 sm:w-56 sm:h-56 object-contain"
               style={{
                 filter: 'drop-shadow(0 8px 16px rgba(226, 30, 38, 0.25))',
                 display: 'block',
@@ -160,50 +137,6 @@ export default function App() {
                 boxShadow: 'none',
               }}
             />
-          </div>
-
-          {/* Top Right Feature */}
-          <div className="absolute right-4 top-[38%] flex items-center gap-2 sm:gap-3 group cursor-pointer px-[26px] py-[0px]">
-            <svg height="2" viewBox="0 0 50 2" preserveAspectRatio="none" className="w-7 sm:w-[50px]" style={{ overflow: 'visible' }}>
-              <line x1="0" y1="1" x2="50" y2="1"
-                    stroke="rgba(45, 55, 72, 0.3)"
-                    strokeWidth="1"
-                    fill="none"
-                    strokeLinecap="square"
-                    className="draw-line transition-all duration-500 group-hover:stroke-[#E21E26]"
-                    style={{ animation: 'drawLine 1.5s ease-out forwards', animationDelay: '0.5s' }} />
-            </svg>
-            <p className="px-[0px] py-[10px]" style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(0.7rem, 2.6vw, 0.95rem)',
-              fontWeight: 500,
-              color: '#2d3748',
-              whiteSpace: 'nowrap',
-              fontStyle: 'normal',
-              letterSpacing: '0.02em'
-            }}>Sugar-free</p>
-          </div>
-
-          {/* Bottom Right Feature */}
-          <div className="absolute right-4 top-[58%] flex items-center gap-2 sm:gap-3 group cursor-pointer px-[19px] py-[0px] mx-[10px] my-[0px]">
-            <svg height="2" viewBox="0 0 50 2" preserveAspectRatio="none" className="w-7 sm:w-[50px]" style={{ overflow: 'visible' }}>
-              <line x1="0" y1="1" x2="50" y2="1"
-                    stroke="rgba(45, 55, 72, 0.3)"
-                    strokeWidth="1"
-                    fill="none"
-                    strokeLinecap="square"
-                    className="draw-line transition-all duration-500 group-hover:stroke-[#E21E26]"
-                    style={{ animation: 'drawLine 1.5s ease-out forwards', animationDelay: '0.7s' }} />
-            </svg>
-            <p style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(0.7rem, 2.6vw, 0.95rem)',
-              fontWeight: 500,
-              color: '#2d3748',
-              whiteSpace: 'nowrap',
-              fontStyle: 'normal',
-              letterSpacing: '0.02em'
-            }}>Strawberry flavor</p>
           </div>
         </div>
 
