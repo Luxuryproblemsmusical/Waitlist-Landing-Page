@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import logoImage from "../imports/logo-new.png";
+import horseImage from "../imports/galop-horse.png";
 import gummyImage from "../imports/PNG_image-3.png";
 
 export default function App() {
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-start px-6 pt-0 pb-12"
          style={{
-           background: '#c4e4f6',
+           background: '#cbeafe',
            fontFamily: 'Inter, sans-serif'
          }}>
       {/* Top Marquee Banner */}
@@ -77,15 +77,44 @@ export default function App() {
         </div>
       </div>
 
-      <div className="w-full max-w-2xl">
-        {/* Logo */}
-        <div className="flex justify-center mb-8 animate-fade-in"
+      <div className="w-full max-w-4xl">
+        {/* Logo lockup: horse mark + GALOP wordmark */}
+        <div className="flex flex-col items-center mb-6 animate-fade-in"
              style={{ animation: 'fadeIn 0.8s ease-out' }}>
           <img
-            src={logoImage}
-            alt="GALOP"
-            className="h-16 w-auto"
+            src={horseImage}
+            alt=""
+            aria-hidden="true"
+            style={{
+              width: 'clamp(64px, 10vw, 110px)',
+              height: 'auto',
+              marginBottom: 'clamp(12px, 2vw, 24px)'
+            }}
           />
+          <h1 aria-label="GALOP"
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontWeight: 500,
+                color: '#E21E26',
+                fontSize: 'clamp(5rem, 22vw, 15rem)',
+                lineHeight: 0.9,
+                letterSpacing: '-0.01em',
+                margin: 0
+              }}>
+            GALOP
+          </h1>
+          <p style={{
+               marginTop: 'clamp(8px, 1.5vw, 18px)',
+               fontFamily: 'Inter, sans-serif',
+               fontSize: 'clamp(0.7rem, 1.4vw, 0.95rem)',
+               fontWeight: 700,
+               color: '#E21E26',
+               textTransform: 'uppercase',
+               letterSpacing: '0.22em',
+               textAlign: 'center'
+             }}>
+            The multivitamin gummy for life on a GLP-1
+          </p>
         </div>
 
         {/* Hero Gummy with Infographic Lines */}
@@ -181,38 +210,25 @@ export default function App() {
 
         {/* Heading */}
         <div className="text-center mb-8">
-          {/* Kicker */}
-          <p className="mb-4"
-             style={{
-               fontFamily: 'Inter, sans-serif',
-               fontSize: '0.8rem',
-               fontWeight: 700,
-               color: '#E21E26',
-               textTransform: 'uppercase',
-               letterSpacing: '0.22em'
-             }}>
-            The multivitamin gummy for life on a GLP-1
-          </p>
-
           {/* Main headline */}
-          <h1 className="mb-5"
+          <h2 className="mb-5"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 'clamp(2.5rem, 6vw, 3.75rem)',
-                fontWeight: 500,
+                fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
+                fontWeight: 600,
                 color: '#E21E26',
-                letterSpacing: '0.01em',
+                letterSpacing: '-0.01em',
                 lineHeight: 1.05
               }}>
             Coming soon.
-          </h1>
+          </h2>
 
           {/* Highlights line */}
           <p style={{
                fontFamily: 'Inter, sans-serif',
-               fontSize: '0.8rem',
-               fontWeight: 600,
-               color: '#2d3748',
+               fontSize: 'clamp(0.7rem, 1.3vw, 0.9rem)',
+               fontWeight: 700,
+               color: '#E21E26',
                textTransform: 'uppercase',
                letterSpacing: '0.22em'
              }}>
@@ -221,37 +237,44 @@ export default function App() {
         </div>
 
         {/* Waitlist Form */}
-        <div className="max-w-md mx-auto">
+        <div className="max-w-xl mx-auto">
           {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
                 required
-                className="flex-1 px-6 py-3 bg-white/80 backdrop-blur-sm border border-transparent focus:border-gray-400 focus:outline-none transition-all duration-300"
+                className="flex-1 focus:outline-none transition-all duration-300"
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '0.875rem',
-                  letterSpacing: '0.02em',
+                  background: '#ffffff',
+                  borderRadius: '9999px',
+                  border: '1px solid rgba(226, 30, 38, 0.15)',
+                  padding: '18px 28px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '1rem',
+                  letterSpacing: '0.01em',
                   color: '#2d3748'
                 }}
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-3 transition-all duration-300 hover:opacity-90 disabled:opacity-60"
+                className="transition-all duration-300 hover:opacity-90 disabled:opacity-60"
                 style={{
                   background: '#E21E26',
                   color: '#ffffff',
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontWeight: 500,
-                  fontSize: '0.875rem',
-                  letterSpacing: '0.1em',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  letterSpacing: '0.18em',
                   textTransform: 'uppercase',
                   border: 'none',
-                  cursor: 'pointer'
+                  borderRadius: '9999px',
+                  padding: '18px 36px',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 {isSubmitting ? 'Joining…' : 'Join the Waitlist'}
@@ -259,15 +282,18 @@ export default function App() {
             </form>
           ) : (
             <div
-              className="text-center py-4 px-8 bg-white/80 animate-fade-in"
+              className="text-center animate-fade-in"
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: '0.875rem',
-                color: '#2d3748',
-                fontWeight: 500,
-                letterSpacing: '0.1em',
+                background: '#ffffff',
+                borderRadius: '9999px',
+                padding: '18px 28px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.95rem',
+                color: '#E21E26',
+                fontWeight: 700,
+                letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                border: '1px solid rgba(45, 55, 72, 0.2)'
+                border: '1px solid rgba(226, 30, 38, 0.2)'
               }}
             >
               Thank you
