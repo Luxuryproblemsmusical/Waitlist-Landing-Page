@@ -238,37 +238,60 @@ export default function App() {
         </div>
 
         {/* Founder's Note */}
-        <div className="max-w-xl mx-auto mt-20 text-center">
-          <h2 className="mb-6"
+        <div className="max-w-2xl mx-auto mt-24 text-center">
+          {/* Section kicker */}
+          <p className="mb-4"
+             style={{
+               fontFamily: 'Inter, sans-serif',
+               fontSize: '0.8rem',
+               fontWeight: 700,
+               color: '#E21E26',
+               textTransform: 'uppercase',
+               letterSpacing: '0.22em',
+               opacity: 0.85
+             }}>
+            A note from our founder
+          </p>
+
+          <h2 className="mb-8"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: '1.75rem',
+                fontSize: 'clamp(2rem, 4vw, 2.75rem)',
                 fontWeight: 600,
                 color: '#E21E26',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase'
+                letterSpacing: '-0.01em',
+                lineHeight: 1.1
               }}>
             Why I made GALOP
           </h2>
-          <p style={{
-               fontFamily: "'Cormorant Garamond', serif",
+
+          <div style={{
+               fontFamily: 'Inter, sans-serif',
                fontSize: '1.05rem',
-               fontWeight: 400,
-               color: '#2d3748',
-               lineHeight: 1.7,
-               letterSpacing: '0.01em'
+               fontWeight: 700,
+               color: '#E21E26',
+               lineHeight: 1.6,
+               letterSpacing: '0.005em'
              }}>
-            I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. GLP-1 medications reduce your appetite, which means fewer nutrients reach your body. This is why people on GLP-1s often need higher doses of key vitamins to support their journey. A standard multivitamin wasn't built for this. So just like a pregnant person takes a prenatal, I found a doctor and built a multivitamin to optimize our journey. You deserve to feel like your absolute best self on a GLP-1. That's what GALOP is for.
-          </p>
-          <p className="mt-6" style={{
-               fontFamily: "'Cormorant Garamond', serif",
-               fontStyle: 'italic',
-               fontSize: '1.05rem',
-               color: '#2d3748',
-               letterSpacing: '0.02em'
-             }}>
-            — Sydney
-          </p>
+            <p className="mb-6">
+              I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. GLP-1 medications reduce your appetite, which means fewer nutrients reach your body. This is why people on GLP-1s often need higher doses of key vitamins to support their journey.
+            </p>
+            <p className="mb-6">
+              A standard multivitamin wasn't built for this.
+            </p>
+            <p className="mb-6">
+              So just like a pregnant person takes a prenatal, I found a doctor and built a multivitamin to optimize our journey.
+            </p>
+            <p className="mb-6">
+              You deserve to feel like your absolute best self on a GLP-1.
+            </p>
+            <p className="mb-8">
+              That's what GALOP is for.
+            </p>
+            <p>
+              — Sydney
+            </p>
+          </div>
         </div>
 
       </div>
