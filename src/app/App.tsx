@@ -86,9 +86,9 @@ export default function App() {
             alt=""
             aria-hidden="true"
             style={{
-              width: 'clamp(64px, 10vw, 110px)',
+              width: 'clamp(100px, 13vw, 180px)',
               height: 'auto',
-              marginBottom: 'clamp(12px, 2vw, 24px)'
+              marginBottom: 'clamp(14px, 2vw, 24px)'
             }}
           />
           <h1 aria-label="GALOP"
@@ -293,6 +293,19 @@ export default function App() {
             </p>
           </div>
         </div>
+
+        {/* Footer / Legal */}
+        <footer className="max-w-2xl mx-auto mt-24 pb-4 text-center"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '0.75rem',
+                  lineHeight: 1.6,
+                  color: 'rgba(226, 30, 38, 0.7)',
+                  letterSpacing: '0.02em'
+                }}>
+          <p>© {new Date().getFullYear()} GALOP. All rights reserved.</p>
+          {/* Legal statements go here — Sydney to add */}
+        </footer>
 
       </div>
 
