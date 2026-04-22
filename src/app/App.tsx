@@ -75,8 +75,8 @@ export default function App() {
         color: '#ffffff',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
-        padding: '10px 0',
-        marginBottom: '48px',
+        padding: '8px 0',
+        marginBottom: 'clamp(16px, 2.5vw, 32px)',
         borderBottom: '1px solid rgba(0,0,0,0.05)'
       }}>
         <div style={{
@@ -98,16 +98,16 @@ export default function App() {
 
       <div className="w-full max-w-4xl">
         {/* Logo lockup: horse mark + GALOP wordmark */}
-        <div className="flex flex-col items-center mb-6 animate-fade-in"
+        <div className="flex flex-col items-center mb-2 sm:mb-4 animate-fade-in"
              style={{ animation: 'fadeIn 0.8s ease-out' }}>
           <img
             src={horseImage}
             alt=""
             aria-hidden="true"
             style={{
-              width: 'clamp(4.5rem, 19vw, 13rem)',
+              width: 'clamp(5.5rem, 21vw, 15rem)',
               height: 'auto',
-              marginBottom: 'clamp(12px, 1.5vw, 22px)'
+              marginBottom: 'clamp(4px, 0.8vw, 14px)'
             }}
           />
           <h1 aria-label="GALOP"
@@ -115,7 +115,7 @@ export default function App() {
                 fontFamily: "'Cormorant Garamond', serif",
                 fontWeight: 500,
                 color: '#EF2A30',
-                fontSize: 'clamp(5rem, 22vw, 15rem)',
+                fontSize: 'clamp(4.5rem, 18vw, 12rem)',
                 lineHeight: 0.9,
                 letterSpacing: '-0.01em',
                 margin: 0
@@ -138,7 +138,7 @@ export default function App() {
         </div>
 
         {/* Hero Gummy */}
-        <div className="flex justify-center items-center mb-12 mt-8">
+        <div className="flex justify-center items-center mb-4 mt-2 sm:mb-6 sm:mt-4">
           <div className="animate-float"
                style={{
                  animation: 'float 4s ease-in-out infinite',
@@ -148,7 +148,7 @@ export default function App() {
             <img
               src={gummyImage}
               alt="GALOP Gummy"
-              className="w-40 h-40 sm:w-56 sm:h-56 object-contain"
+              className="w-28 h-28 sm:w-40 sm:h-40 object-contain"
               style={{
                 filter: 'drop-shadow(0 8px 16px rgba(226, 30, 38, 0.25))',
                 display: 'block',
@@ -162,12 +162,12 @@ export default function App() {
 
 
         {/* Heading */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           {/* Main headline */}
-          <h2 className="mb-5"
+          <h2 className="mb-3 sm:mb-4"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
+                fontSize: 'clamp(2.25rem, 6vw, 4rem)',
                 fontWeight: 600,
                 color: '#EF2A30',
                 letterSpacing: '-0.01em',
