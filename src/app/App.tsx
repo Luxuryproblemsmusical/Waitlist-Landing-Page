@@ -139,7 +139,7 @@ export default function App() {
         </div>
 
         {/* Hero Gummy */}
-        <div className="flex justify-center items-center mb-4 mt-2 sm:mb-6 sm:mt-4">
+        <div className="flex justify-center items-center mb-4 mt-10 sm:mb-6 sm:mt-14">
           <div className="animate-float"
                style={{
                  animation: 'float 4s ease-in-out infinite',
