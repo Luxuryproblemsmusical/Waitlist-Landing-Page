@@ -2,6 +2,25 @@ import { useState } from 'react';
 import horseImage from "../imports/galop-horse.png";
 import gummyImage from "../imports/PNG_image-3.png";
 
+/** Small diamond glyph echoing the GALOP gummy silhouette. */
+const DiamondGlyph = ({ opacity = 0.85 }: { opacity?: number }) => (
+  <svg
+    viewBox="0 0 24 22"
+    width="0.75em"
+    height="0.75em"
+    aria-hidden="true"
+    style={{
+      display: 'inline-block',
+      verticalAlign: '0.02em',
+      margin: '0 1.25rem',
+      fill: 'currentColor',
+      opacity,
+    }}
+  >
+    <polygon points="6,1 18,1 23,8 12,21 1,8" />
+  </svg>
+);
+
 export default function App() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -71,7 +90,7 @@ export default function App() {
         }}>
           {Array.from({ length: 10 }).map((_, i) => (
             <span key={i} style={{ marginRight: '3rem' }}>
-              Launching Soon <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span> Join the Waitlist <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span>
+              Launching Soon <DiamondGlyph /> Join the Waitlist <DiamondGlyph />
             </span>
           ))}
         </div>
@@ -333,7 +352,7 @@ export default function App() {
         }}>
           {Array.from({ length: 10 }).map((_, i) => (
             <span key={i} style={{ marginRight: '3rem' }}>
-              Launching Soon <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span> Join the Waitlist <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span>
+              Launching Soon <DiamondGlyph /> Join the Waitlist <DiamondGlyph />
             </span>
           ))}
         </div>
