@@ -107,7 +107,7 @@ export default function App() {
             style={{
               width: 'clamp(5.5rem, 21vw, 15rem)',
               height: 'auto',
-              marginBottom: 'clamp(4px, 0.8vw, 14px)'
+              marginBottom: 0
             }}
           />
           <h1 aria-label="GALOP"
@@ -118,7 +118,8 @@ export default function App() {
                 fontSize: 'clamp(4.5rem, 18vw, 12rem)',
                 lineHeight: 0.9,
                 letterSpacing: '-0.01em',
-                margin: 0
+                margin: 0,
+                marginTop: 'clamp(-44px, -3.5vw, -10px)'
               }}>
             GALOP
           </h1>
