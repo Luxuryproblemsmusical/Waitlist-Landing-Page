@@ -86,10 +86,9 @@ export default function App() {
             alt=""
             aria-hidden="true"
             style={{
-              /* Horse width ~= width of "L" in GALOP (L ≈ 0.54 × font-size of 22vw) */
-              width: 'clamp(2.7rem, 11.9vw, 8.1rem)',
+              width: 'clamp(4.5rem, 19vw, 13rem)',
               height: 'auto',
-              marginBottom: 'clamp(14px, 2vw, 28px)'
+              marginBottom: 'clamp(12px, 1.5vw, 22px)'
             }}
           />
           <h1 aria-label="GALOP"
@@ -297,7 +296,7 @@ export default function App() {
         </div>
 
         {/* Footer / Legal */}
-        <footer className="max-w-2xl mx-auto mt-24 pb-4 text-center"
+        <footer className="max-w-2xl mx-auto mt-24 pb-10 text-center"
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
@@ -309,6 +308,35 @@ export default function App() {
           {/* Legal statements go here — Sydney to add */}
         </footer>
 
+      </div>
+
+      {/* Bottom Marquee Banner */}
+      <div style={{
+        width: '100vw',
+        marginLeft: 'calc(50% - 50vw)',
+        marginRight: 'calc(50% - 50vw)',
+        background: '#EF2A30',
+        color: '#ffffff',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        padding: '10px 0',
+        borderTop: '1px solid rgba(0,0,0,0.05)'
+      }}>
+        <div style={{
+          display: 'inline-block',
+          animation: 'marquee 30s linear infinite',
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: '0.95rem',
+          letterSpacing: '0.25em',
+          textTransform: 'uppercase',
+          fontWeight: 500
+        }}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <span key={i} style={{ marginRight: '3rem' }}>
+              Launching Soon <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span> Join the Waitlist <span style={{ opacity: 0.6, margin: '0 1.5rem' }}>✦</span>
+            </span>
+          ))}
+        </div>
       </div>
 
       <style>{`
