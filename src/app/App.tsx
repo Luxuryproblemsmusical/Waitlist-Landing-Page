@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import horseImage from "../imports/galop-horse.png";
 import gummyImage from "../imports/PNG_image-3.png";
+import sydneyImage from "../imports/sydney.png";
 
 /** Small diamond glyph echoing the GALOP gummy silhouette. */
 const DiamondGlyph = ({ opacity = 0.85 }: { opacity?: number }) => (
@@ -309,9 +310,30 @@ export default function App() {
             <p className="mb-8">
               That's what GALOP is for.
             </p>
-            <p>
+            <p style={{
+                 fontFamily: "'Caveat', cursive",
+                 fontWeight: 500,
+                 fontSize: 'clamp(2.25rem, 4vw, 3rem)',
+                 lineHeight: 1,
+                 letterSpacing: '0.01em',
+                 marginTop: '0.5rem'
+               }}>
               — Sydney
             </p>
+            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+              <img
+                src={sydneyImage}
+                alt="Sydney, founder of GALOP"
+                style={{
+                  width: 'clamp(5rem, 10vw, 7rem)',
+                  height: 'clamp(5rem, 10vw, 7rem)',
+                  borderRadius: '9999px',
+                  objectFit: 'cover',
+                  border: '3px solid #EF2A30',
+                  boxShadow: '0 6px 18px rgba(239, 42, 48, 0.18)'
+                }}
+              />
+            </div>
           </div>
         </div>
 
@@ -325,7 +347,18 @@ export default function App() {
                   letterSpacing: '0.02em'
                 }}>
           <p>© {new Date().getFullYear()} GALOP. All rights reserved.</p>
-          {/* Legal statements go here — Sydney to add */}
+          <p style={{ marginTop: '0.5rem' }}>
+            <a
+              href="/privacy.html"
+              style={{
+                color: 'rgba(239, 42, 48, 0.85)',
+                textDecoration: 'underline',
+                textUnderlineOffset: '0.2em'
+              }}
+            >
+              Privacy Policy
+            </a>
+          </p>
         </footer>
 
       </div>
