@@ -187,7 +187,7 @@ export default function App() {
                textTransform: 'uppercase',
                letterSpacing: '0.22em'
              }}>
-            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Pomegranate
+            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Electrolytes <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Pomegranate
           </p>
         </div>
 
