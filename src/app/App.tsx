@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import horseImage from "../imports/galop-horse.png";
-import gummyImage from "../imports/PNG_image-3.png";
+import drinkMixImage from "../imports/drink-mix.png";
 import sydneyImage from "../imports/sydney.png";
 
-/** Small diamond glyph echoing the GALOP gummy silhouette. */
+/** Small diamond glyph used as a separator in the marquee banners. */
 const DiamondGlyph = ({ opacity = 0.85 }: { opacity?: number }) => (
   <svg
     viewBox="0 0 24 22"
@@ -135,11 +135,11 @@ export default function App() {
                textAlign: 'center',
                whiteSpace: 'nowrap'
              }}>
-            The multivitamin gummy for life on a&nbsp;GLP&#8209;1
+            The multivitamin drink mix for life on a&nbsp;GLP&#8209;1
           </p>
         </div>
 
-        {/* Hero Gummy */}
+        {/* Hero Product — drink mix */}
         <div className="flex justify-center items-center mb-4 mt-10 sm:mb-6 sm:mt-14">
           <div className="animate-float"
                style={{
@@ -148,9 +148,9 @@ export default function App() {
                  width: 'fit-content',
                }}>
             <img
-              src={gummyImage}
-              alt="GALOP Gummy"
-              className="w-28 h-28 sm:w-40 sm:h-40 object-contain"
+              src={drinkMixImage}
+              alt="GALOP drink mix stick pack beside a glass of strawberry pomegranate drink"
+              className="w-44 sm:w-60 h-auto object-contain"
               style={{
                 filter: 'drop-shadow(0 8px 16px rgba(226, 30, 38, 0.25))',
                 display: 'block',
@@ -187,7 +187,7 @@ export default function App() {
                textTransform: 'uppercase',
                letterSpacing: '0.22em'
              }}>
-            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Strawberry
+            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Strawberry Pomegranate
           </p>
         </div>
 
