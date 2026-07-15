@@ -3,45 +3,26 @@ import horseImage from "../imports/galop-horse.png";
 import drinkMixImage from "../imports/drink-mix.png";
 import sydneyImage from "../imports/sydney.png";
 
-/** Retro starburst badge calling out electrolytes, pinned to the hero image. */
-const ElectrolytesBurst = () => {
-  const spikes = 24;
-  const outer = 54;
-  const inner = 45;
-  const points = Array.from({ length: spikes * 2 }, (_, i) => {
-    const r = i % 2 === 0 ? outer : inner;
-    const a = (Math.PI * i) / spikes - Math.PI / 2;
-    return `${(r * Math.cos(a)).toFixed(2)},${(r * Math.sin(a)).toFixed(2)}`;
-  }).join(' ');
-  return (
-    <svg
-      viewBox="-56 -56 112 112"
-      aria-hidden="true"
-      style={{
-        position: 'absolute',
-        top: '-1.4rem',
-        right: '-2.6rem',
-        width: 'clamp(5.5rem, 12vw, 7rem)',
-        height: 'clamp(5.5rem, 12vw, 7rem)',
-        transform: 'rotate(12deg)',
-        filter: 'drop-shadow(0 4px 10px rgba(226, 30, 38, 0.3))',
-      }}
-    >
-      <polygon points={points} fill="#EF2A30" />
-      <text
-        textAnchor="middle"
-        fill="#ffffff"
-        fontFamily="Inter, sans-serif"
-        fontWeight="700"
-        letterSpacing="0.08em"
-      >
-        <tspan x="0" y="-8" fontSize="11">WITH</tspan>
-        <tspan x="0" y="6" fontSize="9.5">ELECTRO&#8211;</tspan>
-        <tspan x="0" y="18" fontSize="9.5">LYTES</tspan>
-      </text>
-    </svg>
-  );
-};
+/** Cute handwritten aside calling out electrolytes, pinned beside the hero image. */
+const ElectrolytesAside = () => (
+  <span
+    aria-hidden="true"
+    style={{
+      position: 'absolute',
+      top: '-0.5rem',
+      right: 'clamp(-5.5rem, -11vw, -4rem)',
+      fontFamily: "'Caveat', cursive",
+      fontWeight: 600,
+      fontSize: 'clamp(1.35rem, 3.2vw, 1.9rem)',
+      lineHeight: 1,
+      color: '#EF2A30',
+      transform: 'rotate(8deg)',
+      whiteSpace: 'nowrap',
+    }}
+  >
+    (with electrolytes!)
+  </span>
+);
 
 /** Small diamond glyph used as a separator in the marquee banners. */
 const DiamondGlyph = ({ opacity = 0.85 }: { opacity?: number }) => (
@@ -188,7 +169,7 @@ export default function App() {
                  width: 'fit-content',
                  position: 'relative',
                }}>
-            <ElectrolytesBurst />
+            <ElectrolytesAside />
             <img
               src={drinkMixImage}
               alt="GALOP pomegranate drink mix stick pack beside an iced glass of pomegranate drink"
