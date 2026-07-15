@@ -149,7 +149,7 @@ export default function App() {
                }}>
             <img
               src={drinkMixImage}
-              alt="GALOP drink mix stick pack beside a glass of strawberry pomegranate drink"
+              alt="GALOP pomegranate drink mix stick pack beside an iced glass of pomegranate drink"
               className="w-44 sm:w-60 h-auto object-contain"
               style={{
                 filter: 'drop-shadow(0 8px 16px rgba(226, 30, 38, 0.25))',
@@ -187,7 +187,7 @@ export default function App() {
                textTransform: 'uppercase',
                letterSpacing: '0.22em'
              }}>
-            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Strawberry Pomegranate
+            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Pomegranate
           </p>
         </div>
 
