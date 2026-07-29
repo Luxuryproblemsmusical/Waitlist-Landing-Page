@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { trackWaitlistSignup } from './analytics';
 import horseImage from "../imports/galop-horse.png";
 import drinkMixImage from "../imports/drink-mix.png";
 import sydneyImage from "../imports/sydney.png";
@@ -75,6 +76,7 @@ export default function App() {
       );
       setIsSubmitted(true);
       setEmail('');
+      trackWaitlistSignup();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {

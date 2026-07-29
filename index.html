@@ -10,6 +10,59 @@
       <script type="text/javascript">
         !function(){if(!window.klaviyo){window._klOnsite=window._klOnsite||[];try{window.klaviyo=new Proxy({},{get:function(n,i){return"push"===i?function(){var n;(n=window._klOnsite).push.apply(n,arguments)}:function(){for(var n=arguments.length,o=new Array(n),w=0;w<n;w++)o[w]=arguments[w];var t="function"==typeof o[o.length-1]?o.pop():void 0,e=new Promise((function(n){window._klOnsite.push([i].concat(o,[function(i){t&&t(i),n(i)}]))}));return e}}})}catch(n){window.klaviyo=window.klaviyo||[],window.klaviyo.push=function(){var n;(n=window._klOnsite).push.apply(n,arguments)}}}}();
       </script>
+
+      <!-- Ad / analytics pixel IDs. Fill these in, then the tags below activate. -->
+      <script>
+        window.GALOP_TRACKING = {
+          metaPixelId: '2104256736870821',  // "Galop Pixel" — Meta Events Manager
+          tiktokPixelId: '',     // TikTok Ads Manager → Assets → Events
+          ga4MeasurementId: '',  // analytics.google.com → Admin → Data Streams (G-XXXXXXX)
+        };
+      </script>
+
+      <!-- Meta Pixel -->
+      <script>
+        if (window.GALOP_TRACKING.metaPixelId) {
+          !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+          n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+          document,'script','https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', window.GALOP_TRACKING.metaPixelId);
+          fbq('track', 'PageView');
+        }
+      </script>
+
+      <!-- TikTok Pixel -->
+      <script>
+        if (window.GALOP_TRACKING.tiktokPixelId) {
+          !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track",
+          "identify","instances","debug","on","off","once","ready","alias","group","enableCookie",
+          "disableCookie"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(
+          Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)
+          ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;
+          n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){
+          var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{};ttq._i[e]=[];
+          ttq._i[e]._u=i;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};
+          var o=d.createElement("script");o.type="text/javascript";o.async=!0;o.src=i+"?sdkid="+e+
+          "&lib="+t;var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+          ttq.load(window.GALOP_TRACKING.tiktokPixelId);ttq.page()}(window,document,'ttq');
+        }
+      </script>
+
+      <!-- Google Analytics 4 -->
+      <script>
+        if (window.GALOP_TRACKING.ga4MeasurementId) {
+          var gaScript = document.createElement('script');
+          gaScript.async = true;
+          gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GALOP_TRACKING.ga4MeasurementId;
+          document.head.appendChild(gaScript);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function(){ window.dataLayer.push(arguments); };
+          gtag('js', new Date());
+          gtag('config', window.GALOP_TRACKING.ga4MeasurementId);
+        }
+      </script>
     </head>
 
     <body>
