@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { trackWaitlistSignup } from './analytics';
+import { getAttribution } from './attribution';
 import horseImage from "../imports/galop-horse.png";
 import drinkMixImage from "../imports/drink-mix.png";
 import sydneyImage from "../imports/sydney.png";
@@ -59,11 +60,19 @@ export default function App() {
     setError('');
     setIsSubmitting(true);
     try {
+      const attribution = getAttribution();
+      const fields: Record<string, string> = {
+        $source: attribution.utm_source ? `${attribution.utm_source} / paid` : 'galoplife.com',
+        utm_source: attribution.utm_source ?? '',
+        utm_medium: attribution.utm_medium ?? '',
+        utm_campaign: attribution.utm_campaign ?? '',
+        utm_content: attribution.utm_content ?? '',
+      };
       const body = new URLSearchParams({
         g: KLAVIYO_LIST_ID,
         email,
-        $fields: '$source',
-        $source: 'galoplife.com',
+        $fields: Object.keys(fields).join(','),
+        ...fields,
       });
       await fetch(
         `https://manage.kmail-lists.com/subscriptions/subscribe?a=${KLAVIYO_PUBLIC_KEY}&g=${KLAVIYO_LIST_ID}`,
@@ -76,7 +85,7 @@ export default function App() {
       );
       setIsSubmitted(true);
       setEmail('');
-      trackWaitlistSignup();
+      trackWaitlistSignup(attribution.utm_campaign, attribution.utm_content);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
