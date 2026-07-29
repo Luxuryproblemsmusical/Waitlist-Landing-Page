@@ -231,6 +231,12 @@ export default function App() {
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch">
               <input
                 type="email"
+                name="email"
+                autoComplete="email"
+                inputMode="email"
+                autoCapitalize="off"
+                autoCorrect="off"
+                spellCheck={false}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
