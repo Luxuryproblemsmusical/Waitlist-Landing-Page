@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { trackWaitlistSignup } from './analytics';
 import { getAttribution } from './attribution';
 import horseImage from "../imports/galop-horse.png";
-import drinkMixImage from "../imports/drink-mix.png";
+import pouchImage from "../imports/pouch-lemonade.png";
 import sydneyImage from "../imports/sydney.png";
 
 /** Cute handwritten aside calling out electrolytes, pinned beside the hero image. */
@@ -182,11 +182,11 @@ export default function App() {
                }}>
             <ElectrolytesAside />
             <img
-              src={drinkMixImage}
-              alt="GALOP pomegranate drink mix stick pack beside an iced glass of pomegranate drink"
-              className="w-44 sm:w-60 h-auto object-contain"
+              src={pouchImage}
+              alt="GALOP multivitamin drink mix pouch — lemonade with a hint of ginger"
+              className="w-48 sm:w-64 h-auto object-contain"
               style={{
-                filter: 'drop-shadow(0 8px 16px rgba(226, 30, 38, 0.25))',
+                filter: 'drop-shadow(0 8px 16px rgba(30, 60, 90, 0.18))',
                 display: 'block',
                 border: 'none',
                 outline: 'none',
@@ -221,7 +221,7 @@ export default function App() {
                textTransform: 'uppercase',
                letterSpacing: '0.22em'
              }}>
-            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Sugar-free <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Pomegranate
+            Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Zero Sugar <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Lemonade + Ginger
           </p>
         </div>
 
@@ -297,6 +297,32 @@ export default function App() {
           {error && (
             <p className="mt-3 text-center text-sm" style={{ color: '#EF2A30', fontFamily: "'Cormorant Garamond', serif" }}>{error}</p>
           )}
+        </div>
+
+        {/* What's inside — claims from the pack */}
+        <div className="max-w-3xl mx-auto mt-16 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-8 text-center">
+          {[
+            '30+ Vitamins & Minerals',
+            'Nausea, Energy & Hydration Support',
+            'Zero Sugar — Monkfruit + Stevia',
+            'Doctor-Formulated, USA Made',
+          ].map((claim) => (
+            <div key={claim} className="flex flex-col items-center" style={{ color: '#EF2A30' }}>
+              <DiamondGlyph opacity={0.9} />
+              <p className="mt-3"
+                 style={{
+                   fontFamily: 'Inter, sans-serif',
+                   fontSize: 'clamp(0.65rem, 1.1vw, 0.78rem)',
+                   fontWeight: 700,
+                   color: '#EF2A30',
+                   textTransform: 'uppercase',
+                   letterSpacing: '0.14em',
+                   lineHeight: 1.6
+                 }}>
+                {claim}
+              </p>
+            </div>
+          ))}
         </div>
 
         {/* Founder's Note */}
