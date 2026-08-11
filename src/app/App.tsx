@@ -3,7 +3,6 @@ import { trackWaitlistSignup } from './analytics';
 import { getAttribution } from './attribution';
 import horseImage from "../imports/galop-horse.png";
 import heroImage from "../imports/hero-lemonade.png";
-import pouchImage from "../imports/pouch-lemonade.png";
 import sydneyImage from "../imports/sydney.png";
 
 /** Cute handwritten aside calling out electrolytes, pinned beside the hero image. */
@@ -324,27 +323,6 @@ export default function App() {
               </p>
             </div>
           ))}
-        </div>
-
-        {/* The pouch — what you get */}
-        <div className="max-w-2xl mx-auto mt-20 text-center">
-          <img
-            src={pouchImage}
-            alt="GALOP multivitamin drink mix pouch — lemonade with a hint of ginger, 30 stick packs"
-            className="w-56 sm:w-72 h-auto object-contain mx-auto"
-            style={{ filter: 'drop-shadow(0 10px 20px rgba(30, 60, 90, 0.16))' }}
-          />
-          <p className="mt-5"
-             style={{
-               fontFamily: 'Inter, sans-serif',
-               fontSize: 'clamp(0.7rem, 1.2vw, 0.85rem)',
-               fontWeight: 700,
-               color: '#EF2A30',
-               textTransform: 'uppercase',
-               letterSpacing: '0.2em'
-             }}>
-            30 stick packs <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> A one-month supply
-          </p>
         </div>
 
         {/* Founder's Note */}
