@@ -7,44 +7,90 @@ list" state when they land back on `/?confirmed=1`.
 
 The site can only *tell* people to look in spam. Whether the email actually
 lands in the inbox is decided in Klaviyo and DNS. Work through this list in
-order; steps 1 and 2 are the ones that fix "it's going to spam right now".
+order; step 2 is the one that fixes "it's going to spam right now".
 
-## 1. Stop sending from a gmail.com address (biggest fix)
+## Current state (checked 2026-09-01)
 
-The confirmation email currently goes out from `galoplife@gmail.com` through
-Klaviyo's servers. Gmail, Yahoo and iCloud treat a third party sending "from"
-gmail.com as spoofing and route it to spam. Since 2024 Gmail and Yahoo also
-require bulk senders to use an authenticated domain of their own.
+| Item | Status |
+| --- | --- |
+| DNS host for galoplife.com | **Namecheap** (nameservers `dns1/dns2.registrar-servers.com`) |
+| Mailboxes on galoplife.com | **Google Workspace** already set up (MX `smtp.google.com`, SPF + DKIM for Google present) |
+| DMARC | **Already present**: `v=DMARC1; p=none; rua=mailto:sydney@galoplife.com` |
+| Klaviyo site verification TXT | Present |
+| Klaviyo dedicated sending domain (DKIM/SPF for Klaviyo mail) | **Missing** — this is the fix |
 
-1. Create a real mailbox on the brand domain, e.g. `hello@galoplife.com`
-   (Google Workspace, or whatever hosts the domain's email). It must be able
-   to receive replies.
-2. Klaviyo → **Settings → Organization → Contact information**: set the
-   default sender name to `GALOP` and sender email to `hello@galoplife.com`.
-3. Klaviyo → **Lists → Waitlist → Settings → Double opt-in**: open the
-   confirmation email and set its From address to the same mailbox.
-4. Update `SENDER_EMAIL` in `src/app/App.tsx` so the "add us to your contacts"
-   tip on the site shows the new address.
+So: no new mailbox is needed (use an existing @galoplife.com address), and no
+DMARC record needs to be added. The one thing to do is step 2.
 
-## 2. Authenticate the domain (DKIM / SPF / DMARC)
+## 1. Send from an @galoplife.com address, not gmail.com
 
-1. Klaviyo → **Settings → Domains → Add domain**: enter `galoplife.com` and
-   pick a subdomain for sending (Klaviyo suggests `send.galoplife.com`).
-2. Klaviyo shows 3–4 DNS records (CNAMEs for DKIM, plus one for the return
-   path). Add them exactly at the DNS host for galoplife.com, then click
-   **Verify** in Klaviyo. This covers DKIM and SPF alignment.
-3. Add a DMARC record at the DNS host. Start in monitoring mode:
+1. Klaviyo → **Settings → Organization → Contact information**: sender name
+   `GALOP`, sender email an existing Workspace mailbox such as
+   `hello@galoplife.com` or `sydney@galoplife.com` (it must exist and
+   receive replies).
+2. Klaviyo → **Lists → Waitlist → Settings → Double opt-in**: open the
+   confirmation email and make sure its From address matches.
+3. Update `SENDER_EMAIL` in `src/app/App.tsx` so the "add us to your
+   contacts" tip on the site shows the same address.
 
-   ```
-   Host:  _dmarc.galoplife.com
-   Type:  TXT
-   Value: v=DMARC1; p=none; rua=mailto:hello@galoplife.com; adkim=r; aspf=r
-   ```
+## 2. Add Klaviyo's sending domain at Namecheap (DKIM + SPF for Klaviyo)
 
-   After a couple of weeks of clean reports, tighten to `p=quarantine`.
-4. Check with https://www.mail-tester.com : send the confirmation email to the
-   address it gives you and aim for 9/10 or better. It names anything still
-   missing (SPF, DKIM, DMARC, list-unsubscribe, missing physical address).
+Google's DKIM/SPF only cover mail sent *by Google*. Klaviyo sends the
+confirmation email from its own servers, so it needs its own records or
+Gmail/Yahoo/iCloud see an unauthenticated sender and spam-folder it.
+
+**In Klaviyo**
+
+1. **Settings → Domains** (under Account) → **Add domain** (or "Set up a
+   dedicated sending domain").
+2. Root domain: `galoplife.com`. Sending subdomain: accept the suggested
+   `send`, giving `send.galoplife.com`.
+3. Klaviyo shows a table of 3–4 records, all type **CNAME**, with hostnames
+   like `kl._domainkey.send.galoplife.com`, `kl2._domainkey.send.galoplife.com`
+   and `send.galoplife.com` (the exact values are generated per account —
+   copy them from the screen, don't retype from memory). Leave this tab open.
+
+**In Namecheap**
+
+1. Log in → **Domain List** → **Manage** next to galoplife.com → **Advanced
+   DNS** tab.
+2. For each record Klaviyo listed, click **Add New Record**:
+   - Type: **CNAME Record**
+   - Host: the hostname **without** `.galoplife.com` on the end. Namecheap
+     appends the domain itself. So `kl._domainkey.send.galoplife.com` is
+     entered as `kl._domainkey.send`, and `send.galoplife.com` as `send`.
+     Entering the full hostname produces `...galoplife.com.galoplife.com`
+     and verification fails.
+   - Value / Target: exactly what Klaviyo shows (ends in something like
+     `.klaviyodns.com`; a trailing dot is fine).
+   - TTL: Automatic.
+   - Click the green check to save each row.
+3. Don't delete anything that's already there (the Google MX, the existing
+   TXT records, the Vercel records for the website).
+
+**Back in Klaviyo**
+
+4. Wait 5–30 minutes, then click **Verify** on the Domains page. If it fails,
+   re-check the Host field for the doubled-domain mistake above and try again
+   after a few minutes; Namecheap can take up to an hour.
+5. Once verified, set the new domain as the default sending domain, then send
+   yourself a test of the confirmation email and confirm the header shows
+   `dkim=pass` and `dmarc=pass` (Gmail: open the message → ⋮ → *Show
+   original*).
+
+No change to the root SPF record is needed: the sending subdomain's CNAME
+carries Klaviyo's SPF.
+
+## 2b. DMARC — already done, optionally tighten later
+
+The record exists at `_dmarc.galoplife.com` with `p=none` (monitor only)
+reporting to sydney@galoplife.com. Leave it as is until step 2 is verified
+and a couple of weeks of clean sending have passed, then change it at
+Namecheap (Advanced DNS → edit the TXT record with host `_dmarc`) to:
+
+```
+v=DMARC1; p=quarantine; rua=mailto:sydney@galoplife.com; adkim=r; aspf=r
+```
 
 ## 3. Tune the double opt-in flow in Klaviyo
 
