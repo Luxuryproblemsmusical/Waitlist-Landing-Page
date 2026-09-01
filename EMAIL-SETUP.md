@@ -17,10 +17,10 @@ order; step 2 is the one that fixes "it's going to spam right now".
 | Mailboxes on galoplife.com | **Google Workspace** already set up (MX `smtp.google.com`, SPF + DKIM for Google present) |
 | DMARC | **Already present**: `v=DMARC1; p=none; rua=mailto:sydney@galoplife.com` |
 | Klaviyo site verification TXT | Present |
-| Klaviyo dedicated sending domain (DKIM/SPF for Klaviyo mail) | **Missing** — this is the fix |
+| Klaviyo dedicated sending domain (DKIM/SPF for Klaviyo mail) | **In progress**: `w.galoplife.com` delegated to Klaviyo nameservers; waiting on Verify in Klaviyo |
 
 So: no new mailbox is needed (use an existing @galoplife.com address), and no
-DMARC record needs to be added. The one thing to do is step 2.
+DMARC record needs to be added. The Namecheap side of step 2 is done; finish it inside Klaviyo.
 
 ## 1. Send from an @galoplife.com address, not gmail.com
 
@@ -33,53 +33,47 @@ DMARC record needs to be added. The one thing to do is step 2.
 3. Update `SENDER_EMAIL` in `src/app/App.tsx` so the "add us to your
    contacts" tip on the site shows the same address.
 
-## 2. Add Klaviyo's sending domain at Namecheap (DKIM + SPF for Klaviyo)
+## 2. Klaviyo sending domain — delegated subdomain `w.galoplife.com`
 
 Google's DKIM/SPF only cover mail sent *by Google*. Klaviyo sends the
-confirmation email from its own servers, so it needs its own records or
-Gmail/Yahoo/iCloud see an unauthenticated sender and spam-folder it.
+confirmation email from its own servers, so it needs its own authentication
+or Gmail/Yahoo/iCloud see an unauthenticated sender and spam-folder it.
 
-**In Klaviyo**
+Klaviyo set this up with its **delegated subdomain** method: rather than
+adding CNAMEs one by one, the subdomain `w.galoplife.com` is handed to
+Klaviyo's nameservers and Klaviyo publishes its own DKIM/SPF records there.
 
-1. **Settings → Domains** (under Account) → **Add domain** (or "Set up a
-   dedicated sending domain").
-2. Root domain: `galoplife.com`. Sending subdomain: accept the suggested
-   `send`, giving `send.galoplife.com`.
-3. Klaviyo shows a table of 3–4 records, all type **CNAME**, with hostnames
-   like `kl._domainkey.send.galoplife.com`, `kl2._domainkey.send.galoplife.com`
-   and `send.galoplife.com` (the exact values are generated per account —
-   copy them from the screen, don't retype from memory). Leave this tab open.
+Records Klaviyo asked for (Settings → Domains → w.galoplife.com → DNS
+records), all entered at Namecheap → Domain List → Manage → Advanced DNS:
 
-**In Namecheap**
+| Type | Host (Namecheap field) | Value | Status 2026-09-01 |
+| --- | --- | --- | --- |
+| NS | `w` | `ns1.klaviyo.com` | live |
+| NS | `w` | `ns2.klaviyo.com` | live |
+| NS | `w` | `ns3.klaviyo.com` | live |
+| NS | `w` | `ns4.klaviyo.com` | live |
+| TXT | `@` | `klaviyo-site-verification=XchVzP` | live |
+| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:sydney@galoplife.com` | live |
 
-1. Log in → **Domain List** → **Manage** next to galoplife.com → **Advanced
-   DNS** tab.
-2. For each record Klaviyo listed, click **Add New Record**:
-   - Type: **CNAME Record**
-   - Host: the hostname **without** `.galoplife.com` on the end. Namecheap
-     appends the domain itself. So `kl._domainkey.send.galoplife.com` is
-     entered as `kl._domainkey.send`, and `send.galoplife.com` as `send`.
-     Entering the full hostname produces `...galoplife.com.galoplife.com`
-     and verification fails.
-   - Value / Target: exactly what Klaviyo shows (ends in something like
-     `.klaviyodns.com`; a trailing dot is fine).
-   - TTL: Automatic.
-   - Click the green check to save each row.
-3. Don't delete anything that's already there (the Google MX, the existing
-   TXT records, the Vercel records for the website).
+All six resolve from public DNS, so the Namecheap side is done. Remaining
+steps, all in Klaviyo:
 
-**Back in Klaviyo**
+1. On the DNS records page, click **Verify**. If the button is greyed out,
+   close the panel; the Domains page should show the domain as verified or
+   "setting up".
+2. Klaviyo then publishes `kl._domainkey.w.galoplife.com` and friends on its
+   own nameservers. This can take a few minutes to a few hours. It's done
+   when the Domains page shows the domain as the dedicated sending domain
+   with no warnings.
+3. Make sure the sender email used by the account and by the list's
+   double opt-in email is an **@galoplife.com** address (not gmail.com).
+   Mail is signed by the `w` subdomain and passes DMARC for galoplife.com
+   under relaxed alignment, which is what the existing DMARC record uses.
+4. Send yourself the confirmation email and open Gmail's *Show original*:
+   both `dkim=pass` and `dmarc=pass` should appear, with the DKIM domain
+   ending in `w.galoplife.com`.
 
-4. Wait 5–30 minutes, then click **Verify** on the Domains page. If it fails,
-   re-check the Host field for the doubled-domain mistake above and try again
-   after a few minutes; Namecheap can take up to an hour.
-5. Once verified, set the new domain as the default sending domain, then send
-   yourself a test of the confirmation email and confirm the header shows
-   `dkim=pass` and `dmarc=pass` (Gmail: open the message → ⋮ → *Show
-   original*).
-
-No change to the root SPF record is needed: the sending subdomain's CNAME
-carries Klaviyo's SPF.
+No change to the root SPF record is needed.
 
 ## 2b. DMARC — already done, optionally tighten later
 
