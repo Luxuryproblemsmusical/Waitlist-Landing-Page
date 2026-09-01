@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { trackWaitlistSignup } from './analytics';
 import { getAttribution } from './attribution';
+import { CheckInboxCard, ConfirmedCard } from './components/WaitlistStatus';
 import horseImage from "../imports/galop-horse.png";
 import heroImage from "../imports/hero-lemonade.png";
 import sydneyImage from "../imports/sydney.png";
@@ -47,12 +48,21 @@ const DiamondGlyph = ({ opacity = 0.85 }: { opacity?: number }) => (
 
 export default function App() {
   const [email, setEmail] = useState('');
+  const [submittedEmail, setSubmittedEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  // Klaviyo's double opt-in "confirmation page" is set to /?confirmed=1, so a
+  // visitor who clicks the link in the confirmation email lands here.
+  const [isConfirmed] = useState(
+    () => new URLSearchParams(window.location.search).get('confirmed') === '1'
+  );
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const KLAVIYO_PUBLIC_KEY = 'XchVzP';
   const KLAVIYO_LIST_ID = 'WNWyrF';
+  // Address the Klaviyo confirmation email is sent from. Update this when the
+  // sender changes (e.g. after moving to a galoplife.com sending domain).
+  const SENDER_EMAIL = 'galoplife@gmail.com';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,6 +93,7 @@ export default function App() {
           body: body.toString(),
         }
       );
+      setSubmittedEmail(email.trim());
       setIsSubmitted(true);
       setEmail('');
       trackWaitlistSignup(attribution.utm_campaign, attribution.utm_content);
@@ -227,7 +238,9 @@ export default function App() {
 
         {/* Waitlist Form */}
         <div className="max-w-xl mx-auto">
-          {!isSubmitted ? (
+          {isConfirmed ? (
+            <ConfirmedCard />
+          ) : !isSubmitted ? (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch">
               <input
                 type="email"
@@ -276,23 +289,14 @@ export default function App() {
               </button>
             </form>
           ) : (
-            <div
-              className="text-center animate-fade-in"
-              style={{
-                background: '#ffffff',
-                borderRadius: '9999px',
-                padding: '18px 28px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.95rem',
-                color: '#EF2A30',
-                fontWeight: 700,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                border: '1px solid rgba(239, 42, 48, 0.2)'
+            <CheckInboxCard
+              email={submittedEmail}
+              senderEmail={SENDER_EMAIL}
+              onReset={() => {
+                setIsSubmitted(false);
+                setEmail(submittedEmail);
               }}
-            >
-              Thank you
-            </div>
+            />
           )}
           {error && (
             <p className="mt-3 text-center text-sm" style={{ color: '#EF2A30', fontFamily: "'Cormorant Garamond', serif" }}>{error}</p>

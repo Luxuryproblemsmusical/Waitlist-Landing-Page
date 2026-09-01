@@ -9,3 +9,7 @@
 
   Run `npm run dev` to start the development server.
   
+
+  ## Waitlist email
+
+  Signups go to a Klaviyo double opt-in list. See [EMAIL-SETUP.md](EMAIL-SETUP.md) for the confirmation-email and deliverability (SPF/DKIM/DMARC) checklist.
