@@ -156,7 +156,7 @@ export function PlanPicker({ source }: { source: string }) {
                 position: 'relative'
               }}
             >
-              <Gloss delay={3 + i * 1.2} tone="dark" sparkles={3} />
+              <Gloss delay={3 + i * 1.2} />
               {p.header && (
                 <div style={{
                   background: selected ? RED : 'rgba(239, 42, 48, 0.12)',

@@ -197,27 +197,14 @@ export function Layout({ title, current, children }: { title: string; current: s
           position: absolute; inset: 0; overflow: hidden; border-radius: inherit;
           pointer-events: none; z-index: 1;
           /* faint static specular so surfaces read glossy even between drifts */
-          background: linear-gradient(115deg, rgba(255,255,255,0) 55%, rgba(255,255,255,0.07) 75%, rgba(255,255,255,0) 95%);
+          background: linear-gradient(115deg, rgba(255,255,255,0) 55%, rgba(255,255,255,0.04) 75%, rgba(255,255,255,0) 95%);
         }
         .gloss-layer::after {
           content: ''; position: absolute; inset: -35%;
-          background: linear-gradient(115deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0) 72%);
-          animation: glossDrift 13s ease-in-out infinite alternate;
+          background: linear-gradient(115deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.11) 50%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0) 72%);
+          animation: glossDrift 16s ease-in-out infinite alternate;
           /* negative delay = start mid-cycle, so every piece is at a different phase */
           animation-delay: calc(var(--gloss-delay, 0s) * -1);
-        }
-        @keyframes twinkle {
-          0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-          6%  { opacity: 1; transform: scale(1) rotate(25deg); }
-          14% { opacity: 0; transform: scale(0.15) rotate(60deg); }
-        }
-        .sparkle {
-          position: absolute; width: var(--s, 10px); height: var(--s, 10px);
-          margin: calc(var(--s, 10px) / -2) 0 0 calc(var(--s, 10px) / -2);
-          opacity: 0; transform-origin: center;
-          filter: drop-shadow(0 0 3px currentColor);
-          animation: twinkle 7s ease-in-out infinite;
-          animation-delay: var(--d, 0s);
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
@@ -229,7 +216,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         .galop-details[open] .plus { transform: rotate(45deg); }
         @media (prefers-reduced-motion: reduce) {
           .float-slow, .spin-slow, .animate-float { animation: none !important; }
-          .gloss-layer::after, .sparkle { animation: none !important; display: none; }
+          .gloss-layer::after { animation: none !important; display: none; }
         }
       `}</style>
     </div>
