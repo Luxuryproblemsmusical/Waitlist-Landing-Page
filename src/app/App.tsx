@@ -17,9 +17,8 @@ const WHY = [
 const HorseHero = () => {
   const reduceMotion =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  // The horse fills ~75% of the video frame, so this keeps its visible size
-  // close to the original static mark (clamp(5.5rem, 21vw, 15rem)).
-  const width = 'clamp(7.5rem, 28vw, 20rem)';
+  // Same footprint the static mark had.
+  const width = 'clamp(5.5rem, 21vw, 15rem)';
   if (reduceMotion) {
     return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
