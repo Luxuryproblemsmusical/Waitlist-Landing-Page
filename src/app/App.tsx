@@ -120,9 +120,9 @@ export default function App() {
         position: 'relative'
       }}>
         <Gloss delay={1} />
-        <Ribbon text="Why it exists" corner="tl" tone="white" width="22rem" offset="2.4rem" className="hidden md:block" />
+        <Ribbon corner="tl" tone="white" width="22rem" offset="2.4rem" className="hidden md:block" />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="mb-4 md:hidden" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
+          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
             Why it exists
           </p>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
@@ -149,7 +149,7 @@ export default function App() {
         position: 'relative'
       }}>
       <Gloss delay={5} />
-      <Ribbon text="A note from our founder" corner="tr" width="24rem" offset="2.2rem" className="hidden md:block" />
+      <Ribbon corner="tr" width="24rem" offset="2.2rem" className="hidden md:block" />
       <div className="max-w-2xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
         <img
           src={sydneyImage}
@@ -164,7 +164,7 @@ export default function App() {
             margin: '0 auto 1.25rem'
           }}
         />
-        <div className="md:hidden"><Kicker>A note from our founder</Kicker></div>
+        <Kicker>A note from our founder</Kicker>
         <Heading>Why I made GALOP</Heading>
         <p style={{
              fontFamily: 'Inter, sans-serif',
