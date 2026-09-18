@@ -165,6 +165,9 @@ export function Layout({ title, current, children }: { title: string; current: s
 
       <Marquee position="bottom" />
 
+      {/* Slow diagonal light sweep over the whole page for a glossy sheen. */}
+      <div aria-hidden="true" className="sheen" />
+
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
@@ -186,6 +189,18 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes spinSlow {
           to { rotate: 360deg; }
         }
+        @keyframes sheenSweep {
+          0% { transform: translateX(-60%); }
+          100% { transform: translateX(60%); }
+        }
+        .sheen {
+          position: fixed; inset: -20% 0; width: 100%; height: 140%;
+          pointer-events: none; z-index: 50;
+          background: linear-gradient(112deg, rgba(255,255,255,0) 38%, rgba(255,255,255,0.28) 47%, rgba(255,255,255,0.42) 50%, rgba(255,255,255,0.28) 53%, rgba(255,255,255,0) 62%);
+          mix-blend-mode: soft-light;
+          animation: sheenSweep 11s ease-in-out infinite;
+          will-change: transform;
+        }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
         .spin-slow { animation: spinSlow 16s linear infinite; }
@@ -195,7 +210,8 @@ export function Layout({ title, current, children }: { title: string; current: s
         .galop-details summary::-webkit-details-marker { display: none; }
         .galop-details[open] .plus { transform: rotate(45deg); }
         @media (prefers-reduced-motion: reduce) {
-          .float-slow, .spin-slow, .animate-float { animation: none !important; }
+          .float-slow, .spin-slow, .animate-float, .sheen { animation: none !important; }
+          .sheen { display: none; }
         }
       `}</style>
     </div>

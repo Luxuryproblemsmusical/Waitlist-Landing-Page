@@ -130,8 +130,12 @@ export default function App() {
         </div>
       </div>
 
-      {/* Founder teaser — full story lives on /about */}
-      <div className="max-w-2xl mx-auto mt-24 text-center">
+      {/* Founder teaser — full-bleed white band; full story lives on /about */}
+      <div style={{
+        width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
+        background: '#ffffff', marginTop: '6rem', padding: 'clamp(3.5rem, 7vw, 6rem) 1.5rem'
+      }}>
+      <div className="max-w-2xl mx-auto text-center">
         <img
           src={sydneyImage}
           alt="Sydney, founder of GALOP"
@@ -182,6 +186,7 @@ export default function App() {
            }}>
           Read Sydney&rsquo;s story →
         </a>
+      </div>
       </div>
     </Layout>
   );

@@ -6,7 +6,7 @@ const FAQS: [string, string][] = [
   ['Why do people on a GLP-1 need a different multivitamin?', 'GLP-1 medications reduce appetite, so you eat less — and fewer nutrients reach your body. GALOP is formulated with higher levels of the key vitamins, minerals, and electrolytes that tend to run low, to support hair, energy, hydration, and digestion along the way.'],
   ['What does it taste like?', 'Lemonade with a hint of ginger. Zero sugar — sweetened with monkfruit and stevia.'],
   ['How do I take it?', 'Stir or shake one stick pack into 8–12 oz of cold water. Once a day, whenever it fits your routine.'],
-  ['When does GALOP ship?', 'First orders ship in December. People on the founding list get first access.'],
+  ['When does GALOP ship?', 'First orders ship in December. People on the launch list get first access.'],
   ['How does the subscription work?', 'The Monthly Ritual delivers a fresh 30-pack pouch every month with free shipping. You can pause, skip, or cancel anytime — no calls, no hoops.'],
   ['Can I try it without subscribing?', 'Yes — a single pouch is available as a one-time purchase.'],
   ['Is it safe to take with my medication?', 'GALOP is a dietary supplement, not a medication. It is designed to complement a GLP-1 routine, but always check with your doctor before adding any supplement, especially if you are pregnant, nursing, or taking other medications.'],

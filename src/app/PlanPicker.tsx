@@ -15,7 +15,7 @@ export const CHECKOUT_URLS: Record<Plan, string | null> = {
 
 /**
  * Prices in USD. Leave null until Sydney sets them — the card then shows
- * "Founding price" instead of a number. `compareAt` renders struck-through.
+ * "Launch price" instead of a number. `compareAt` renders struck-through.
  */
 export const PRICING: Record<Plan, { price: number | null; compareAt?: number }> = {
   monthly: { price: null },
@@ -28,10 +28,10 @@ const PLANS: { id: Plan; name: string; header?: string; blurb: string; bullets: 
   {
     id: 'monthly',
     name: 'Subscribe & Save',
-    header: 'Most popular · Founding-member pricing',
+    header: 'Most popular · Launch pricing',
     blurb: `${STICKS_PER_POUCH} stick packs every month`,
     bullets: [
-      'Founding-member price, locked for life',
+      'Launch price, locked for life',
       'Free shipping',
       'Pause, skip, or cancel anytime',
       'First deliveries December',
@@ -79,10 +79,10 @@ const PriceSlot = ({ plan }: { plan: Plan }) => {
     return (
       <div className="text-right" style={{ color: RED, lineHeight: 1.15 }}>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.35rem', fontWeight: 600 }}>
-          Founding price
+          Launch price
         </div>
         <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 700, opacity: 0.75, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          announced at launch
+          announced in December
         </div>
       </div>
     );
@@ -238,12 +238,12 @@ export function PlanPicker({ source }: { source: string }) {
               <button type="submit" disabled={isSubmitting}
                       className="transition-all duration-300 hover:opacity-90 disabled:opacity-60"
                       style={ctaStyle}>
-                {isSubmitting ? 'Saving…' : 'Lock in founding pricing'}
+                {isSubmitting ? 'Saving…' : 'Lock in launch pricing'}
               </button>
             </form>
             <p className="text-center mt-3"
                style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: RED, opacity: 0.85, lineHeight: 1.5 }}>
-              Checkout opens in December. Join the list and we&rsquo;ll hold your founding&#8209;member price.
+              Checkout opens in December. Join the list and we&rsquo;ll hold your launch price.
             </p>
           </>
         ) : (

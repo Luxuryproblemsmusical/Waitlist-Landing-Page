@@ -28,7 +28,7 @@ const DETAILS: [string, string][] = [
   ['Why GALOP?', 'GLP-1 medications shrink your appetite, so you eat less — and fewer nutrients reach your body. Standard multivitamins weren’t built for that. GALOP is dosed for life on a GLP-1: higher levels of the vitamins, minerals, and electrolytes that tend to run low, in a once-a-day drink you’ll actually look forward to.'],
   ['What’s inside', '30+ vitamins and minerals plus electrolytes. Sweetened with monkfruit and stevia, zero sugar. Lemonade with a hint of ginger. Full supplement facts will be posted before launch.'],
   ['How to take it', 'Stir or shake one stick pack into 8–12 oz of cold water, once a day. Morning, afternoon, or whenever it fits your routine.'],
-  ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime from your account — no calls, no hoops. Founding members keep their launch price for as long as they stay subscribed.'],
+  ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime from your account — no calls, no hoops. Members keep their launch price for as long as they stay subscribed.'],
 ];
 
 const Check = () => (
@@ -63,7 +63,7 @@ export function ProductSection() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             minHeight: '320px'
           }}>
-            <SpinBadge text="LAUNCHING DECEMBER • FOUNDING MEMBERS • " size="clamp(5rem, 9vw, 6.25rem)"
+            <SpinBadge text="LAUNCHING DECEMBER • JOIN THE LIST • " size="clamp(5rem, 9vw, 6.25rem)"
                        style={{ position: 'absolute', top: '-3.6rem', right: '-1.4rem', filter: 'drop-shadow(0 8px 16px rgba(239, 42, 48, 0.3))' }} />
             <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>
               30 sticks per pouch ↗
