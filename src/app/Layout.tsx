@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import horseImage from "../imports/galop-horse.png";
 
 export const RED = '#EF2A30';
-export const BLUE = '#c8e9fa';
+export const BLUE = '#cbeafe';
 
 /** Tiny white horse mark used as the separator in the marquee banners. */
 const MarqueeHorse = () => (

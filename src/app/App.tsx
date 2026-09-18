@@ -12,29 +12,26 @@ const WHY = [
 ];
 
 /**
- * The horse mark, alive: an 8s loop of the logo galloping, keyed onto the
- * page blue so it reads as part of the background. Falls back to the static
- * mark for reduced-motion users or if the video can't play.
+ * The horse mark, alive: a 16s half-speed loop of the logo galloping as an
+ * animated WebP with a real alpha channel, so it sits on the page background
+ * with no box in any browser. Reduced-motion users get the static mark.
  */
 const HorseHero = () => {
   const reduceMotion =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   // Matches the original lockup: the visible horse is ~1/5 the width of the
-  // wordmark (the horse fills ~75% of the video frame). No negative margins.
+  // wordmark (the horse fills ~75% of the frame). No negative margins.
   const width = 'clamp(4rem, 15vw, 10rem)';
   if (reduceMotion) {
     return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
   return (
-    <div style={{ position: 'relative', width, aspectRatio: '1280 / 914', marginBottom: '4px' }}>
-      <video
-        src="/horse-gallop.mp4"
-        poster={horseImage}
-        autoPlay muted loop playsInline
-        aria-hidden="true"
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-      />
-    </div>
+    <img
+      src="/horse-gallop.webp"
+      alt=""
+      aria-hidden="true"
+      style={{ width, height: 'auto', display: 'block', marginBottom: '4px' }}
+    />
   );
 };
 
