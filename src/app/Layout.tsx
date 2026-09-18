@@ -1,24 +1,39 @@
 import { useEffect, type ReactNode } from 'react';
+import horseImage from "../imports/galop-horse.png";
 
 export const RED = '#EF2A30';
 export const BLUE = '#cbeafe';
 
-/** Small diamond glyph used as a separator in the marquee banners and claim rows. */
-export const DiamondGlyph = ({ opacity = 0.85 }: { opacity?: number }) => (
+/** Tiny white horse mark used as the separator in the marquee banners. */
+const MarqueeHorse = () => (
+  <img src={horseImage} alt="" aria-hidden="true"
+       style={{
+         display: 'inline-block',
+         height: '1.15em',
+         width: 'auto',
+         verticalAlign: '-0.2em',
+         margin: '0 1.1rem',
+         filter: 'brightness(0) invert(1)',
+         opacity: 0.95,
+       }} />
+);
+
+/** Small dot separator. */
+export const Dot = ({ opacity = 0.85 }: { opacity?: number }) => (
   <svg
-    viewBox="0 0 24 22"
-    width="0.75em"
-    height="0.75em"
+    viewBox="0 0 10 10"
+    width="0.4em"
+    height="0.4em"
     aria-hidden="true"
     style={{
       display: 'inline-block',
-      verticalAlign: '0.02em',
+      verticalAlign: '0.15em',
       margin: '0 1.25rem',
       fill: 'currentColor',
       opacity,
     }}
   >
-    <polygon points="6,1 18,1 23,8 12,21 1,8" />
+    <circle cx="5" cy="5" r="5" />
   </svg>
 );
 
@@ -47,7 +62,7 @@ const Marquee = ({ position }: { position: 'top' | 'bottom' }) => (
     }}>
       {Array.from({ length: 10 }).map((_, i) => (
         <span key={i} style={{ marginRight: '3rem' }}>
-          Launching Soon <DiamondGlyph /> Join the Waitlist <DiamondGlyph />
+          Launching Soon <MarqueeHorse /> Join the Waitlist <MarqueeHorse />
         </span>
       ))}
     </div>
@@ -164,10 +179,24 @@ export function Layout({ title, current, children }: { title: string; current: s
           33% { transform: translateY(-15px) rotate(1deg); }
           66% { transform: translateY(-8px) rotate(-1deg); }
         }
+        @keyframes floatSlow {
+          0%, 100% { translate: 0 0; }
+          50% { translate: 0 -10px; }
+        }
+        @keyframes spinSlow {
+          to { rotate: 360deg; }
+        }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
+        .float-slow { animation: floatSlow 5s ease-in-out infinite; }
+        .spin-slow { animation: spinSlow 16s linear infinite; }
+        .lift { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .lift:hover { transform: translateY(-4px); }
         input::placeholder { color: rgba(45, 55, 72, 0.5); }
         .galop-details summary::-webkit-details-marker { display: none; }
         .galop-details[open] .plus { transform: rotate(45deg); }
+        @media (prefers-reduced-motion: reduce) {
+          .float-slow, .spin-slow, .animate-float { animation: none !important; }
+        }
       `}</style>
     </div>
   );

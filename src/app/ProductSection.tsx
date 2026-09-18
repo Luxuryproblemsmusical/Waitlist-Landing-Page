@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RED } from './Layout';
 import { PlanPicker } from './PlanPicker';
+import { Note, SpinBadge } from './Flourish';
 import heroImage from "../imports/hero-lemonade.png";
 import pouchImage from "../imports/pouch-lemonade.png";
 
@@ -54,13 +55,19 @@ export function ProductSection() {
         {/* Gallery */}
         <div>
           <div style={{
+            position: 'relative',
             background: '#ffffff',
             borderRadius: '24px',
-            padding: 'clamp(20px, 4vw, 40px)',
+            padding: 'clamp(30px, 4vw, 48px) clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px)',
             border: '1px solid rgba(239, 42, 48, 0.12)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             minHeight: '320px'
           }}>
+            <SpinBadge text="LAUNCHING DECEMBER • FOUNDING MEMBERS • " size="clamp(5rem, 9vw, 6.25rem)"
+                       style={{ position: 'absolute', top: '-3.6rem', right: '-1.4rem', filter: 'drop-shadow(0 8px 16px rgba(239, 42, 48, 0.3))' }} />
+            <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>
+              30 sticks per pouch ↗
+            </Note>
             <img
               src={GALLERY[active].src}
               alt={GALLERY[active].alt}

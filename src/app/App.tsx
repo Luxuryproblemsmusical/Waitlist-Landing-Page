@@ -1,7 +1,9 @@
-import { Layout, Kicker, Heading, DiamondGlyph, RED } from './Layout';
+import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
+import { Divider, Note, Sticker } from './Flourish';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
+import stickerImage from "../imports/sticker-lemon-ginger.png";
 
 const WHY = [
   ['Less appetite', 'GLP-1s work by quieting hunger — which means smaller meals and fewer nutrients coming in.'],
@@ -17,13 +19,14 @@ const WHY = [
 const HorseHero = () => {
   const reduceMotion =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  // Same footprint the static mark had.
-  const width = 'clamp(5.5rem, 21vw, 15rem)';
+  // Matches the original lockup: the visible horse is ~1/5 the width of the
+  // wordmark (the horse fills ~75% of the video frame). No negative margins.
+  const width = 'clamp(4.5rem, 16.5vw, 11rem)';
   if (reduceMotion) {
     return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
   return (
-    <div style={{ position: 'relative', width, aspectRatio: '1280 / 820', marginBottom: 'clamp(-14px, -1.5vw, -4px)' }}>
+    <div style={{ position: 'relative', width, aspectRatio: '1280 / 914', marginBottom: '4px' }}>
       <video
         src="/horse-gallop.mp4"
         poster={horseImage}
@@ -53,13 +56,10 @@ export default function App() {
               fontFamily: "'Cormorant Garamond', serif",
               fontWeight: 500,
               color: RED,
-              fontSize: 'clamp(4rem, 15vw, 9rem)',
+              fontSize: 'clamp(4.5rem, 18vw, 12rem)',
               lineHeight: 0.9,
               letterSpacing: '-0.01em',
-              margin: 0,
-              marginTop: 'clamp(-36px, -3vw, -8px)',
-              position: 'relative',
-              zIndex: 1
+              margin: 0
             }}>
           GALOP
         </h1>
@@ -78,22 +78,63 @@ export default function App() {
         </p>
       </div>
 
+      {/* Hero line — script accent word, LP-style, with a floating prop */}
+      <div className="relative max-w-3xl mx-auto text-center mt-4 mb-10 px-4">
+        {/* Prop sits in the margin beside the headline (hidden on phones, where there is no margin). */}
+        <div className="hidden md:block" style={{ position: 'absolute', left: '-7.5rem', top: '-0.5rem' }}>
+          <Sticker src={stickerImage} width="clamp(4.5rem, 9vw, 7rem)" rotate={-10} />
+        </div>
+        <h2 style={{
+              position: 'relative', zIndex: 1,
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: 600,
+              color: RED,
+              fontSize: 'clamp(2.4rem, 7vw, 4.6rem)',
+              lineHeight: 1.02,
+              letterSpacing: '-0.015em',
+              margin: 0
+            }}>
+          Less appetite.{' '}
+          <span style={{ whiteSpace: 'nowrap' }}>
+            More{' '}
+            <span style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: '1.22em', lineHeight: 1 }}>you.</span>
+          </span>
+        </h2>
+        <p className="mt-4"
+           style={{ position: 'relative', zIndex: 1, fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.95rem, 1.6vw, 1.1rem)', fontWeight: 600, color: RED, lineHeight: 1.55, opacity: 0.9 }}>
+          A once&#8209;a&#8209;day vitamin + electrolyte drink, dosed for the GLP&#8209;1 body — and it tastes like lemonade.
+        </p>
+        <div className="mt-3" style={{ position: 'relative', zIndex: 1 }}>
+          <Note rotate={-4}>(sips, not pills)</Note>
+        </div>
+      </div>
+
+      <Divider className="mb-10" />
+
       {/* Product / buy box */}
       <ProductSection />
 
-      {/* Why GLP-1 users need more */}
-      <div className="max-w-3xl mx-auto mt-24 text-center">
-        <Kicker>Why it exists</Kicker>
-        <Heading>Built for the GLP&#8209;1 body.</Heading>
-        <div className="grid gap-6 sm:grid-cols-3 mt-8 text-left">
-          {WHY.map(([h, p]) => (
-            <div key={h}
-                 style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(239, 42, 48, 0.15)', borderRadius: '20px', padding: '22px 22px 24px' }}>
-              <div style={{ color: RED }}><DiamondGlyph opacity={0.9} /></div>
-              <p className="mt-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontWeight: 600, color: RED, lineHeight: 1.15 }}>{h}</p>
-              <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: RED, opacity: 0.85, lineHeight: 1.6 }}>{p}</p>
-            </div>
-          ))}
+      {/* Why GLP-1 users need more — full-bleed red band */}
+      <div style={{
+        width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
+        background: RED, color: '#ffffff', marginTop: '6rem', padding: 'clamp(3rem, 6vw, 5rem) 1.5rem'
+      }}>
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
+            Why it exists
+          </p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
+            Built for the GLP&#8209;1 body.
+          </h2>
+          <div className="grid gap-5 sm:grid-cols-3 mt-10 text-left">
+            {WHY.map(([h, p]) => (
+              <div key={h} className="lift"
+                   style={{ background: '#ffffff', color: RED, borderRadius: '22px', padding: '24px 22px 26px', boxShadow: '0 12px 28px rgba(0,0,0,0.12)' }}>
+                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>{h}</p>
+                <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', opacity: 0.85, lineHeight: 1.6 }}>{p}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
