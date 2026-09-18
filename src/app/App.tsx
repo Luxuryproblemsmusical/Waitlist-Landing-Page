@@ -17,12 +17,14 @@ const WHY = [
 const HorseHero = () => {
   const reduceMotion =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  const width = 'clamp(16rem, 52vw, 32rem)';
+  // The horse fills ~75% of the video frame, so this keeps its visible size
+  // close to the original static mark (clamp(5.5rem, 21vw, 15rem)).
+  const width = 'clamp(7.5rem, 28vw, 20rem)';
   if (reduceMotion) {
-    return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(4.5rem, 16vw, 10rem)', height: 'auto' }} />;
+    return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
   return (
-    <div style={{ position: 'relative', width, aspectRatio: '1280 / 820', marginBottom: 'clamp(-28px, -3vw, -8px)' }}>
+    <div style={{ position: 'relative', width, aspectRatio: '1280 / 820', marginBottom: 'clamp(-14px, -1.5vw, -4px)' }}>
       <video
         src="/horse-gallop.mp4"
         poster={horseImage}
