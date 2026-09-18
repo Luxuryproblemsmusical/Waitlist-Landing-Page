@@ -54,3 +54,8 @@ export const Sticker = ({ src, alt = '', width, rotate = -8, style }: { src: str
   <img src={src} alt={alt} aria-hidden={alt ? undefined : true} className="float-slow"
        style={{ width, height: 'auto', transform: `rotate(${rotate}deg)`, filter: 'drop-shadow(0 10px 18px rgba(30, 60, 90, 0.18))', ...style }} />
 );
+
+/** Gift-wrap gloss sweep. Place inside any `position: relative` box; stagger with `delay`. */
+export const Gloss = ({ delay = 0 }: { delay?: number }) => (
+  <div aria-hidden="true" className="gloss-layer" style={{ ['--gloss-delay' as string]: `${delay}s` } as CSSProperties} />
+);

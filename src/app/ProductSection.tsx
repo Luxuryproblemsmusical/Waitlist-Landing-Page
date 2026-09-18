@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RED } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Note, SpinBadge } from './Flourish';
+import { Note, SpinBadge, Gloss } from './Flourish';
 import heroImage from "../imports/hero-lemonade.png";
 import pouchImage from "../imports/pouch-lemonade.png";
 
@@ -63,6 +63,7 @@ export function ProductSection() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             minHeight: '320px'
           }}>
+            <Gloss delay={0} />
             <SpinBadge text="LAUNCHING DECEMBER • JOIN THE LIST • " size="clamp(5rem, 9vw, 6.25rem)"
                        style={{ position: 'absolute', top: '-3.6rem', right: '-1.4rem', filter: 'drop-shadow(0 8px 16px rgba(239, 42, 48, 0.3))' }} />
             <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>

@@ -1,6 +1,6 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Divider, Note, Sticker } from './Flourish';
+import { Divider, Note, Sticker, Gloss } from './Flourish';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 import stickerImage from "../imports/sticker-lemon-ginger.png";
@@ -89,7 +89,13 @@ export default function App() {
           Less appetite.{' '}
           <span style={{ whiteSpace: 'nowrap' }}>
             More{' '}
-            <span style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: '1.22em', lineHeight: 1 }}>you.</span>
+            <span style={{ position: 'relative', display: 'inline-block', fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: '1.22em', lineHeight: 1 }}>
+              <span aria-hidden="true" style={{
+                position: 'absolute', left: '-0.08em', right: '-0.02em', bottom: '0.08em', height: '0.42em',
+                background: 'rgba(239, 42, 48, 0.16)', transform: 'skewX(-14deg) rotate(-3deg)', borderRadius: '2px', zIndex: -1
+              }} />
+              you.
+            </span>
           </span>
         </h2>
         <p className="mt-4"
@@ -109,9 +115,13 @@ export default function App() {
       {/* Why GLP-1 users need more — full-bleed red band */}
       <div style={{
         width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
-        background: RED, color: '#ffffff', marginTop: '6rem', padding: 'clamp(3rem, 6vw, 5rem) 1.5rem'
+        background: RED, color: '#ffffff', marginTop: '6rem',
+        padding: 'calc(clamp(3rem, 6vw, 5rem) + 3.5vw) 1.5rem',
+        clipPath: 'polygon(0 3.5vw, 100% 0, 100% calc(100% - 3.5vw), 0 100%)',
+        position: 'relative'
       }}>
-        <div className="max-w-4xl mx-auto text-center">
+        <Gloss delay={1} />
+        <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
           <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
             Why it exists
           </p>
@@ -119,9 +129,10 @@ export default function App() {
             Built for the GLP&#8209;1 body.
           </h2>
           <div className="grid gap-5 sm:grid-cols-3 mt-10 text-left">
-            {WHY.map(([h, p]) => (
+            {WHY.map(([h, p], i) => (
               <div key={h} className="lift"
-                   style={{ background: '#ffffff', color: RED, borderRadius: '22px', padding: '24px 22px 26px', boxShadow: '0 12px 28px rgba(0,0,0,0.12)' }}>
+                   style={{ position: 'relative', background: '#ffffff', color: RED, borderRadius: '22px', padding: '24px 22px 26px', boxShadow: '0 12px 28px rgba(0,0,0,0.12)' }}>
+                <Gloss delay={2 + i * 0.7} />
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>{h}</p>
                 <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', opacity: 0.85, lineHeight: 1.6 }}>{p}</p>
               </div>
@@ -133,9 +144,13 @@ export default function App() {
       {/* Founder teaser — full-bleed white band; full story lives on /about */}
       <div style={{
         width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
-        background: '#ffffff', marginTop: '6rem', padding: 'clamp(3.5rem, 7vw, 6rem) 1.5rem'
+        background: '#ffffff', marginTop: '4rem',
+        padding: 'calc(clamp(3.5rem, 7vw, 6rem) + 3.5vw) 1.5rem',
+        clipPath: 'polygon(0 3.5vw, 100% 0, 100% calc(100% - 3.5vw), 0 100%)',
+        position: 'relative'
       }}>
-      <div className="max-w-2xl mx-auto text-center">
+      <Gloss delay={5} />
+      <div className="max-w-2xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
         <img
           src={sydneyImage}
           alt="Sydney, founder of GALOP"

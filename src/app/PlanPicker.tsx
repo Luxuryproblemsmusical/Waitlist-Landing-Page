@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RED } from './Layout';
 import { joinWaitlist } from './waitlist';
+import { Gloss } from './Flourish';
 
 export type Plan = 'monthly' | 'onetime';
 
@@ -63,6 +64,8 @@ const ctaStyle = {
   padding: '20px 36px',
   cursor: 'pointer',
   textDecoration: 'none',
+  position: 'relative' as const,
+  overflow: 'hidden' as const,
 };
 
 const Check = () => (
@@ -133,7 +136,7 @@ export function PlanPicker({ source }: { source: string }) {
   return (
     <div>
       <div className="grid gap-3">
-        {PLANS.map((p) => {
+        {PLANS.map((p, i) => {
           const selected = plan === p.id;
           return (
             <button
@@ -149,9 +152,11 @@ export function PlanPicker({ source }: { source: string }) {
                 padding: 0,
                 overflow: 'hidden',
                 cursor: 'pointer',
-                boxShadow: selected ? '0 10px 24px rgba(239, 42, 48, 0.12)' : 'none'
+                boxShadow: selected ? '0 10px 24px rgba(239, 42, 48, 0.12)' : 'none',
+                position: 'relative'
               }}
             >
+              <Gloss delay={3 + i * 1.2} />
               {p.header && (
                 <div style={{
                   background: selected ? RED : 'rgba(239, 42, 48, 0.12)',
@@ -206,7 +211,7 @@ export function PlanPicker({ source }: { source: string }) {
       <div className="mt-5">
         {checkoutUrl ? (
           <a href={checkoutUrl} className="transition-all duration-300 hover:opacity-90" style={ctaStyle}>
-            Start now
+            <Gloss delay={6} />Start now
           </a>
         ) : !isSubmitted ? (
           <>
@@ -238,7 +243,7 @@ export function PlanPicker({ source }: { source: string }) {
               <button type="submit" disabled={isSubmitting}
                       className="transition-all duration-300 hover:opacity-90 disabled:opacity-60"
                       style={ctaStyle}>
-                {isSubmitting ? 'Saving…' : 'Lock in launch pricing'}
+                <Gloss delay={6} />{isSubmitting ? 'Saving…' : 'Lock in launch pricing'}
               </button>
             </form>
             <p className="text-center mt-3"

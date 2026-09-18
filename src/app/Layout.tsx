@@ -165,9 +165,6 @@ export function Layout({ title, current, children }: { title: string; current: s
 
       <Marquee position="bottom" />
 
-      {/* Slow diagonal light sweep over the whole page for a glossy sheen. */}
-      <div aria-hidden="true" className="sheen" />
-
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
@@ -189,17 +186,22 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes spinSlow {
           to { rotate: 360deg; }
         }
-        @keyframes sheenSweep {
-          0% { transform: translateX(-60%); }
-          100% { transform: translateX(60%); }
+        @keyframes glossSweep {
+          0% { transform: translateX(-80%); }
+          38% { transform: translateX(80%); }
+          100% { transform: translateX(80%); }
         }
-        .sheen {
-          position: fixed; inset: -20% 0; width: 100%; height: 140%;
-          pointer-events: none; z-index: 50;
-          background: linear-gradient(112deg, rgba(255,255,255,0) 38%, rgba(255,255,255,0.28) 47%, rgba(255,255,255,0.42) 50%, rgba(255,255,255,0.28) 53%, rgba(255,255,255,0) 62%);
-          mix-blend-mode: soft-light;
-          animation: sheenSweep 11s ease-in-out infinite;
-          will-change: transform;
+        /* Gift-wrap gloss: drop <Gloss/> inside any position:relative box. */
+        .gloss-layer {
+          position: absolute; inset: 0; overflow: hidden; border-radius: inherit;
+          pointer-events: none; z-index: 1;
+        }
+        .gloss-layer::after {
+          content: ''; position: absolute; top: -40%; bottom: -40%; left: -20%; right: -20%;
+          background: linear-gradient(112deg, rgba(255,255,255,0) 42%, rgba(255,255,255,0.32) 48%, rgba(255,255,255,0.62) 50%, rgba(255,255,255,0.32) 52%, rgba(255,255,255,0) 58%);
+          transform: translateX(-80%);
+          animation: glossSweep 9s ease-in-out infinite;
+          animation-delay: var(--gloss-delay, 0s);
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
@@ -210,8 +212,8 @@ export function Layout({ title, current, children }: { title: string; current: s
         .galop-details summary::-webkit-details-marker { display: none; }
         .galop-details[open] .plus { transform: rotate(45deg); }
         @media (prefers-reduced-motion: reduce) {
-          .float-slow, .spin-slow, .animate-float, .sheen { animation: none !important; }
-          .sheen { display: none; }
+          .float-slow, .spin-slow, .animate-float { animation: none !important; }
+          .gloss-layer::after { animation: none !important; display: none; }
         }
       `}</style>
     </div>
