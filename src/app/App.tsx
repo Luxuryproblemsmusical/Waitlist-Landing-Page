@@ -21,7 +21,7 @@ const HorseHero = () => {
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   // Matches the original lockup: the visible horse is ~1/5 the width of the
   // wordmark (the horse fills ~75% of the video frame). No negative margins.
-  const width = 'clamp(4.5rem, 16.5vw, 11rem)';
+  const width = 'clamp(4rem, 15vw, 10rem)';
   if (reduceMotion) {
     return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
@@ -34,11 +34,6 @@ const HorseHero = () => {
         aria-hidden="true"
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
       />
-      {/* Feathers the video's edges into the page so no rectangle ever shows. */}
-      <div aria-hidden="true" style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        background: 'radial-gradient(ellipse at center, rgba(203,234,254,0) 42%, #cbeafe 74%)'
-      }} />
     </div>
   );
 };
