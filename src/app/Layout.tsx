@@ -166,6 +166,8 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         input::placeholder { color: rgba(45, 55, 72, 0.5); }
+        .galop-details summary::-webkit-details-marker { display: none; }
+        .galop-details[open] .plus { transform: rotate(45deg); }
       `}</style>
     </div>
   );

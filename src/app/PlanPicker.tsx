@@ -13,47 +13,98 @@ export const CHECKOUT_URLS: Record<Plan, string | null> = {
   onetime: null, // TODO: Shopify one-time checkout link
 };
 
-const PLANS: { id: Plan; name: string; badge?: string; blurb: string; bullets: string[] }[] = [
+/**
+ * Prices in USD. Leave null until Sydney sets them — the card then shows
+ * "Founding price" instead of a number. `compareAt` renders struck-through.
+ */
+export const PRICING: Record<Plan, { price: number | null; compareAt?: number }> = {
+  monthly: { price: null },
+  onetime: { price: null },
+};
+
+const STICKS_PER_POUCH = 30;
+
+const PLANS: { id: Plan; name: string; header?: string; blurb: string; bullets: string[] }[] = [
   {
     id: 'monthly',
-    name: 'The Monthly Ritual',
-    badge: 'Most popular',
-    blurb: '30 stick packs, delivered every month',
+    name: 'Subscribe & Save',
+    header: 'Most popular · Founding-member pricing',
+    blurb: `${STICKS_PER_POUCH} stick packs every month`,
     bullets: [
-      'Founding-member pricing, locked for life',
-      'Pause, skip, or cancel anytime',
+      'Founding-member price, locked for life',
       'Free shipping',
+      'Pause, skip, or cancel anytime',
       'First deliveries December',
     ],
   },
   {
     id: 'onetime',
-    name: 'Single Pouch',
-    blurb: '30 stick packs, one-time delivery',
-    bullets: [
-      'Try a full month, no commitment',
-      'Launch pricing announced in December',
-    ],
+    name: 'One-Time Purchase',
+    blurb: `${STICKS_PER_POUCH} stick packs, delivered once`,
+    bullets: ['Try a full month, no commitment'],
   },
 ];
 
+const money = (n: number) => `$${n.toFixed(n % 1 === 0 ? 0 : 2)}`;
+
 const ctaStyle = {
+  display: 'block',
+  width: '100%',
+  textAlign: 'center' as const,
   background: RED,
   color: '#ffffff',
   fontFamily: 'Inter, sans-serif',
   fontWeight: 700,
-  fontSize: '0.95rem',
-  letterSpacing: '0.18em',
+  fontSize: '1rem',
+  letterSpacing: '0.16em',
   textTransform: 'uppercase' as const,
   border: 'none',
   borderRadius: '9999px',
-  padding: '18px 36px',
+  padding: '20px 36px',
   cursor: 'pointer',
-  whiteSpace: 'nowrap' as const,
   textDecoration: 'none',
 };
 
-/** Subscribe & Save plan cards plus the pre-launch email capture. */
+const Check = () => (
+  <svg viewBox="0 0 20 20" width="1em" height="1em" aria-hidden="true"
+       style={{ flexShrink: 0, marginRight: '0.55em', marginTop: '0.2em' }}>
+    <circle cx="10" cy="10" r="10" fill={RED} opacity="0.12" />
+    <path d="M6 10.5l2.6 2.5L14 7.5" fill="none" stroke={RED} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const PriceSlot = ({ plan }: { plan: Plan }) => {
+  const { price, compareAt } = PRICING[plan];
+  if (price == null) {
+    return (
+      <div className="text-right" style={{ color: RED, lineHeight: 1.15 }}>
+        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.35rem', fontWeight: 600 }}>
+          Founding price
+        </div>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 700, opacity: 0.75, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          announced at launch
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="text-right" style={{ color: RED, lineHeight: 1.1 }}>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.5rem', fontWeight: 700 }}>
+        {money(price)}
+        {compareAt && (
+          <span style={{ marginLeft: '0.4em', fontSize: '0.95rem', fontWeight: 600, opacity: 0.55, textDecoration: 'line-through' }}>
+            {money(compareAt)}
+          </span>
+        )}
+      </div>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, opacity: 0.75 }}>
+        {money(price / STICKS_PER_POUCH)}/stick
+      </div>
+    </div>
+  );
+};
+
+/** Gruns-style buy box: highlighted subscribe card, one-time card, CTA, pre-launch email capture. */
 export function PlanPicker({ source }: { source: string }) {
   const [plan, setPlan] = useState<Plan>('monthly');
   const [email, setEmail] = useState('');
@@ -80,8 +131,8 @@ export function PlanPicker({ source }: { source: string }) {
   const checkoutUrl = CHECKOUT_URLS[plan];
 
   return (
-    <div className="max-w-xl mx-auto">
-      <div className="grid gap-4">
+    <div>
+      <div className="grid gap-3">
         {PLANS.map((p) => {
           const selected = plan === p.id;
           return (
@@ -92,87 +143,74 @@ export function PlanPicker({ source }: { source: string }) {
               aria-pressed={selected}
               className="text-left transition-all duration-200"
               style={{
-                background: selected ? '#ffffff' : 'rgba(255,255,255,0.55)',
-                border: selected ? `2px solid ${RED}` : '2px solid rgba(239, 42, 48, 0.2)',
-                borderRadius: '22px',
-                padding: '20px 24px',
+                background: selected ? '#ffffff' : 'rgba(255,255,255,0.6)',
+                border: selected ? `2px solid ${RED}` : '2px solid rgba(239, 42, 48, 0.22)',
+                borderRadius: '18px',
+                padding: 0,
+                overflow: 'hidden',
                 cursor: 'pointer',
-                position: 'relative',
-                boxShadow: selected ? '0 8px 20px rgba(239, 42, 48, 0.12)' : 'none'
+                boxShadow: selected ? '0 10px 24px rgba(239, 42, 48, 0.12)' : 'none'
               }}
             >
-              {p.badge && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-11px',
-                  right: '22px',
-                  background: RED,
-                  color: '#ffffff',
-                  borderRadius: '9999px',
-                  padding: '4px 14px',
-                  fontSize: '0.62rem',
+              {p.header && (
+                <div style={{
+                  background: selected ? RED : 'rgba(239, 42, 48, 0.12)',
+                  color: selected ? '#ffffff' : RED,
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '0.64rem',
                   fontWeight: 700,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.16em'
+                  letterSpacing: '0.18em',
+                  textAlign: 'center',
+                  padding: '7px 12px'
                 }}>
-                  {p.badge}
-                </span>
+                  {p.header}
+                </div>
               )}
-              <div className="flex items-center gap-3">
-                <span aria-hidden="true"
-                      style={{
-                        width: '18px',
-                        height: '18px',
-                        borderRadius: '9999px',
-                        flexShrink: 0,
-                        border: `2px solid ${RED}`,
-                        background: selected ? RED : 'transparent',
-                        boxShadow: selected ? 'inset 0 0 0 3px #ffffff' : 'none'
-                      }} />
-                <span style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: 'clamp(1.35rem, 3vw, 1.7rem)',
-                  fontWeight: 600,
-                  color: RED
-                }}>
-                  {p.name}
-                </span>
+              <div style={{ padding: '16px 18px 18px' }}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <span aria-hidden="true"
+                          style={{
+                            width: '18px', height: '18px', borderRadius: '9999px', flexShrink: 0, marginTop: '4px',
+                            border: `2px solid ${RED}`,
+                            background: selected ? RED : 'transparent',
+                            boxShadow: selected ? 'inset 0 0 0 3px #ffffff' : 'none'
+                          }} />
+                    <div>
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.05rem', fontWeight: 700, color: RED, lineHeight: 1.2 }}>
+                        {p.name}
+                      </div>
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: RED, opacity: 0.8, marginTop: '2px' }}>
+                        {p.blurb}
+                      </div>
+                    </div>
+                  </div>
+                  <PriceSlot plan={p.id} />
+                </div>
+                {selected && (
+                  <ul className="mt-3" style={{ marginLeft: '30px', padding: 0, listStyle: 'none' }}>
+                    {p.bullets.map((b) => (
+                      <li key={b} className="flex" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: RED, fontWeight: 600, lineHeight: 1.7 }}>
+                        <Check />{b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-              <p className="mt-1"
-                 style={{
-                   marginLeft: '30px',
-                   fontSize: '0.85rem',
-                   fontWeight: 700,
-                   color: RED,
-                   opacity: 0.85,
-                   textTransform: 'uppercase',
-                   letterSpacing: '0.1em'
-                 }}>
-                {p.blurb}
-              </p>
-              <ul className="mt-3" style={{ marginLeft: '30px', padding: 0, listStyle: 'none' }}>
-                {p.bullets.map((b) => (
-                  <li key={b} style={{ fontSize: '0.85rem', color: RED, fontWeight: 500, lineHeight: 1.9 }}>
-                    <span style={{ opacity: 0.7, marginRight: '0.5em' }}>◆</span>{b}
-                  </li>
-                ))}
-              </ul>
             </button>
           );
         })}
       </div>
 
-      <div className="mt-8">
+      <div className="mt-5">
         {checkoutUrl ? (
-          <a href={checkoutUrl} className="block text-center transition-all duration-300 hover:opacity-90" style={ctaStyle}>
-            Continue to checkout
+          <a href={checkoutUrl} className="transition-all duration-300 hover:opacity-90" style={ctaStyle}>
+            Start now
           </a>
         ) : !isSubmitted ? (
           <>
-            <p className="text-center mb-4" style={{ fontSize: '0.9rem', fontWeight: 600, color: RED, lineHeight: 1.6 }}>
-              Checkout opens in December. Join the list and we&rsquo;ll hold founding&#8209;member pricing for you.
-            </p>
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <input
                 type="email"
                 name="email"
@@ -185,11 +223,11 @@ export function PlanPicker({ source }: { source: string }) {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
                 required
-                className="flex-1 focus:outline-none transition-all duration-300"
+                className="focus:outline-none transition-all duration-300"
                 style={{
                   background: '#ffffff',
                   borderRadius: '9999px',
-                  border: '1px solid rgba(239, 42, 48, 0.15)',
+                  border: '1px solid rgba(239, 42, 48, 0.2)',
                   padding: '18px 28px',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '1rem',
@@ -200,9 +238,13 @@ export function PlanPicker({ source }: { source: string }) {
               <button type="submit" disabled={isSubmitting}
                       className="transition-all duration-300 hover:opacity-90 disabled:opacity-60"
                       style={ctaStyle}>
-                {isSubmitting ? 'Saving…' : 'Lock in my spot'}
+                {isSubmitting ? 'Saving…' : 'Lock in founding pricing'}
               </button>
             </form>
+            <p className="text-center mt-3"
+               style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: RED, opacity: 0.85, lineHeight: 1.5 }}>
+              Checkout opens in December. Join the list and we&rsquo;ll hold your founding&#8209;member price.
+            </p>
           </>
         ) : (
           <div className="text-center animate-fade-in"

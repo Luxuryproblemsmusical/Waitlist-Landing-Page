@@ -1,58 +1,42 @@
 import { Layout, Kicker, Heading, DiamondGlyph, RED } from './Layout';
-import { PlanPicker } from './PlanPicker';
+import { ProductSection } from './ProductSection';
 import horseImage from "../imports/galop-horse.png";
-import heroImage from "../imports/hero-lemonade.png";
 import sydneyImage from "../imports/sydney.png";
 
-/** Cute handwritten aside calling out electrolytes, pinned beside the hero image. */
-const ElectrolytesAside = () => (
-  <span
-    aria-hidden="true"
-    style={{
-      position: 'absolute',
-      top: '-0.5rem',
-      right: 'clamp(-5.5rem, -11vw, -4rem)',
-      fontFamily: "'Caveat', cursive",
-      fontWeight: 600,
-      fontSize: 'clamp(1.35rem, 3.2vw, 1.9rem)',
-      lineHeight: 1,
-      color: RED,
-      transform: 'rotate(8deg)',
-      whiteSpace: 'nowrap',
-    }}
-  >
-    (with electrolytes!)
-  </span>
-);
+const WHY = [
+  ['Less appetite', 'GLP-1s work by quieting hunger — which means smaller meals and fewer nutrients coming in.'],
+  ['Bigger gaps', 'Hair, energy, hydration, and digestion are usually the first things to feel it.'],
+  ['Dosed for it', 'GALOP is formulated for that reality — like a prenatal is for pregnancy — in a drink, not a horse pill.'],
+];
 
 /** Homepage — doubles as the product page, per Sydney's spec. */
 export default function App() {
   return (
     <Layout title="GALOP — Coming Soon" current="/">
       {/* Logo lockup: horse mark + GALOP wordmark */}
-      <div className="flex flex-col items-center mt-4 mb-2 sm:mb-4 animate-fade-in"
+      <div className="flex flex-col items-center mt-4 mb-6 animate-fade-in"
            style={{ animation: 'fadeIn 0.8s ease-out' }}>
         <img
           src={horseImage}
           alt=""
           aria-hidden="true"
-          style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto', marginBottom: 0 }}
+          style={{ width: 'clamp(4.5rem, 16vw, 10rem)', height: 'auto', marginBottom: 0 }}
         />
         <h1 aria-label="GALOP"
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontWeight: 500,
               color: RED,
-              fontSize: 'clamp(4.5rem, 18vw, 12rem)',
+              fontSize: 'clamp(4rem, 15vw, 9rem)',
               lineHeight: 0.9,
               letterSpacing: '-0.01em',
               margin: 0,
-              marginTop: 'clamp(-44px, -3.5vw, -10px)'
+              marginTop: 'clamp(-36px, -3vw, -8px)'
             }}>
           GALOP
         </h1>
         <p style={{
-             marginTop: 'clamp(8px, 1.5vw, 18px)',
+             marginTop: 'clamp(8px, 1.5vw, 16px)',
              fontFamily: 'Inter, sans-serif',
              fontSize: 'clamp(0.55rem, 2.4vw, 0.95rem)',
              fontWeight: 700,
@@ -66,88 +50,23 @@ export default function App() {
         </p>
       </div>
 
-      {/* Hero Product — drink mix */}
-      <div className="flex justify-center items-center mb-4 mt-10 sm:mb-6 sm:mt-14">
-        <div className="animate-float"
-             style={{
-               animation: 'float 4s ease-in-out infinite',
-               background: 'transparent',
-               width: 'fit-content',
-               position: 'relative',
-             }}>
-          <ElectrolytesAside />
-          <img
-            src={heroImage}
-            alt="GALOP lemonade drink mix stick pack beside an iced glass of ginger lemonade"
-            className="w-52 sm:w-72 h-auto object-contain"
-            style={{
-              filter: 'drop-shadow(0 8px 16px rgba(30, 60, 90, 0.18))',
-              display: 'block',
-              border: 'none',
-              outline: 'none',
-              boxShadow: 'none',
-            }}
-          />
+      {/* Product / buy box */}
+      <ProductSection />
+
+      {/* Why GLP-1 users need more */}
+      <div className="max-w-3xl mx-auto mt-24 text-center">
+        <Kicker>Why it exists</Kicker>
+        <Heading>Built for the GLP&#8209;1 body.</Heading>
+        <div className="grid gap-6 sm:grid-cols-3 mt-8 text-left">
+          {WHY.map(([h, p]) => (
+            <div key={h}
+                 style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(239, 42, 48, 0.15)', borderRadius: '20px', padding: '22px 22px 24px' }}>
+              <div style={{ color: RED }}><DiamondGlyph opacity={0.9} /></div>
+              <p className="mt-2" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontWeight: 600, color: RED, lineHeight: 1.15 }}>{h}</p>
+              <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: RED, opacity: 0.85, lineHeight: 1.6 }}>{p}</p>
+            </div>
+          ))}
         </div>
-      </div>
-
-      {/* Heading */}
-      <div className="text-center mb-8">
-        <h2 className="mb-3 sm:mb-4"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(2.25rem, 6vw, 4rem)',
-              fontWeight: 600,
-              color: RED,
-              letterSpacing: '-0.01em',
-              lineHeight: 1.05
-            }}>
-          Coming soon.
-        </h2>
-
-        {/* Highlights line */}
-        <p style={{
-             fontFamily: 'Inter, sans-serif',
-             fontSize: 'clamp(0.7rem, 1.3vw, 0.9rem)',
-             fontWeight: 700,
-             color: RED,
-             textTransform: 'uppercase',
-             letterSpacing: '0.22em'
-           }}>
-          Doctor-formulated <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Zero Sugar <span style={{ margin: '0 0.6em', opacity: 0.7 }}>·</span> Lemonade + Ginger
-        </p>
-      </div>
-
-      {/* Purchase — plan picker (checkout placeholder until the Shopify store is live) */}
-      <div id="shop" className="text-center mb-5">
-        <Kicker>Choose your plan</Kicker>
-      </div>
-      <PlanPicker source="galoplife.com" />
-
-      {/* What's inside — claims from the pack */}
-      <div className="max-w-3xl mx-auto mt-16 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-8 text-center">
-        {[
-          '30+ Vitamins & Minerals',
-          'Nausea, Energy & Hydration Support',
-          'Zero Sugar — Monkfruit + Stevia',
-          'Doctor-Formulated, USA Made',
-        ].map((claim) => (
-          <div key={claim} className="flex flex-col items-center" style={{ color: RED }}>
-            <DiamondGlyph opacity={0.9} />
-            <p className="mt-3"
-               style={{
-                 fontFamily: 'Inter, sans-serif',
-                 fontSize: 'clamp(0.65rem, 1.1vw, 0.78rem)',
-                 fontWeight: 700,
-                 color: RED,
-                 textTransform: 'uppercase',
-                 letterSpacing: '0.14em',
-                 lineHeight: 1.6
-               }}>
-              {claim}
-            </p>
-          </div>
-        ))}
       </div>
 
       {/* Founder teaser — full story lives on /about */}
