@@ -55,7 +55,25 @@ export const Sticker = ({ src, alt = '', width, rotate = -8, style }: { src: str
        style={{ width, height: 'auto', transform: `rotate(${rotate}deg)`, filter: 'drop-shadow(0 10px 18px rgba(30, 60, 90, 0.18))', ...style }} />
 );
 
-/** Gift-wrap gloss sweep. Place inside any `position: relative` box; stagger with `delay`. */
-export const Gloss = ({ delay = 0 }: { delay?: number }) => (
-  <div aria-hidden="true" className="gloss-layer" style={{ ['--gloss-delay' as string]: `${delay}s` } as CSSProperties} />
+/**
+ * Gift-wrap gloss + sparkle glints. Place inside any `position: relative` box.
+ * `tone` picks glint color: 'light' (white, for red/blue surfaces) or 'dark' (red, for white).
+ */
+const SPARKLE_SPOTS: [number, number, number][] = [
+  [12, 18, 12], [80, 22, 9], [30, 72, 10], [66, 56, 13], [90, 82, 8], [46, 34, 9],
+];
+export const Gloss = ({ delay = 0, tone = 'light', sparkles = 4 }: { delay?: number; tone?: 'light' | 'dark'; sparkles?: number }) => (
+  <div aria-hidden="true" className="gloss-layer" style={{ ['--gloss-delay' as string]: `${delay}s` } as CSSProperties}>
+    {SPARKLE_SPOTS.slice(0, sparkles).map(([x, y, size], i) => (
+      <span key={i} className="sparkle"
+            style={{
+              left: `${x}%`, top: `${y}%`,
+              ['--s' as string]: `${size}px`,
+              ['--d' as string]: `${(delay + i * 1.7) % 7}s`,
+              color: tone === 'dark' ? RED : '#ffffff',
+            } as CSSProperties}>
+        <svg viewBox="0 0 24 24" width="100%" height="100%"><path d="M12 0 L14.6 9.4 L24 12 L14.6 14.6 L12 24 L9.4 14.6 L0 12 L9.4 9.4 Z" fill="currentColor" /></svg>
+      </span>
+    ))}
+  </div>
 );

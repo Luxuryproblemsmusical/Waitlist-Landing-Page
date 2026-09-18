@@ -120,7 +120,7 @@ export default function App() {
         clipPath: 'polygon(0 3.5vw, 100% 0, 100% calc(100% - 3.5vw), 0 100%)',
         position: 'relative'
       }}>
-        <Gloss delay={1} />
+        <Gloss delay={1} sparkles={6} />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
           <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
             Why it exists
@@ -132,7 +132,7 @@ export default function App() {
             {WHY.map(([h, p], i) => (
               <div key={h} className="lift"
                    style={{ position: 'relative', background: '#ffffff', color: RED, borderRadius: '22px', padding: '24px 22px 26px', boxShadow: '0 12px 28px rgba(0,0,0,0.12)' }}>
-                <Gloss delay={2 + i * 0.7} />
+                <Gloss delay={2 + i * 0.7} tone="dark" sparkles={3} />
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>{h}</p>
                 <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', opacity: 0.85, lineHeight: 1.6 }}>{p}</p>
               </div>
@@ -149,7 +149,7 @@ export default function App() {
         clipPath: 'polygon(0 3.5vw, 100% 0, 100% calc(100% - 3.5vw), 0 100%)',
         position: 'relative'
       }}>
-      <Gloss delay={5} />
+      <Gloss delay={5} tone="dark" sparkles={5} />
       <div className="max-w-2xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
         <img
           src={sydneyImage}
