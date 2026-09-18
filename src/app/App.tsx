@@ -73,7 +73,7 @@ export default function App() {
       {/* Hero line — script accent word, LP-style, with a floating prop */}
       <div className="relative max-w-3xl mx-auto text-center mt-4 mb-10 px-4">
         {/* Prop sits in the margin beside the headline (hidden on phones, where there is no margin). */}
-        <div className="hidden md:block" style={{ position: 'absolute', left: '-7.5rem', top: '-0.5rem' }}>
+        <div className="hidden lg:block" style={{ position: 'absolute', left: '-6rem', top: '-0.5rem' }}>
           <Sticker src={stickerImage} width="clamp(4.5rem, 9vw, 7rem)" rotate={-10} />
         </div>
         <h2 style={{
