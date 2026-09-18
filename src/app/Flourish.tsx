@@ -66,14 +66,16 @@ export const Gloss = ({ delay = 0 }: { delay?: number }) => (
  * rounded box without clipping the parent's other children.
  */
 export const Ribbon = ({ corner = 'tl', tone = 'red', width = '20rem', offset = '2.6rem', className = '' }:
-  { corner?: 'tl' | 'tr'; tone?: 'red' | 'white'; width?: string; offset?: string; className?: string }) => (
+  { corner?: 'tl' | 'tr' | 'bl' | 'br'; tone?: 'red' | 'white'; width?: string; offset?: string; className?: string }) => (
   <div aria-hidden="true" className={className}
        style={{ position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 'inherit', pointerEvents: 'none', zIndex: 2 }}>
     <div style={{
-      position: 'absolute', top: offset, width,
-      left: corner === 'tl' ? `calc(${width} / -2 + 1.2rem)` : undefined,
-      right: corner === 'tr' ? `calc(${width} / -2 + 1.2rem)` : undefined,
-      transform: corner === 'tl' ? 'rotate(-45deg)' : 'rotate(45deg)',
+      position: 'absolute', width,
+      top: corner === 'tl' || corner === 'tr' ? offset : undefined,
+      bottom: corner === 'bl' || corner === 'br' ? offset : undefined,
+      left: corner === 'tl' || corner === 'bl' ? `calc(${width} / -2 + 1.2rem)` : undefined,
+      right: corner === 'tr' || corner === 'br' ? `calc(${width} / -2 + 1.2rem)` : undefined,
+      transform: corner === 'tl' || corner === 'br' ? 'rotate(-45deg)' : 'rotate(45deg)',
       background: tone === 'white'
         ? 'linear-gradient(180deg, #ffffff 0%, #fbfbfb 45%, #ececec 100%)'
         : 'linear-gradient(180deg, #f4444a 0%, #EF2A30 45%, #d81f25 100%)',

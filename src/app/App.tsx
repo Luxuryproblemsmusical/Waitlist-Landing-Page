@@ -121,6 +121,7 @@ export default function App() {
       }}>
         <Gloss delay={1} />
         <Ribbon corner="tl" tone="white" width="22rem" offset="2.4rem" className="hidden md:block" />
+        <Ribbon corner="br" tone="white" width="22rem" offset="2.4rem" className="hidden xl:block" />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
           <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
             Why it exists
@@ -150,6 +151,7 @@ export default function App() {
       }}>
       <Gloss delay={5} />
       <Ribbon corner="tr" width="24rem" offset="2.2rem" className="hidden md:block" />
+      <Ribbon corner="bl" width="24rem" offset="2.2rem" className="hidden lg:block" />
       <div className="max-w-2xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
         <img
           src={sydneyImage}
