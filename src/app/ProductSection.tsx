@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RED } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Note, SpinBadge, Gloss } from './Flourish';
+import { Note, Gloss, SpinBadge } from './Flourish';
 import heroImage from "../imports/hero-lemonade.png";
 import pouchImage from "../imports/pouch-lemonade.png";
 

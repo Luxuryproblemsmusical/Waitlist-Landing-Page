@@ -59,3 +59,32 @@ export const Sticker = ({ src, alt = '', width, rotate = -8, style }: { src: str
 export const Gloss = ({ delay = 0 }: { delay?: number }) => (
   <div aria-hidden="true" className="gloss-layer" style={{ ['--gloss-delay' as string]: `${delay}s` } as CSSProperties} />
 );
+
+/**
+ * Gift-ribbon: a satin band running diagonally across a corner of its parent.
+ * Parent must be `position: relative`; the ribbon clips itself to the parent's
+ * rounded box without clipping the parent's other children.
+ */
+export const Ribbon = ({ text, corner = 'tl', tone = 'red', width = '20rem', offset = '2.6rem', className = '' }:
+  { text: string; corner?: 'tl' | 'tr'; tone?: 'red' | 'white'; width?: string; offset?: string; className?: string }) => (
+  <div aria-hidden="true" className={className}
+       style={{ position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 'inherit', pointerEvents: 'none', zIndex: 2 }}>
+    <div style={{
+      position: 'absolute', top: offset, width,
+      left: corner === 'tl' ? `calc(${width} / -2 + 1.2rem)` : undefined,
+      right: corner === 'tr' ? `calc(${width} / -2 + 1.2rem)` : undefined,
+      transform: corner === 'tl' ? 'rotate(-45deg)' : 'rotate(45deg)',
+      background: tone === 'white'
+        ? 'linear-gradient(180deg, #ffffff 0%, #fbfbfb 45%, #ececec 100%)'
+        : 'linear-gradient(180deg, #f4444a 0%, #EF2A30 45%, #d81f25 100%)',
+      color: tone === 'white' ? RED : '#ffffff', textAlign: 'center',
+      fontFamily: 'Inter, sans-serif', fontSize: '0.62rem', fontWeight: 700,
+      letterSpacing: '0.22em', textTransform: 'uppercase', lineHeight: 1,
+      padding: '0.55rem 0', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.18)',
+      overflow: 'hidden', whiteSpace: 'nowrap'
+    }}>
+      <Gloss delay={2} />
+      {text}
+    </div>
+  </div>
+);

@@ -1,6 +1,6 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Divider, Note, Sticker, Gloss } from './Flourish';
+import { Divider, Note, Sticker, Gloss, Ribbon } from './Flourish';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 import stickerImage from "../imports/sticker-lemon-ginger.png";
@@ -92,7 +92,7 @@ export default function App() {
             <span style={{ position: 'relative', display: 'inline-block', fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: '1.22em', lineHeight: 1 }}>
               <span aria-hidden="true" style={{
                 position: 'absolute', left: '-0.08em', right: '-0.02em', bottom: '0.08em', height: '0.42em',
-                background: 'rgba(239, 42, 48, 0.16)', transform: 'skewX(-10deg) rotate(-2deg)', borderRadius: '2px', zIndex: -1
+                background: 'rgba(255, 255, 255, 0.6)', transform: 'skewX(-10deg) rotate(-2deg)', borderRadius: '2px', zIndex: -1
               }} />
               you.
             </span>
@@ -116,13 +116,13 @@ export default function App() {
       <div style={{
         width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
         background: RED, color: '#ffffff', marginTop: '6rem',
-        padding: 'calc(clamp(3rem, 6vw, 5rem) + 2.2vw) 1.5rem',
-        clipPath: 'polygon(0 0, 100% 2.2vw, 100% 100%, 0 calc(100% - 2.2vw))',
+        padding: 'clamp(3rem, 6vw, 5rem) 1.5rem',
         position: 'relative'
       }}>
         <Gloss delay={1} />
+        <Ribbon text="Why it exists" corner="tl" tone="white" width="22rem" offset="2.4rem" className="hidden md:block" />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
+          <p className="mb-4 md:hidden" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
             Why it exists
           </p>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
@@ -145,11 +145,11 @@ export default function App() {
       <div style={{
         width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
         background: '#ffffff', marginTop: '4rem',
-        padding: 'calc(clamp(3.5rem, 7vw, 6rem) + 2.2vw) 1.5rem',
-        clipPath: 'polygon(0 2.2vw, 100% 0, 100% calc(100% - 2.2vw), 0 100%)',
+        padding: 'clamp(3.5rem, 7vw, 6rem) 1.5rem',
         position: 'relative'
       }}>
       <Gloss delay={5} />
+      <Ribbon text="A note from our founder" corner="tr" width="24rem" offset="2.2rem" className="hidden md:block" />
       <div className="max-w-2xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
         <img
           src={sydneyImage}
@@ -164,7 +164,7 @@ export default function App() {
             margin: '0 auto 1.25rem'
           }}
         />
-        <Kicker>A note from our founder</Kicker>
+        <div className="md:hidden"><Kicker>A note from our founder</Kicker></div>
         <Heading>Why I made GALOP</Heading>
         <p style={{
              fontFamily: 'Inter, sans-serif',

@@ -154,7 +154,7 @@ export function Layout({ title, current, children }: { title: string; current: s
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start px-6 pt-0 pb-12"
-         style={{ background: BLUE, fontFamily: 'Inter, sans-serif' }}>
+         style={{ background: BLUE, fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'clip' }}>
       <Marquee position="top" />
       <Nav current={current} />
 
