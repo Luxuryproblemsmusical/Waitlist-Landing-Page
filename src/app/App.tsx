@@ -9,19 +9,44 @@ const WHY = [
   ['Dosed for it', 'GALOP is formulated for that reality — like a prenatal is for pregnancy — in a drink, not a horse pill.'],
 ];
 
+/**
+ * The horse mark, alive: an 8s loop of the logo galloping, keyed onto the
+ * page blue so it reads as part of the background. Falls back to the static
+ * mark for reduced-motion users or if the video can't play.
+ */
+const HorseHero = () => {
+  const reduceMotion =
+    typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const width = 'clamp(16rem, 52vw, 32rem)';
+  if (reduceMotion) {
+    return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(4.5rem, 16vw, 10rem)', height: 'auto' }} />;
+  }
+  return (
+    <div style={{ position: 'relative', width, aspectRatio: '1280 / 820', marginBottom: 'clamp(-28px, -3vw, -8px)' }}>
+      <video
+        src="/horse-gallop.mp4"
+        poster={horseImage}
+        autoPlay muted loop playsInline
+        aria-hidden="true"
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+      />
+      {/* Feathers the video's edges into the page so no rectangle ever shows. */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: 'radial-gradient(ellipse at center, rgba(203,234,254,0) 42%, #cbeafe 74%)'
+      }} />
+    </div>
+  );
+};
+
 /** Homepage — doubles as the product page, per Sydney's spec. */
 export default function App() {
   return (
     <Layout title="GALOP — Coming Soon" current="/">
-      {/* Logo lockup: horse mark + GALOP wordmark */}
-      <div className="flex flex-col items-center mt-4 mb-6 animate-fade-in"
+      {/* Logo lockup: galloping horse + GALOP wordmark */}
+      <div className="flex flex-col items-center mt-2 mb-6 animate-fade-in"
            style={{ animation: 'fadeIn 0.8s ease-out' }}>
-        <img
-          src={horseImage}
-          alt=""
-          aria-hidden="true"
-          style={{ width: 'clamp(4.5rem, 16vw, 10rem)', height: 'auto', marginBottom: 0 }}
-        />
+        <HorseHero />
         <h1 aria-label="GALOP"
             style={{
               fontFamily: "'Cormorant Garamond', serif",
@@ -31,7 +56,9 @@ export default function App() {
               lineHeight: 0.9,
               letterSpacing: '-0.01em',
               margin: 0,
-              marginTop: 'clamp(-36px, -3vw, -8px)'
+              marginTop: 'clamp(-36px, -3vw, -8px)',
+              position: 'relative',
+              zIndex: 1
             }}>
           GALOP
         </h1>
