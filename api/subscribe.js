@@ -28,6 +28,27 @@ const RESUBSCRIBE = `mutation ($id: ID!, $at: DateTime!, $tags: [String!]!) {
   tagsAdd(id: $id, tags: $tags) { userErrors { field message } }
 }`;
 
+const ADD_ADDRESS = `mutation ($id: ID!, $address: MailingAddressInput!) {
+  customerAddressCreate(customerId: $id, address: $address, setAsDefault: true) { userErrors { field message } }
+}`;
+
+// Approximate location from Vercel's IP geolocation headers, saved as the new
+// customer's address so it shows in Shopify's Location column. Province codes
+// only where Vercel's region codes match Shopify's (US states, Canadian provinces).
+function location(request) {
+  const header = (name) => request.headers.get(name) || '';
+  const countryCode = header('x-vercel-ip-country').toUpperCase();
+  if (!/^[A-Z]{2}$/.test(countryCode)) return null;
+  const address = { countryCode };
+  try {
+    const city = decodeURIComponent(header('x-vercel-ip-city')).trim();
+    if (city) address.city = city.slice(0, 100);
+  } catch {}
+  const region = header('x-vercel-ip-country-region').toUpperCase();
+  if ((countryCode === 'US' || countryCode === 'CA') && /^[A-Z]{2}$/.test(region)) address.provinceCode = region;
+  return address;
+}
+
 // Tolerate the store pasted as a URL ("https://galop-1234.myshopify.com/").
 const store = () => process.env.SHOPIFY_STORE.trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
 
@@ -100,13 +121,24 @@ export async function POST(request) {
     if (customer) {
       await shopify(RESUBSCRIBE, { id: customer.id, at: new Date().toISOString(), tags });
     } else {
-      await shopify(CREATE, {
+      const address = location(request);
+      const joined = new Date().toLocaleDateString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric' });
+      const { customerCreate } = await shopify(CREATE, {
         input: {
           email,
           tags,
+          note: `Joined the GALOP waitlist on ${joined}.` + (address ? ' Location is approximate.' : ''),
           emailMarketingConsent: { marketingState: 'SUBSCRIBED', marketingOptInLevel: 'SINGLE_OPT_IN' },
         },
       });
+      // Best effort: the signup already counts even if the location can't be saved.
+      if (address) {
+        try {
+          await shopify(ADD_ADDRESS, { id: customerCreate.customer.id, address });
+        } catch (err) {
+          console.error('Waitlist signup: location not saved:', err);
+        }
+      }
     }
     return reply(200, { ok: true });
   } catch (err) {
