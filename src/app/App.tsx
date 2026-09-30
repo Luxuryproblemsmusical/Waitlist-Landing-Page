@@ -51,38 +51,27 @@ export default function App() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const KLAVIYO_PUBLIC_KEY = 'XchVzP';
-  const KLAVIYO_LIST_ID = 'WNWyrF';
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || isSubmitting) return;
     setError('');
     setIsSubmitting(true);
     try {
       const attribution = getAttribution();
-      const fields: Record<string, string> = {
-        $source: attribution.utm_source ? `${attribution.utm_source} / paid` : 'galoplife.com',
-        utm_source: attribution.utm_source ?? '',
-        utm_medium: attribution.utm_medium ?? '',
-        utm_campaign: attribution.utm_campaign ?? '',
-        utm_content: attribution.utm_content ?? '',
-      };
-      const body = new URLSearchParams({
-        g: KLAVIYO_LIST_ID,
-        email,
-        $fields: Object.keys(fields).join(','),
-        ...fields,
+      // Adds the signup to Shopify as a subscribed customer (see api/subscribe.js).
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          galop_hp: new FormData(e.currentTarget).get('galop_hp') ?? '',
+          ...attribution,
+        }),
       });
-      await fetch(
-        `https://manage.kmail-lists.com/subscriptions/subscribe?a=${KLAVIYO_PUBLIC_KEY}&g=${KLAVIYO_LIST_ID}`,
-        {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: body.toString(),
-        }
-      );
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Something went wrong. Please try again.');
+      }
       setIsSubmitted(true);
       setEmail('');
       trackWaitlistSignup(attribution.utm_campaign, attribution.utm_content);
@@ -229,6 +218,15 @@ export default function App() {
         <div className="max-w-xl mx-auto">
           {!isSubmitted ? (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch">
+              {/* Honeypot: hidden from people and screen readers, so only bots fill it in. */}
+              <input
+                type="text"
+                name="galop_hp"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+              />
               <input
                 type="email"
                 name="email"
