@@ -30,16 +30,11 @@ export const Note = ({ children, rotate = -6, style }: { children: ReactNode; ro
 );
 
 /**
- * A soft pool of lemon light behind the packaging: no shapes, just glow.
- * Place as the first child of a `position: relative; isolation: isolate` box.
+ * A pearly sheen round the pouch's arch: a soft white glow, and a glint that slowly travels
+ * round the rim. Goes first inside the arch's position:relative wrapper, so the frame sits on it.
  */
-export const PackagingGlow = () => (
-  <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none' }}>
-    <span style={{
-      position: 'absolute', left: '-14%', right: '-14%', top: '2%', bottom: '-10%', borderRadius: '9999px', filter: 'blur(36px)',
-      background: 'radial-gradient(ellipse at 42% 58%, rgba(255, 240, 122, 0.6) 0%, rgba(255, 246, 170, 0.28) 45%, rgba(255, 248, 194, 0) 70%)'
-    }} />
-  </div>
+export const ArchSheen = ({ radius }: { radius: string }) => (
+  <div aria-hidden="true" className="arch-sheen" style={{ borderRadius: radius }} />
 );
 
 /**

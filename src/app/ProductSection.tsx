@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RED, INK } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Gloss, PackagingGlow } from './Flourish';
+import { ArchSheen, Gloss } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
@@ -28,6 +28,8 @@ const DETAILS: [string, string][] = [
   ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime — no calls, no hoops. New customers get 20% off their first order.'],
 ];
 
+const ARCH = '50% 50% 18px 18px / 30% 30% 18px 18px';
+
 /** List bullet: a short red rule, like the one under LEMONADE on the pouch. */
 const Check = () => <span aria-hidden="true" style={{ flexShrink: 0, width: '0.8em', height: '1.5px', background: RED, marginRight: '0.75em', marginTop: '0.8em' }} />;
 
@@ -38,17 +40,15 @@ export function ProductSection() {
   return (
     <section id="shop" className="mt-6" style={{ scrollMarginTop: '16px' }}>
       <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-start">
-        {/* Gallery — a soft lemon glow sits behind the packaging */}
+        {/* Gallery — the pouch in a horseshoe arch, like a stable window, with a pearly sheen round it */}
         <div style={{ position: 'relative', isolation: 'isolate' }}>
-          <PackagingGlow />
-          {/* framed in a horseshoe arch, like a stable window */}
+          <ArchSheen radius={ARCH} />
           <div style={{
             position: 'relative',
             background: '#ffffff',
-            borderRadius: '50% 50% 18px 18px / 30% 30% 18px 18px',
+            borderRadius: ARCH,
             overflow: 'hidden',
             padding: GALLERY[active].fill ? 0 : 'clamp(30px, 4vw, 48px) clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px)',
-            border: '1px solid rgba(236, 29, 39, 0.12)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             minHeight: '320px'
           }}>

@@ -195,6 +195,18 @@ export function Layout({ title, current, children }: { title: string; current: s
           50%  { opacity: 1; }
           100% { transform: translate3d(22%, 10%, 0); opacity: 0.25; }
         }
+        /* Sheen round the pouch arch: a white rim with a soft glow; two glints travel slowly round it */
+        @property --sheen-turn { syntax: '<angle>'; inherits: false; initial-value: 20deg; }
+        .arch-sheen {
+          position: absolute; inset: -4px; z-index: 0; pointer-events: none;
+          background: conic-gradient(from var(--sheen-turn),
+            rgba(255,255,255,0.6) 0deg, rgba(255,255,255,0.6) 70deg, #ffffff 100deg, rgba(255,255,255,0.6) 130deg,
+            rgba(255,255,255,0.6) 250deg, #ffffff 280deg, rgba(255,255,255,0.6) 310deg);
+          box-shadow: 0 0 14px 2px rgba(255,255,255,0.9), 0 0 46px 12px rgba(255,255,255,0.55);
+          animation: sheenTurn 14s linear infinite;
+        }
+        @keyframes sheenTurn { to { --sheen-turn: 380deg; } }
+
         /* Gift-wrap gloss: a broad, soft highlight that slowly drifts and breathes.
            Drop <Gloss/> inside any position:relative box. */
         .gloss-layer {
@@ -438,6 +450,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .float-slow, .animate-float { animation: none !important; }
           .animate-fade-in { animation: none !important; }
           .gloss-layer::after { animation: none !important; display: none; }
+          .arch-sheen { animation: none !important; }
           .flip-inner { transition: none; transform: none !important; animation: none !important; }
           .flip-back { transform: none; opacity: 0; transition: opacity 0.2s; }
           .flip-card.is-flipped .flip-back { opacity: 1; }
