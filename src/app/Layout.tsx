@@ -335,11 +335,11 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* a quick gift-wrap sheen sweeps across on hover */
         .btn-gallop::before {
           content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-          background: linear-gradient(110deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 65%);
+          background: linear-gradient(110deg, rgba(255,255,255,0) 38%, rgba(255,255,255,0.14) 50%, rgba(255,255,255,0) 62%);
           transform: translateX(-120%);
         }
-        .btn-gallop:hover::before { transform: translateX(120%); transition: transform 0.75s ease; }
-        .btn-gallop.on-light::before { background: linear-gradient(110deg, rgba(236,29,39,0) 35%, rgba(236,29,39,0.12) 50%, rgba(236,29,39,0) 65%); }
+        .btn-gallop:hover::before { transform: translateX(120%); transition: transform 1.1s ease; }
+        .btn-gallop.on-light::before { background: linear-gradient(110deg, rgba(236,29,39,0) 38%, rgba(236,29,39,0.06) 50%, rgba(236,29,39,0) 62%); }
         .success-pill { position: relative; overflow: hidden; isolation: isolate; }
 
         /* The light that trails the mouse (see CursorSheen) */
