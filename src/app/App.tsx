@@ -39,7 +39,7 @@ export default function App() {
   return (
     <Layout title="GALOP — Coming Soon" current="/">
       {/* Logo lockup: galloping horse + GALOP wordmark */}
-      <div className="flex flex-col items-center mt-2 mb-16 md:mb-12 animate-fade-in"
+      <div className="flex flex-col items-center mt-2 mb-20 animate-fade-in"
            style={{ animation: 'fadeIn 0.8s ease-out' }}>
         <HorseHero />
         <h1 aria-label="GALOP"
