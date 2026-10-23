@@ -29,9 +29,12 @@ export const Note = ({ children, rotate = -6, style }: { children: ReactNode; ro
   </span>
 );
 
+/** The horseshoe arch the pouch is framed in (home and subscribe pages). */
+export const ARCH = '50% 50% 18px 18px / 30% 30% 18px 18px';
+
 /**
- * A pearly sheen round the pouch's arch: a soft white glow, and a glint that slowly travels
- * round the rim. Goes first inside the arch's position:relative wrapper, so the frame sits on it.
+ * A pearly sheen round the pouch's arch: a white rim lit from the upper left, and a soft white
+ * glow. Goes first inside the arch's position:relative wrapper, so the frame sits on it.
  */
 export const ArchSheen = ({ radius }: { radius: string }) => (
   <div aria-hidden="true" className="arch-sheen" style={{ borderRadius: radius }} />
@@ -65,19 +68,6 @@ export const Polaroid = ({ src, alt, caption, width = 'clamp(9.5rem, 20vw, 12.5r
       {caption}
     </figcaption>
   </figure>
-);
-
-/**
- * A horseshoe: a near-round band whose arms curl in toward the opening, with nail holes
- * (open end up, the lucky way).
- * Used for list bullets and the FAQ toggle. Inherits the text color.
- */
-export const Horseshoe = ({ size = '1em', style, className }: { size?: string; style?: CSSProperties; className?: string }) => (
-  <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" className={className}
-       style={{ flexShrink: 0, ...style }}>
-    <path fill="currentColor" fillRule="evenodd"
-          d="M17.31 4.62A9.5 9.5 0 1 1 6.69 4.62L8.98 8.02A5.4 5.4 0 1 0 15.02 8.02ZM17.07 7.91a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0zM18.54 13.79a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0zM15.15 18.82a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0zM5.33 7.91a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0zM3.86 13.79a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0zM7.25 18.82a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0z" />
-  </svg>
 );
 
 /** Floating prop image (sticker) with a gentle bob. */

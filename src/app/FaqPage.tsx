@@ -30,8 +30,8 @@ export default function FaqPage() {
       </div>
 
       {/* Still curious */}
-      <div className="max-w-2xl mx-auto mt-12 text-center lift cut"
-           style={{ ['--cut' as string]: '20px', ['--line' as string]: RED, ['--fill' as string]: RED, color: '#ffffff', padding: 'clamp(28px, 5vw, 40px) 24px' } as CSSProperties}>
+      <div className="max-w-2xl mx-auto mt-12 text-center cut-solid"
+           style={{ ['--cut' as string]: '20px', position: 'relative', background: RED, color: '#ffffff', padding: 'clamp(28px, 5vw, 40px) 24px' } as CSSProperties}>
         <Gloss delay={2} />
         <div style={{ position: 'relative', zIndex: 2 }}>
           <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>

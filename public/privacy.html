@@ -6,22 +6,23 @@
     <title>Privacy Policy — GALOP</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
       :root {
         --bg: #cbeafe;
         --red: #ec1d27;
-        --ink: #2d3748;
-        --muted: #4a5568;
+        --ink: #8F1219;
+        --muted: rgba(143, 18, 25, 0.72);
       }
       * { box-sizing: border-box; }
       html, body { margin: 0; padding: 0; }
       body {
-        background: var(--bg);
+        background: linear-gradient(180deg, #e4f4ff 0, var(--bg) 420px) var(--bg) no-repeat;
         color: var(--ink);
-        font-family: 'Inter', sans-serif;
-        line-height: 1.65;
-        font-size: 16px;
+        font-family: 'Montserrat', sans-serif;
+        font-variant-numeric: lining-nums;
+        line-height: 1.7;
+        font-size: 15px;
         -webkit-font-smoothing: antialiased;
       }
       .wrap {
@@ -31,18 +32,18 @@
       }
       .back {
         display: inline-block;
-        font-size: 0.78rem;
-        font-weight: 700;
+        font-size: 0.72rem;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.22em;
+        letter-spacing: 0.2em;
         color: var(--red);
         text-decoration: none;
         margin-bottom: 32px;
       }
       .back:hover { opacity: 0.75; }
       h1 {
-        font-family: 'Cormorant Garamond', serif;
-        font-weight: 600;
+        font-family: 'Instrument Serif', serif;
+        font-weight: 400;
         color: var(--red);
         font-size: clamp(2.5rem, 6vw, 3.5rem);
         line-height: 1.05;
@@ -55,30 +56,30 @@
         margin-bottom: 40px;
       }
       h2 {
-        font-family: 'Cormorant Garamond', serif;
-        font-weight: 600;
+        font-family: 'Instrument Serif', serif;
+        font-weight: 400;
         color: var(--red);
-        font-size: 1.6rem;
+        font-size: 1.85rem;
         line-height: 1.2;
         margin: 48px 0 12px;
       }
       h3 {
-        font-family: 'Inter', sans-serif;
-        font-weight: 700;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
         color: var(--ink);
-        font-size: 1rem;
+        font-size: 0.78rem;
         text-transform: uppercase;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.18em;
         margin: 28px 0 8px;
       }
       p { margin: 0 0 14px; }
       ul { margin: 0 0 14px 1.25rem; padding: 0; }
       li { margin-bottom: 6px; }
       a { color: var(--red); }
+      /* white tag-cut panels, like the cards on the rest of the site */
+      .summary, .toc { clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px); }
       .summary {
-        background: rgba(255, 255, 255, 0.55);
-        border: 1px solid rgba(236, 29, 39, 0.18);
-        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.75);
         padding: 20px 24px;
         margin: 8px 0 18px;
       }
@@ -88,7 +89,7 @@
         border-collapse: collapse;
         margin: 16px 0 24px;
         font-size: 0.9rem;
-        background: rgba(255, 255, 255, 0.55);
+        background: rgba(255, 255, 255, 0.75);
       }
       th, td {
         text-align: left;
@@ -96,11 +97,9 @@
         border: 1px solid rgba(236, 29, 39, 0.18);
         vertical-align: top;
       }
-      th { background: rgba(236, 29, 39, 0.08); font-weight: 700; }
+      th { background: rgba(236, 29, 39, 0.06); font-weight: 600; }
       .toc {
-        background: rgba(255, 255, 255, 0.55);
-        border: 1px solid rgba(236, 29, 39, 0.18);
-        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.75);
         padding: 20px 24px;
         margin-bottom: 32px;
       }

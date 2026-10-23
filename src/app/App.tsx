@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
 import { Gloss, Stationery, Polaroid } from './Flourish';
-import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
+import { FlipCard, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 import wordmarkImage from "../imports/galop-wordmark.svg";
@@ -153,8 +153,8 @@ export default function App() {
           </h2>
           <div className="grid gap-5 sm:grid-cols-3 mt-10 text-left">
             {WHY.map(([h, p, bh, bp], i) => (
-              <FlipCard key={h}
-                        front={<><CardKicker>{['i.', 'ii.', 'iii.'][i]}</CardKicker><CardTitle>{h}</CardTitle><CardText>{p}</CardText></>}
+              <FlipCard key={h} numeral={['i.', 'ii.', 'iii.'][i]}
+                        front={<><CardTitle>{h}</CardTitle><CardText>{p}</CardText></>}
                         back={<><CardTitle>{bh}</CardTitle><CardText>{bp}</CardText></>} />
             ))}
           </div>

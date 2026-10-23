@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RED, INK } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { ArchSheen, Gloss } from './Flourish';
+import { ARCH, ArchSheen, Gloss } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
@@ -28,8 +28,6 @@ const DETAILS: [string, string][] = [
   ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime — no calls, no hoops. New customers get 20% off their first order.'],
 ];
 
-const ARCH = '50% 50% 18px 18px / 30% 30% 18px 18px';
-
 /** List bullet: a short red rule, like the one under LEMONADE on the pouch. */
 const Check = () => <span aria-hidden="true" style={{ flexShrink: 0, width: '0.8em', height: '1.5px', background: RED, marginRight: '0.75em', marginTop: '0.8em' }} />;
 
@@ -40,8 +38,9 @@ export function ProductSection() {
   return (
     <section id="shop" className="mt-6" style={{ scrollMarginTop: '16px' }}>
       <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-start">
-        {/* Gallery — the pouch in a horseshoe arch, like a stable window, with a pearly sheen round it */}
-        <div style={{ position: 'relative', isolation: 'isolate' }}>
+        {/* Gallery — the pouch in a horseshoe arch, like a stable window, with a pearly sheen round it.
+            On desktop it stays in view beside the buy box as you read down it. */}
+        <div className="relative md:sticky md:top-8" style={{ isolation: 'isolate' }}>
           <ArchSheen radius={ARCH} />
           <div style={{
             position: 'relative',

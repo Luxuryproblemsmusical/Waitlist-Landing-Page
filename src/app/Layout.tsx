@@ -200,17 +200,16 @@ export function Layout({ title, current, children }: { title: string; current: s
           50%  { opacity: 1; }
           100% { transform: translate3d(22%, 10%, 0); opacity: 0.25; }
         }
-        /* Sheen round the pouch arch: a white rim with a soft glow; two glints travel slowly round it */
-        @property --sheen-turn { syntax: '<angle>'; inherits: false; initial-value: 20deg; }
+        /* Sheen round the pouch arch: a white rim lit from the upper left (and, fainter, low on the
+           right), with a soft white glow. Static on purpose: an animated gradient repaints every
+           frame and made other motion on the page stutter. */
         .arch-sheen {
           position: absolute; inset: -4px; z-index: 0; pointer-events: none;
-          background: conic-gradient(from var(--sheen-turn),
-            rgba(255,255,255,0.6) 0deg, rgba(255,255,255,0.6) 70deg, #ffffff 100deg, rgba(255,255,255,0.6) 130deg,
-            rgba(255,255,255,0.6) 250deg, #ffffff 280deg, rgba(255,255,255,0.6) 310deg);
+          background: conic-gradient(from -45deg,
+            #ffffff 0deg, rgba(255,255,255,0.6) 55deg, rgba(255,255,255,0.6) 125deg, rgba(255,255,255,0.85) 180deg,
+            rgba(255,255,255,0.6) 235deg, rgba(255,255,255,0.6) 305deg, #ffffff 360deg);
           box-shadow: 0 0 14px 2px rgba(255,255,255,0.9), 0 0 46px 12px rgba(255,255,255,0.55);
-          animation: sheenTurn 14s linear infinite;
         }
-        @keyframes sheenTurn { to { --sheen-turn: 380deg; } }
 
         /* Gift-wrap gloss: a broad, soft highlight that slowly drifts and breathes.
            Drop <Gloss/> inside any position:relative box. */
@@ -229,21 +228,26 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
-        .lift { transition: transform 0.25s ease, box-shadow 0.25s ease; }
-        input::placeholder { color: rgba(45, 55, 72, 0.5); }
+        input::placeholder { color: rgba(143, 18, 25, 0.45); }
 
         /* Hover motion only where there's a real pointer: on phones a tap leaves
            :hover stuck, which left cards lifted or half-turned after tapping. */
         @media (hover: hover) {
-          .lift:hover { transform: translateY(-4px); }
-          /* The lift and the "I flip" tilt go on the inner card, so the button's own
-             box never moves out from under the cursor (which made it flicker). */
-          .flip-card:hover .flip-inner { transform: translateY(-4px) rotateY(-10deg); }
-          .flip-card.is-flipped:hover .flip-inner { transform: translateY(-4px) rotateY(170deg); }
+          /* The lift goes on an inner box, so the button's own box never moves out from under
+             the cursor (which made the hover flicker). */
+          .flip-card:hover .flip-lift { transform: translateY(-3px); }
+          .flip-card:hover:active .flip-lift { transform: translateY(-3px) scale(0.985); }
+          .flip-card:hover .flip-shadow { box-shadow: 0 16px 30px rgba(30, 60, 90, 0.2), 0 3px 6px rgba(30, 60, 90, 0.07); }
+          .flip-card:hover .flip-hint svg { transform: rotate(50deg); }
           .acc-card:hover { transform: translateY(-2px); filter: drop-shadow(0 8px 14px rgba(30, 60, 90, 0.1)); }
           .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
           .founder-note:hover .polaroid { transform: rotate(-1deg) translateY(-4px) scale(1.02); }
         }
+
+        /* Keyboard focus: one clear red ring everywhere (white on the red band, see .flip-card).
+           Clipped buttons would cut an outline off, so they get a ring inside their edge instead. */
+        :where(a, button, input, [tabindex]):focus-visible { outline: 2px solid ${RED}; outline-offset: 3px; }
+        .cut-solid:focus-visible { outline: none; box-shadow: inset 0 0 0 2px currentColor; }
 
         /* Tag-cut shape: corners clipped at 45°, like the hang tag and a tack-room plaque.
            The outline and the fill are two clipped layers behind the content, so the
@@ -274,51 +278,53 @@ export function Layout({ title, current, children }: { title: string; current: s
                              calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
         }
 
-        /* Flip cards (Interactive.tsx) */
+        /* Flip cards (Interactive.tsx). The turn itself is run by FlipCard on .flip-turn; nothing
+           here relies on preserve-3d or backface-visibility, which Safari and phones get wrong. */
         .flip-card {
-          display: block; width: 100%; padding: 0; border: none; background: none; cursor: pointer;
-          perspective: 1400px; text-align: left; font: inherit; color: inherit;
+          display: block; width: 100%; height: 100%; padding: 0; border: none; background: none; cursor: pointer;
+          text-align: left; font: inherit; color: inherit; -webkit-tap-highlight-color: transparent;
         }
-        .flip-card:focus-visible { outline: 3px solid #ffffff; outline-offset: 4px; } /* flip cards sit on the red band */
-        .flip-inner {
-          display: grid; height: 100%;
-          transform-style: preserve-3d; transition: transform 0.75s cubic-bezier(0.45, 0.05, 0.2, 1);
-          will-change: transform;
+        .flip-card:focus-visible { outline: 2px solid #ffffff; outline-offset: 5px; } /* flip cards sit on the red band */
+        .flip-lift {
+          display: block; height: 100%; perspective: 1000px;
+          transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        /* The card's shadow turns with it. It's a box-shadow on an empty box (not a filter on the
-           button, which had to be repainted every frame of the turn and made the flip stutter). */
+        .flip-card:active .flip-lift { transform: scale(0.985); transition-duration: 0.12s; }
+        .flip-turn { display: grid; height: 100%; will-change: transform; }
+        /* the card's shadow turns with it: a box-shadow on an empty box, so turning never repaints it */
         .flip-shadow {
           grid-area: 1 / 1; border-radius: 18px; pointer-events: none;
           box-shadow: 0 12px 24px rgba(30, 60, 90, 0.16), 0 2px 5px rgba(30, 60, 90, 0.06);
+          transition: box-shadow 0.35s ease;
         }
-        /* Only the faces hide their backs. Putting backface-visibility on everything inside them
-           (an earlier attempt) makes Safari depth-sort each piece separately, and when the card
-           tilts it draws the face's background over its own text, so the content vanishes. */
-        .flip-face { display: flex; flex-direction: column; justify-content: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: flat;
-          clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px); }
-        /* Stacked, a face shorter than its other side sits centred; in a row, titles line up across the top */
-        @media (min-width: 640px) { .flip-face { justify-content: flex-start; } }
-        .flip-back { transform: rotateY(180deg); }
-        .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
-        /* The "I flip" cue: hover starts the turn (above); touch screens get one small peek. */
-        @keyframes flipPeek { 0%, 100% { transform: rotateY(0); } 40% { transform: rotateY(-22deg); } }
-        @media (hover: none) {
-          .flip-card:not(.is-flipped) .flip-inner { animation: flipPeek 0.9s ease-in-out 1.2s 1; }
+        .flip-face {
+          grid-area: 1 / 1; position: relative; display: flex; flex-direction: column;
+          padding: 28px 28px 24px; background: #ffffff; color: ${RED};
+          clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);
         }
+        /* "Turn over", set like the pouch's small capitals, on the same line at the foot of every side */
+        .flip-hint {
+          position: relative; margin-top: auto; padding-top: 20px; display: flex; align-items: center; gap: 0.55em;
+          font-family: 'Montserrat', sans-serif; font-size: 0.62rem; font-weight: 600; line-height: 1;
+          letter-spacing: 0.2em; text-transform: uppercase; color: ${INK}; opacity: 0.75;
+        }
+        .flip-hint svg { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
 
         /* Accordions (Interactive.tsx) */
         .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
         .acc-item.is-open .acc-panel { grid-template-rows: 1fr; }
-        .acc-icon { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, color 0.2s ease; }
         .acc-item .acc-panel > div { opacity: 0; transform: translateY(-6px); transition: opacity 0.3s ease, transform 0.35s ease; }
         .acc-item.is-open .acc-panel > div { opacity: 1; transform: none; }
-        /* horseshoe toggle: upside down while closed, lucky side up when open */
-        .acc-icon { transform: rotate(180deg); }
-        .acc-item.is-open .acc-icon { transform: rotate(0deg); }
+        /* a fine plus that closes to a minus when open */
+        .acc-icon { position: relative; display: block; width: 13px; height: 13px; }
+        .acc-icon::before, .acc-icon::after {
+          content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 1.5px; margin-top: -0.75px;
+          background: currentColor; border-radius: 1px; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .acc-icon::after { transform: rotate(90deg); }
+        .acc-item.is-open .acc-icon::after { transform: rotate(0deg); }
         .acc-card { transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease; }
-        .acc-trigger:focus-visible { outline: 3px solid ${RED}; outline-offset: 2px; border-radius: 14px; }
-        .acc-trigger:hover .acc-icon { transform: rotate(180deg) scale(1.1); }
-        .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(0deg) scale(1.1); }
+        .acc-trigger:focus-visible { outline-offset: -3px; }
 
         /* Buttons: a gift-wrap sheen on hover and a squish on press */
         .btn-gallop {
@@ -453,13 +459,10 @@ export function Layout({ title, current, children }: { title: string; current: s
           .float-slow, .animate-float { animation: none !important; }
           .animate-fade-in { animation: none !important; }
           .gloss-layer::after { animation: none !important; display: none; }
-          .arch-sheen { animation: none !important; }
-          .flip-inner { transition: none; transform: none !important; animation: none !important; }
-          .flip-back { transform: none; opacity: 0; transition: opacity 0.2s; }
-          .flip-card.is-flipped .flip-back { opacity: 1; }
-          .flip-card.is-flipped .flip-face:not(.flip-back) { opacity: 0; }
-          .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
-          .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
+          .flip-lift, .flip-shadow, .flip-hint svg { transition: none; }
+          .flip-card:hover .flip-lift, .flip-card:active .flip-lift, .flip-card:hover .flip-hint svg { transform: none; }
+          .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
+          .acc-panel, .acc-icon::before, .acc-icon::after, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before { display: none; }
           .plan-card, .plan-dot, .arrow-hop, .nav-tag-swing, .horse-fidget { animation: none !important; }
         }
@@ -478,7 +481,8 @@ export const Kicker = ({ children }: { children: ReactNode }) => (
        color: INK,
        textTransform: 'uppercase',
        letterSpacing: '0.2em',
-       lineHeight: 1.4
+       lineHeight: 1.4,
+       textWrap: 'balance'
      }}>
     {children}
   </p>

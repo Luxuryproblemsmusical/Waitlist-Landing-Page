@@ -132,7 +132,7 @@ export function PlanPicker({ source }: { source: string }) {
               style={{
                 ['--cut' as string]: '16px', ['--bw' as string]: '2px',
                 ['--line' as string]: selected ? RED : 'rgba(236, 29, 39, 0.22)',
-                ['--fill' as string]: selected ? '#ffffff' : 'rgba(255,255,255,0.6)',
+                ['--fill' as string]: selected ? '#ffffff' : '#f5faff', // opaque, or the outline layer tints it pink
                 background: 'none', border: 'none', padding: 0, cursor: 'pointer',
                 filter: selected ? 'drop-shadow(0 10px 16px rgba(236, 29, 39, 0.12))' : 'none',
                 transition: 'filter 0.2s ease, transform 0.25s ease'
@@ -229,7 +229,7 @@ export function PlanPicker({ source }: { source: string }) {
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '1rem',
                   letterSpacing: '0.01em',
-                  color: '#2d3748'
+                  color: INK
                 }}
               />
             </span>
