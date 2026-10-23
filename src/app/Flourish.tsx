@@ -29,32 +29,6 @@ export const Note = ({ children, rotate = -6, style }: { children: ReactNode; ro
   </span>
 );
 
-/** Space each • evenly, including the one where the text loops back to its start. */
-const BADGE_DOT = '   •   ';
-const spaceDots = (text: string) =>
-  text.split('•').map((s) => s.trim()).filter(Boolean).map((s) => s + BADGE_DOT).join('');
-
-/** Slowly spinning circular text badge with the horse mark in the middle. */
-export const SpinBadge = ({ text, size = '6.5rem', style }: { text: string; size?: string; style?: CSSProperties }) => (
-  <div aria-hidden="true" style={{ position: 'relative', width: size, height: size, ...style }}>
-    <svg viewBox="0 0 100 100" width="100%" height="100%" className="spin-slow" style={{ display: 'block' }}>
-      <defs>
-        <path id="galop-badge-circle" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
-      </defs>
-      <circle cx="50" cy="50" r="49" fill={RED} />
-      {/* textLength = the circle's circumference (2π·38), so the text wraps exactly once with no overlap */}
-      <text fill="#ffffff" fontFamily="Inter, sans-serif" fontSize="7.6" fontWeight="700">
-        <textPath href="#galop-badge-circle" textLength="238.7" lengthAdjust="spacing">{spaceDots(text)}</textPath>
-      </text>
-    </svg>
-    <img src={horseImage} alt=""
-         style={{
-           position: 'absolute', left: '50%', top: '50%', width: '42%', height: 'auto',
-           transform: 'translate(-50%, -50%)', filter: 'brightness(0) invert(1)'
-         }} />
-  </div>
-);
-
 /**
  * A soft pool of lemon light behind the packaging: no shapes, just glow.
  * Place as the first child of a `position: relative; isolation: isolate` box.

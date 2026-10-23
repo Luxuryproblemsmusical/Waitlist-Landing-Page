@@ -252,9 +252,6 @@ export function Layout({ title, current, children }: { title: string; current: s
           0%, 100% { translate: 0 0; }
           50% { translate: 0 -10px; }
         }
-        @keyframes spinSlow {
-          to { rotate: 360deg; }
-        }
         @keyframes glossDrift {
           0%   { transform: translate3d(-22%, -10%, 0); opacity: 0.25; }
           50%  { opacity: 1; }
@@ -277,7 +274,6 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
-        .spin-slow { animation: spinSlow 16s linear infinite; }
         .lift { transition: transform 0.25s ease, box-shadow 0.25s ease; }
         .lift:hover { transform: translateY(-4px); }
         input::placeholder { color: rgba(45, 55, 72, 0.5); }
@@ -377,6 +373,19 @@ export function Layout({ title, current, children }: { title: string; current: s
           100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), calc(var(--rise) * -1)) scale(1); }
         }
 
+        /* Riding-whip flourish under the slogan: draws in fast, then flicks */
+        .whip-path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+        .whip-path { animation: whipDraw 0.55s cubic-bezier(0.7, 0, 0.3, 1) 0.9s both; }
+        .whip-lash { animation-delay: 1.05s; }
+        .whip { transform-origin: 10% 70%; animation: whipFlick 0.45s ease-out 1.55s both; }
+        .whip-wrap:hover .whip-path { animation-name: whipDrawAgain; animation-delay: 0s; }
+        .whip-wrap:hover .whip-lash { animation-delay: 0.12s; }
+        .whip-wrap:hover .whip { animation-name: whipFlickAgain; animation-delay: 0.6s; }
+        @keyframes whipDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        @keyframes whipDrawAgain { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+        @keyframes whipFlick { 0% { transform: rotate(0); } 40% { transform: rotate(-4deg); } 75% { transform: rotate(1.5deg); } 100% { transform: rotate(0); } }
+        @keyframes whipFlickAgain { 0% { transform: rotate(0); } 40% { transform: rotate(-4deg); } 75% { transform: rotate(1.5deg); } 100% { transform: rotate(0); } }
+
         /* Plan cards hop when chosen, and the radio dot pops */
         .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
         .plan-card[aria-pressed="true"] { animation: planHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -402,7 +411,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         .galop-input:focus { border-color: ${RED} !important; box-shadow: 0 0 0 4px rgba(239, 42, 48, 0.14); }
 
         @media (prefers-reduced-motion: reduce) {
-          .float-slow, .spin-slow, .animate-float { animation: none !important; }
+          .float-slow, .animate-float { animation: none !important; }
           .gloss-layer::after { animation: none !important; display: none; }
           .flip-inner { transition: none; transform: none !important; animation: none !important; }
           .flip-back { transform: none; opacity: 0; transition: opacity 0.2s; }
@@ -411,7 +420,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before, .btn-gallop::after, .success-pill::after { display: none; }
-          .plan-card, .plan-dot, .trust-check, .arrow-hop { animation: none !important; }
+          .plan-card, .plan-dot, .trust-check, .arrow-hop, .whip, .whip-path { animation: none !important; }
         }
       `}</style>
     </div>

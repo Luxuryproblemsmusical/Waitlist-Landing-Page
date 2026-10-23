@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RED, LEMON } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Note, Gloss, SpinBadge, LemonSlice, PackagingGlow } from './Flourish';
+import { Note, Gloss, LemonSlice, PackagingGlow } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
@@ -66,8 +66,6 @@ export function ProductSection() {
             minHeight: '320px'
           }}>
             <Gloss delay={0} />
-            <SpinBadge text="JUST LAUNCHED! • JUST LAUNCHED! • " size="clamp(5rem, 9vw, 6.25rem)"
-                       style={{ position: 'absolute', top: '-3.6rem', right: 'clamp(-1.4rem, -2vw, -0.4rem)', filter: 'drop-shadow(0 8px 16px rgba(239, 42, 48, 0.3))' }} />
             {!GALLERY[active].fill && (
               <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>
                 30 sticks per pouch ↗
