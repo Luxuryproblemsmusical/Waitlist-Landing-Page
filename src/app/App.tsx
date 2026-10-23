@@ -27,13 +27,17 @@ const HorseHero = () => {
   // wordmark (the horse fills ~75% of the frame). No negative margins.
   const width = 'clamp(4rem, 15vw, 10rem)';
   if (reduceMotion) {
-    return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
+    return <img src={horseImage} alt="" aria-hidden="true" width={278} height={230} style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
   return (
     <img
       src="/horse-gallop.webp"
       alt=""
       aria-hidden="true"
+      // Intrinsic size, so the space is held while the 1.7MB file loads and the
+      // wordmark below doesn't jump down when it arrives.
+      width={480}
+      height={342}
       style={{ width, height: 'auto', display: 'block', marginBottom: '4px' }}
     />
   );
@@ -152,7 +156,7 @@ export default function App() {
 
           {/* Letter */}
           <div className="text-center md:text-left" style={{ position: 'relative', zIndex: 2 }}>
-            <img src={horseImage} alt="" aria-hidden="true" className="mx-auto md:mx-0"
+            <img src={horseImage} alt="" aria-hidden="true" width={278} height={230} className="mx-auto md:mx-0"
                  style={{ width: '2.2rem', height: 'auto', marginBottom: '0.9rem', opacity: 0.9 }} />
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: RED, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85, margin: 0 }}>
               A note from our founder

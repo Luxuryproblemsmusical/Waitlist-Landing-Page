@@ -5,9 +5,12 @@ import { Note, Gloss, LemonSlice, PackagingGlow } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
-/** `fill`: a full studio photo that runs edge to edge in the card instead of floating on white. */
-const GALLERY: { src: string; alt: string; fill?: boolean }[] = [
-  { src: pouchImage, alt: 'GALOP multivitamin drink mix pouch in lemonade, with a single stick pack beside it', fill: true },
+/**
+ * `fill`: a full studio photo that runs edge to edge in the card instead of floating on white.
+ * `width`/`height`: the file's pixel size, so its space is held while it loads.
+ */
+const GALLERY: { src: string; alt: string; width: number; height: number; fill?: boolean }[] = [
+  { src: pouchImage, alt: 'GALOP multivitamin drink mix pouch in lemonade, with a single stick pack beside it', width: 1060, height: 1484, fill: true },
 ];
 
 const BENEFITS = [
@@ -74,6 +77,8 @@ export function ProductSection() {
             <img
               src={GALLERY[active].src}
               alt={GALLERY[active].alt}
+              width={GALLERY[active].width}
+              height={GALLERY[active].height}
               className="w-full h-auto object-contain"
               style={GALLERY[active].fill
                 ? { display: 'block', borderRadius: '23px' }
