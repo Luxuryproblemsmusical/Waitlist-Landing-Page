@@ -1,6 +1,6 @@
 import { Layout, Kicker, Heading } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import heroImage from "../imports/hero-lemonade.png";
+import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
 /** Standalone Subscribe & Save page (the same plan picker also lives on the homepage). */
 export default function SubscribePage() {
@@ -11,10 +11,10 @@ export default function SubscribePage() {
         <Heading size="lg">Subscribe &amp; save.</Heading>
         <div className="flex justify-center my-8">
           <img
-            src={heroImage}
-            alt="GALOP lemonade drink mix stick pack beside an iced glass of lemonade"
-            className="w-44 sm:w-56 h-auto object-contain"
-            style={{ filter: 'drop-shadow(0 8px 16px rgba(30, 60, 90, 0.18))' }}
+            src={pouchImage}
+            alt="GALOP multivitamin drink mix pouch in lemonade, with a single stick pack beside it"
+            className="w-56 sm:w-72 h-auto"
+            style={{ borderRadius: '20px', boxShadow: '0 12px 28px rgba(30, 60, 90, 0.14)' }}
           />
         </div>
       </div>
