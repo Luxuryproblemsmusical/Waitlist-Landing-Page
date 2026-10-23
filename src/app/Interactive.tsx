@@ -36,17 +36,17 @@ export function FlipCard({ front, back }: { front: ReactNode; back: ReactNode })
 
 /** Shared type styles for flip-card faces. */
 export const CardTitle = ({ children }: { children: ReactNode }) => (
-  <span style={{ display: 'block', fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 600, lineHeight: 1.1 }}>
+  <span style={{ display: 'block', fontFamily: "'Instrument Serif', serif", fontSize: '1.6rem', fontWeight: 600, lineHeight: 1.1 }}>
     {children}
   </span>
 );
 export const CardText = ({ children }: { children: ReactNode }) => (
-  <span style={{ display: 'block', marginTop: '0.6rem', fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', fontWeight: 500, color: INK, lineHeight: 1.6 }}>
+  <span style={{ display: 'block', marginTop: '0.6rem', fontFamily: "'Montserrat', sans-serif", fontSize: '0.9rem', fontWeight: 500, color: INK, lineHeight: 1.6 }}>
     {children}
   </span>
 );
 export const CardKicker = ({ children }: { children: ReactNode }) => (
-  <span style={{ display: 'block', marginBottom: '0.35rem', fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500, fontSize: '1.15rem', lineHeight: 1, color: INK }}>
+  <span style={{ display: 'block', marginBottom: '0.35rem', fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 500, fontSize: '1.15rem', lineHeight: 1, color: INK }}>
     {children}
   </span>
 );
@@ -83,7 +83,7 @@ export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:
                       width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
                       textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', color: INK,
                       padding: cards ? '20px 22px' : '14px 2px',
-                      fontFamily: "'Cormorant Garamond', serif",
+                      fontFamily: "'Instrument Serif', serif",
                       fontSize: cards ? 'clamp(1.25rem, 2.6vw, 1.5rem)' : 'clamp(1.15rem, 2.4vw, 1.3rem)',
                       fontWeight: 600, lineHeight: 1.2,
                     }}>
@@ -93,7 +93,7 @@ export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:
                       flexShrink: 0, width: '1.9rem', height: '1.9rem', borderRadius: '9999px',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       background: isOpen ? RED : 'rgba(239, 42, 48, 0.1)', color: isOpen ? '#ffffff' : RED,
-                      fontFamily: 'Inter, sans-serif', fontSize: '1.15rem', fontWeight: 500, lineHeight: 1,
+                      fontFamily: "'Montserrat', sans-serif", fontSize: '1.15rem', fontWeight: 500, lineHeight: 1,
                     }}>
                 +
               </span>
@@ -101,7 +101,7 @@ export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:
             <div id={panelId} role="region" className="acc-panel" aria-hidden={!isOpen}>
               <div style={{ overflow: 'hidden' }}>
                 <p style={{
-                     fontFamily: 'Inter, sans-serif', fontSize: cards ? '0.95rem' : '0.9rem', fontWeight: 400,
+                     fontFamily: "'Montserrat', sans-serif", fontSize: cards ? '0.95rem' : '0.9rem', fontWeight: 400,
                      color: INK, lineHeight: 1.65, margin: 0,
                      padding: cards ? '0 22px 22px' : '0 2px 16px',
                    }}>

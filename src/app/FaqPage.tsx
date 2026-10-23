@@ -33,16 +33,16 @@ export default function FaqPage() {
            style={{ position: 'relative', background: RED, color: '#ffffff', borderRadius: '24px', padding: 'clamp(28px, 5vw, 40px) 24px' }}>
         <Gloss delay={2} />
         <div style={{ position: 'relative', zIndex: 2 }}>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>
+          <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>
             Still curious?
           </p>
-          <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 500, opacity: 0.9 }}>
+          <p className="mt-2" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.95rem', fontWeight: 500, opacity: 0.9 }}>
             Ask us anything. We&rsquo;d love to hear from you.
           </p>
           <a href="mailto:galoplife@gmail.com" className="btn-gallop on-light" data-fizz="10"
              style={{
                display: 'inline-block', maxWidth: '100%', marginTop: '1.25rem', background: '#ffffff', color: RED,
-               fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.16em',
+               fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.16em',
                textTransform: 'uppercase', borderRadius: '9999px', padding: '14px 28px', textDecoration: 'none'
              }}>
             <span className="btn-label">Write to us</span>

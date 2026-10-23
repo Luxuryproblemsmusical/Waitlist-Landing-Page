@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import horseImage from "../imports/galop-horse.png";
+import wordmarkImage from "../imports/galop-wordmark.png";
 
 export const RED = '#EF2A30';
 export const BLUE = '#cbeafe';
@@ -43,7 +44,7 @@ const OfferBar = () => (
     padding: '9px 16px',
   }}>
     <p className="text-center"
-       style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 600, fontSize: 'clamp(1rem, 3.6vw, 1.1rem)', letterSpacing: '0.01em', lineHeight: 1.3, margin: 0 }}>
+       style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 600, fontSize: 'clamp(1rem, 3.6vw, 1.1rem)', letterSpacing: '0.01em', lineHeight: 1.3, margin: 0 }}>
       Just launched &mdash; 20% off your first order.
     </p>
   </div>
@@ -62,17 +63,8 @@ const Nav = ({ current }: { current: string }) => {
     <nav aria-label="Main"
          className="w-full max-w-4xl flex items-center justify-between gap-4 pb-6 md:pb-0"
          style={{ paddingTop: '4px' }}>
-      <a href="/" aria-label="GALOP home" className="nav-logo"
-         style={{
-           fontFamily: "'Cormorant Garamond', serif",
-           fontWeight: 600,
-           color: RED,
-           fontSize: '1.5rem',
-           letterSpacing: '0.02em',
-           textDecoration: 'none',
-           lineHeight: 1
-         }}>
-        GALOP
+      <a href="/" aria-label="GALOP home" className="nav-logo" style={{ display: 'block', lineHeight: 0 }}>
+        <img src={wordmarkImage} alt="GALOP" width={1866} height={438} style={{ width: '5.4rem', height: 'auto' }} />
       </a>
       {/* A little red hang tag on a string; it swings when you hover */}
       <a href={onAbout ? '/#shop' : '/about'} className={`nav-tag${onAbout ? ' is-flipped' : ''}`} data-fizz="8"
@@ -94,7 +86,7 @@ const footerLink = { color: INK, textDecoration: 'underline', textUnderlineOffse
 const Footer = () => (
   <footer className="max-w-2xl mx-auto mt-24 pb-10 text-center"
           style={{
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: "'Montserrat', sans-serif",
             fontSize: '0.75rem',
             lineHeight: 1.6,
             color: INK,
@@ -168,9 +160,11 @@ export function Layout({ title, current, children }: { title: string; current: s
            background: `radial-gradient(1100px 520px at 88% -8%, rgba(255, 246, 170, 0.5), transparent 62%),
                         radial-gradient(900px 600px at -12% 18%, rgba(255, 255, 255, 0.6), transparent 60%),
                         linear-gradient(180deg, #e4f4ff 0%, ${BLUE} 34%, ${BLUE} 100%)`,
-           fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'clip',
-           /* Cormorant defaults to old-style figures, which print "GLP-1" as "GLP-ı"; the pouch uses lining figures */
-           fontVariantNumeric: 'lining-nums'
+           fontFamily: "'Montserrat', sans-serif", position: 'relative', overflowX: 'clip',
+           /* the pouch prints full-height (lining) figures, so "GLP-1" never reads as "GLP-ı" */
+           fontVariantNumeric: 'lining-nums',
+           /* Instrument Serif comes in one weight; never fake a bold */
+           fontSynthesisWeight: 'none'
          }}>
       <OfferBar />
       <Nav current={current} />
@@ -384,7 +378,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         .nav-tag-body {
           position: relative; display: inline-flex; align-items: center; overflow: hidden;
           background: ${RED}; color: #ffffff;
-          font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
+          font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 600;
           font-size: 1.2rem; line-height: 1; letter-spacing: 0.01em;
           padding: 9px 20px 10px 30px; white-space: nowrap;
           clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
@@ -419,8 +413,8 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
 
         /* Nav: the wordmark stretches its stride */
-        .nav-logo { transition: letter-spacing 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
-        .nav-logo:hover { letter-spacing: 0.08em !important; }
+        .nav-logo { transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+        .nav-logo:hover { transform: scale(1.04); }
 
         /* Text links: the arrow canters */
         .arrow-hop { display: inline-block; }
@@ -450,17 +444,17 @@ export function Layout({ title, current, children }: { title: string; current: s
   );
 }
 
-/** Engraved serif small caps above section headings. */
+/** Small tracked capitals above section headings, set like the pouch's "DOCTOR-FORMULATED". */
 export const Kicker = ({ children }: { children: ReactNode }) => (
   <p className="mb-4"
      style={{
-       fontFamily: "'Cormorant Garamond', serif",
-       fontSize: '0.9rem',
+       fontFamily: "'Montserrat', sans-serif",
+       fontSize: '0.72rem',
        fontWeight: 600,
        color: INK,
        textTransform: 'uppercase',
-       letterSpacing: '0.22em',
-       lineHeight: 1.3
+       letterSpacing: '0.2em',
+       lineHeight: 1.4
      }}>
     {children}
   </p>
@@ -470,7 +464,7 @@ export const Kicker = ({ children }: { children: ReactNode }) => (
 export const Heading = ({ children, size = 'md', as: Tag = 'h2' }: { children: ReactNode; size?: 'md' | 'lg'; as?: 'h1' | 'h2' }) => (
   <Tag className="mb-6"
       style={{
-        fontFamily: "'Cormorant Garamond', serif",
+        fontFamily: "'Instrument Serif', serif",
         fontSize: size === 'lg' ? 'clamp(2.5rem, 7vw, 4.25rem)' : 'clamp(2rem, 4vw, 2.75rem)',
         fontWeight: 600,
         color: RED,

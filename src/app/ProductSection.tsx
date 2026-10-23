@@ -84,35 +84,34 @@ export function ProductSection() {
 
         {/* Buy box */}
         <div>
-          <p style={{
-               fontFamily: "'Cormorant Garamond', serif", fontSize: '0.85rem', fontWeight: 600, color: INK,
-               textTransform: 'uppercase', letterSpacing: '0.22em'
-             }}>
+          <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.2em', color: INK }}>
             Just Launched
           </p>
+          {/* set like the pouch: condensed serif capitals, the flavor in italic capitals over a short rule */}
           <h2 style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 'clamp(2.2rem, 5vw, 3.2rem)',
-                fontWeight: 600,
+                fontFamily: "'Instrument Serif', serif",
+                fontSize: 'clamp(2.6rem, 6vw, 3.8rem)',
+                fontWeight: 400,
                 color: RED,
-                letterSpacing: '-0.01em',
-                lineHeight: 1.05,
+                textTransform: 'uppercase',
+                letterSpacing: '0.005em',
+                lineHeight: 0.92,
                 textWrap: 'balance',
-                margin: '6px 0 4px'
+                margin: '8px 0 6px'
               }}>
             Multivitamin Drink Mix
           </h2>
-          {/* the flavor, named the way the pouch names it */}
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.5rem, 3vw, 1.8rem)', color: RED, lineHeight: 1, margin: '0 0 14px' }}>
+          <p style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 'clamp(1.7rem, 3.4vw, 2.1rem)', color: RED, textTransform: 'uppercase', lineHeight: 1, margin: 0 }}>
             Lemonade
           </p>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 500, color: INK, lineHeight: 1.55 }}>
+          <span aria-hidden="true" style={{ display: 'block', width: '3.2rem', height: '2px', background: RED, margin: '10px 0 16px' }} />
+          <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '1rem', fontWeight: 500, color: INK, lineHeight: 1.55 }}>
             Sydney&rsquo;s doctor-formulated multivitamin for life on a GLP&#8209;1. One stick in cold water, once a day.
           </p>
 
           <ul className="mt-5 mb-5" style={{ padding: 0, listStyle: 'none' }}>
             {BENEFITS.map((b) => (
-              <li key={b} className="flex" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 500, color: INK, lineHeight: 1.6, marginBottom: '4px' }}>
+              <li key={b} className="flex" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.95rem', fontWeight: 500, color: INK, lineHeight: 1.6, marginBottom: '4px' }}>
                 <Check />{b}
               </li>
             ))}

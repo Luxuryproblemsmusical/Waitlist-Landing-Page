@@ -52,7 +52,7 @@ const ctaStyle = {
   textAlign: 'center' as const,
   background: RED,
   color: '#ffffff',
-  fontFamily: 'Inter, sans-serif',
+  fontFamily: "'Montserrat', sans-serif",
   fontWeight: 700,
   fontSize: '1rem',
   letterSpacing: '0.16em',
@@ -80,7 +80,7 @@ const PriceSlot = ({ plan }: { plan: Plan }) => {
   if (price == null) return null;
   return (
     <div className="text-right" style={{ color: RED, lineHeight: 1.1 }}>
-      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.5rem', fontWeight: 700 }}>
+      <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '1.5rem', fontWeight: 700 }}>
         {money(price)}
         {compareAt && (
           <span style={{ marginLeft: '0.4em', fontSize: '0.95rem', fontWeight: 600, opacity: 0.55, textDecoration: 'line-through' }}>
@@ -88,7 +88,7 @@ const PriceSlot = ({ plan }: { plan: Plan }) => {
           </span>
         )}
       </div>
-      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, opacity: 0.75 }}>
+      <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.72rem', fontWeight: 700, opacity: 0.75 }}>
         {money(price / STICKS_PER_POUCH)}/stick
       </div>
     </div>
@@ -152,7 +152,7 @@ export function PlanPicker({ source }: { source: string }) {
                 <div style={{
                   background: selected ? RED : 'rgba(239, 42, 48, 0.12)',
                   color: selected ? '#ffffff' : RED,
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: "'Montserrat', sans-serif",
                   fontSize: '0.64rem',
                   fontWeight: 700,
                   textTransform: 'uppercase',
@@ -174,10 +174,10 @@ export function PlanPicker({ source }: { source: string }) {
                             boxShadow: selected ? 'inset 0 0 0 3px #ffffff' : 'none'
                           }} />
                     <div>
-                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontWeight: 600, color: RED, lineHeight: 1.1 }}>
+                      <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: '1.5rem', fontWeight: 600, color: RED, lineHeight: 1.1 }}>
                         {p.name}
                       </div>
-                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500, color: INK, marginTop: '4px' }}>
+                      <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.8rem', fontWeight: 500, color: INK, marginTop: '4px' }}>
                         {p.blurb}
                       </div>
                     </div>
@@ -187,7 +187,7 @@ export function PlanPicker({ source }: { source: string }) {
                 {selected && (
                   <ul className="mt-3" style={{ marginLeft: '30px', padding: 0, listStyle: 'none' }}>
                     {p.bullets.map((b) => (
-                      <li key={b} className="flex" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: INK, fontWeight: 500, lineHeight: 1.7 }}>
+                      <li key={b} className="flex" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.85rem', color: INK, fontWeight: 500, lineHeight: 1.7 }}>
                         <Check />{b}
                       </li>
                     ))}
@@ -235,7 +235,7 @@ export function PlanPicker({ source }: { source: string }) {
                 borderRadius: '9999px',
                 border: '1px solid rgba(239, 42, 48, 0.2)',
                 padding: '18px 28px',
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: "'Montserrat', sans-serif",
                 fontSize: '1rem',
                 letterSpacing: '0.01em',
                 color: '#2d3748'
@@ -253,7 +253,7 @@ export function PlanPicker({ source }: { source: string }) {
                  background: '#ffffff',
                  borderRadius: '9999px',
                  padding: '18px 28px',
-                 fontFamily: 'Inter, sans-serif',
+                 fontFamily: "'Montserrat', sans-serif",
                  fontSize: '0.95rem',
                  color: RED,
                  fontWeight: 700,
@@ -265,7 +265,7 @@ export function PlanPicker({ source }: { source: string }) {
           </div>
         )}
         {error && (
-          <p role="alert" className="mt-3 text-center text-sm" style={{ color: INK, fontFamily: "'Cormorant Garamond', serif" }}>{error}</p>
+          <p role="alert" className="mt-3 text-center text-sm" style={{ color: INK, fontFamily: "'Instrument Serif', serif" }}>{error}</p>
         )}
       </div>
     </div>

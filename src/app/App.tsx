@@ -5,6 +5,7 @@ import { Gloss, Stationery, Polaroid } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
+import wordmarkImage from "../imports/galop-wordmark.png";
 
 // [front title, front text, back title, back text]
 // Fronts paraphrase Sydney; backs use pouch facts. Her own key line lives only in her note below.
@@ -112,21 +113,14 @@ export default function App() {
       <div className="relative flex flex-col items-center mt-2 mb-20 animate-fade-in"
            style={{ animation: 'fadeIn 0.8s ease-out' }}>
         <HorseHero />
-        <h1 aria-label="GALOP"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 500,
-              color: RED,
-              fontSize: 'clamp(4.5rem, 18vw, 12rem)',
-              lineHeight: 0.9,
-              letterSpacing: '-0.01em',
-              margin: 0
-            }}>
-          GALOP
+        {/* the wordmark itself, lifted from the pouch artwork, not set in a font */}
+        <h1 style={{ margin: 0, lineHeight: 0 }}>
+          <img src={wordmarkImage} alt="GALOP" width={1866} height={438}
+               style={{ width: 'clamp(15rem, 62vw, 40rem)', height: 'auto', display: 'block' }} />
         </h1>
         <p style={{
              marginTop: 'clamp(8px, 1.5vw, 16px)',
-             fontFamily: 'Inter, sans-serif',
+             fontFamily: "'Montserrat', sans-serif",
              fontSize: 'clamp(0.7rem, 2.4vw, 0.95rem)',
              fontWeight: 500,
              color: INK,
@@ -175,10 +169,10 @@ export default function App() {
       }}>
         <Gloss delay={1} />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em' }}>
+          <p className="mb-4" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.2em' }}>
             Why it exists
           </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
+          <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
             Built for your GLP&#8209;1 journey.
           </h2>
           <div className="grid gap-5 sm:grid-cols-3 mt-10 text-left">
@@ -201,13 +195,13 @@ export default function App() {
           <div className="text-center md:text-left" style={{ position: 'relative', zIndex: 2 }}>
             <img src={horseImage} alt="" aria-hidden="true" width={278} height={230} className="mx-auto md:mx-0"
                  style={{ width: '2.2rem', height: 'auto', marginBottom: '0.9rem', opacity: 0.9 }} />
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.9rem', fontWeight: 600, color: INK, textTransform: 'uppercase', letterSpacing: '0.22em', margin: 0 }}>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.2em', color: INK, margin: 0 }}>
               From Sydney
             </p>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2rem, 4vw, 2.6rem)', fontWeight: 600, color: RED, lineHeight: 1.05, margin: '0.5rem 0 1.1rem' }}>
+            <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(2rem, 4vw, 2.6rem)', fontWeight: 600, color: RED, lineHeight: 1.05, margin: '0.5rem 0 1.1rem' }}>
               Why I made GALOP
             </h2>
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.25rem, 2.4vw, 1.5rem)', lineHeight: 1.45, color: RED, margin: 0 }}>
+            <p style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.25rem, 2.4vw, 1.5rem)', lineHeight: 1.45, color: RED, margin: 0 }}>
               &ldquo;I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. A standard multivitamin wasn&rsquo;t built for this.&rdquo;
             </p>
             <div className="flex flex-wrap items-center justify-center md:justify-between gap-x-6 gap-y-3" style={{ marginTop: '1.4rem' }}>
@@ -216,7 +210,7 @@ export default function App() {
               </span>
               <a href="/about" className="link-arrow"
                  style={{
-                   fontFamily: 'Inter, sans-serif', fontSize: '0.74rem', fontWeight: 700, color: INK,
+                   fontFamily: "'Montserrat', sans-serif", fontSize: '0.74rem', fontWeight: 700, color: INK,
                    textTransform: 'uppercase', letterSpacing: '0.2em',
                    textDecoration: 'underline', textUnderlineOffset: '0.3em'
                  }}>

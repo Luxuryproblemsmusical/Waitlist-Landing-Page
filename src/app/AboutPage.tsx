@@ -4,7 +4,7 @@ import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 
 // Sydney's letter. Her words are kept exactly; only the paragraphing and type are ours.
-const letter = { fontFamily: "'Cormorant Garamond', serif", fontWeight: 500, fontSize: 'clamp(1.2rem, 2.3vw, 1.35rem)', lineHeight: 1.6, color: INK } as const;
+const letter = { fontFamily: "'Instrument Serif', serif", fontWeight: 500, fontSize: 'clamp(1.2rem, 2.3vw, 1.35rem)', lineHeight: 1.6, color: INK } as const;
 
 /** From Sydney: one signed letter on the house stationery, with her taped polaroid on top. */
 export default function AboutPage() {
@@ -59,7 +59,7 @@ export default function AboutPage() {
              display: 'inline-block',
              background: RED,
              color: '#ffffff',
-             fontFamily: 'Inter, sans-serif',
+             fontFamily: "'Montserrat', sans-serif",
              fontWeight: 700,
              fontSize: '0.9rem',
              letterSpacing: '0.18em',
