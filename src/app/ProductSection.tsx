@@ -41,7 +41,7 @@ const Check = () => (
 const TrustIcon = () => (
   <svg viewBox="0 0 24 24" width="2rem" height="2rem" aria-hidden="true">
     <circle cx="12" cy="12" r="11" fill="none" stroke={RED} strokeWidth="1.6" />
-    <path d="M7 12.5l3 3 7-7" fill="none" stroke={RED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path className="trust-check" d="M7 12.5l3 3 7-7" fill="none" stroke={RED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="15" />
   </svg>
 );
 
@@ -147,7 +147,7 @@ export function ProductSection() {
             {TRUST.map((t, i) => {
               const on = trustOpen === i;
               return (
-                <button key={t.label} type="button" className="lift flex flex-col items-center"
+                <button key={t.label} type="button" className="trust-card lift flex flex-col items-center"
                         aria-expanded={on} onClick={() => setTrustOpen(on ? -1 : i)}
                         style={{
                           background: on ? '#ffffff' : 'rgba(255,255,255,0.5)', borderRadius: '16px', cursor: 'pointer',

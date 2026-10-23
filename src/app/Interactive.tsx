@@ -28,7 +28,7 @@ export function FlipCard({ front, back, tone = 'white', glossDelay = 0 }:
     textAlign: 'left' as const,
   };
   return (
-    <button type="button" className={`flip-card${flipped ? ' is-flipped' : ''}`}
+    <button type="button" className={`flip-card${flipped ? ' is-flipped' : ''}`} data-fizz="5"
             aria-pressed={flipped} onClick={() => setFlipped((f) => !f)}>
       <span className="flip-inner">
         <span className="flip-face" aria-hidden={flipped}

@@ -39,13 +39,13 @@ export default function FaqPage() {
           <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 500, opacity: 0.9 }}>
             Ask us anything. We&rsquo;d love to hear from you.
           </p>
-          <a href="mailto:galoplife@gmail.com" className="btn-pill"
+          <a href="mailto:galoplife@gmail.com" className="btn-gallop on-light" data-fizz="10"
              style={{
                display: 'inline-block', marginTop: '1.25rem', background: '#ffffff', color: RED,
                fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.16em',
                textTransform: 'uppercase', borderRadius: '9999px', padding: '14px 28px', textDecoration: 'none'
              }}>
-            Email galoplife@gmail.com
+            <span className="btn-label">Email galoplife@gmail.com</span>
           </a>
         </div>
       </div>

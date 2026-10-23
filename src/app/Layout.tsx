@@ -109,7 +109,7 @@ const Nav = ({ current }: { current: string }) => (
   <nav aria-label="Main"
        className="w-full max-w-4xl flex flex-wrap items-center justify-center sm:justify-between gap-x-6 gap-y-2"
        style={{ padding: '4px 0 0' }}>
-    <a href="/" aria-label="GALOP home"
+    <a href="/" aria-label="GALOP home" className="nav-logo"
        style={{
          fontFamily: "'Cormorant Garamond', serif",
          fontWeight: 600,
@@ -125,7 +125,7 @@ const Nav = ({ current }: { current: string }) => (
       {NAV_LINKS.map((l) => {
         const active = l.href === current;
         return (
-          <a key={l.href} href={l.href}
+          <a key={l.href} href={l.href} className="nav-link"
              aria-current={active ? 'page' : undefined}
              style={{
                fontFamily: 'Inter, sans-serif',
@@ -134,10 +134,7 @@ const Nav = ({ current }: { current: string }) => (
                color: RED,
                textTransform: 'uppercase',
                letterSpacing: '0.2em',
-               textDecoration: 'none',
-               borderBottom: active ? `2px solid ${RED}` : '2px solid transparent',
-               paddingBottom: '2px',
-               opacity: active ? 1 : 0.8
+               textDecoration: 'none'
              }}>
             {l.label}
           </a>
@@ -175,11 +172,46 @@ const Footer = () => (
   </footer>
 );
 
+/**
+ * Lemonade fizz: a few lemon-and-white bubbles rise from wherever an element
+ * marked `data-fizz` (its value = bubble count) is pressed.
+ */
+function fizz(x: number, y: number, count: number) {
+  for (let i = 0; i < count; i++) {
+    const b = document.createElement('span');
+    const size = 4 + Math.random() * 8;
+    b.className = 'fizz-bubble';
+    b.style.left = `${x + (Math.random() - 0.5) * 24}px`;
+    b.style.top = `${y}px`;
+    b.style.width = b.style.height = `${size}px`;
+    b.style.setProperty('--dx', `${(Math.random() - 0.5) * 60}px`);
+    b.style.setProperty('--rise', `${40 + Math.random() * 60}px`);
+    b.style.setProperty('--dur', `${0.6 + Math.random() * 0.5}s`);
+    b.style.animationDelay = `${Math.random() * 0.12}s`;
+    b.style.background = i % 3 === 0
+      ? 'rgba(255, 255, 255, 0.95)'
+      : 'radial-gradient(circle at 30% 30%, #fffbe0, #FFE45C 70%)';
+    b.addEventListener('animationend', () => b.remove());
+    document.body.appendChild(b);
+  }
+}
+
 /** Shared page chrome: offer bar, marquee, nav, footer, brand background, and keyframes. */
 export function Layout({ title, current, children }: { title: string; current: string; children: ReactNode }) {
   useEffect(() => {
     document.title = title;
   }, [title]);
+
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onDown = (e: PointerEvent) => {
+      const el = (e.target as Element | null)?.closest?.('[data-fizz]');
+      if (!el || reduce.matches) return;
+      fizz(e.clientX, e.clientY, Number(el.getAttribute('data-fizz')) || 10);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start px-6 pt-0 pb-12"
@@ -277,7 +309,9 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* Accordions (Interactive.tsx) */
         .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
         .acc-item.is-open .acc-panel { grid-template-rows: 1fr; }
-        .acc-icon { transition: transform 0.3s ease, background 0.2s ease, color 0.2s ease; }
+        .acc-icon { transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, color 0.2s ease; }
+        .acc-item .acc-panel > div { opacity: 0; transform: translateY(-6px); transition: opacity 0.3s ease, transform 0.35s ease; }
+        .acc-item.is-open .acc-panel > div { opacity: 1; transform: none; }
         .acc-item.is-open .acc-icon { transform: rotate(45deg); }
         .acc-card { transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease; }
         .acc-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30, 60, 90, 0.1); }
@@ -285,12 +319,87 @@ export function Layout({ title, current, children }: { title: string; current: s
         .acc-trigger:hover .acc-icon { transform: scale(1.08); }
         .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(45deg) scale(1.08); }
 
-        /* Hover polish for pill buttons and text links */
-        .btn-pill { transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease; }
-        .btn-pill:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(239, 42, 48, 0.28); }
-        .btn-pill:active { transform: translateY(0); }
-        .link-arrow { transition: letter-spacing 0.25s ease, opacity 0.2s ease; }
-        .link-arrow:hover { letter-spacing: 0.26em; }
+        /* Brand motion: buttons gallop, presses fizz like lemonade */
+        .btn-gallop {
+          position: relative; overflow: hidden; isolation: isolate;
+          transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+        }
+        .btn-gallop:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(239, 42, 48, 0.3); }
+        .btn-gallop:active { transform: translateY(0) scale(0.96); transition-duration: 0.08s; }
+        .btn-gallop .btn-label, .success-pill .btn-label { position: relative; z-index: 2; }
+        /* a quick gift-wrap sheen sweeps across on hover... */
+        .btn-gallop::before {
+          content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+          background: linear-gradient(110deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 65%);
+          transform: translateX(-120%);
+        }
+        .btn-gallop:hover::before { transform: translateX(120%); transition: transform 0.75s ease; }
+        .btn-gallop.on-light::before { background: linear-gradient(110deg, rgba(239,42,48,0) 35%, rgba(239,42,48,0.12) 50%, rgba(239,42,48,0) 65%); }
+        /* ...while the horse gallops through behind the label */
+        .btn-gallop::after, .success-pill::after {
+          content: ''; position: absolute; top: 50%; left: -3em; z-index: 0; pointer-events: none;
+          width: 3em; height: 2.1em; margin-top: -1.1em; opacity: 0;
+          background: url(${horseImage}) center / contain no-repeat;
+        }
+        .btn-gallop::after { filter: brightness(0) invert(1); }
+        .btn-gallop.on-light::after { filter: none; }
+        .btn-gallop:hover::after, .success-pill::after {
+          animation: gallopAcross 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards, gallopBob 0.17s ease-in-out infinite alternate;
+        }
+        @keyframes gallopAcross {
+          0% { left: -3em; opacity: 0; }
+          12% { opacity: 0.75; }
+          85% { opacity: 0.75; }
+          100% { left: calc(100% + 1em); opacity: 0; }
+        }
+        @keyframes gallopBob {
+          from { translate: 0 0.08em; rotate: -5deg; }
+          to { translate: 0 -0.2em; rotate: 4deg; }
+        }
+        .success-pill { position: relative; overflow: hidden; isolation: isolate; }
+
+        .fizz-bubble {
+          position: fixed; z-index: 9999; border-radius: 9999px; pointer-events: none; opacity: 0;
+          box-shadow: 0 0 0 1px rgba(239, 42, 48, 0.18);
+          animation: fizzUp var(--dur, 0.8s) cubic-bezier(0.2, 0.6, 0.35, 1) forwards;
+        }
+        @keyframes fizzUp {
+          0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+          15% { opacity: 1; }
+          100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), calc(var(--rise) * -1)) scale(1); }
+        }
+
+        /* Plan cards hop when chosen, and the radio dot pops */
+        .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
+        .plan-card[aria-pressed="true"] { animation: planHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .plan-card[aria-pressed="true"] .plan-dot { animation: dotPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes planHop { 0% { transform: scale(0.98); } 60% { transform: scale(1.015); } 100% { transform: scale(1); } }
+        @keyframes dotPop { 0% { transform: scale(0.4); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+        /* Nav: the underline springs in from the left; the wordmark stretches its stride */
+        .nav-link { position: relative; padding-bottom: 4px; opacity: 0.8; transition: opacity 0.2s ease; }
+        .nav-link::after {
+          content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px;
+          background: ${RED}; transform: scaleX(0); transform-origin: left;
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .nav-link:hover, .nav-link[aria-current="page"] { opacity: 1; }
+        .nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); }
+        .nav-logo { transition: letter-spacing 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .nav-logo:hover { letter-spacing: 0.08em !important; }
+
+        /* Text links: the arrow canters */
+        .arrow-hop { display: inline-block; }
+        .link-arrow:hover .arrow-hop { animation: arrowCanter 0.5s ease-in-out infinite; }
+        @keyframes arrowCanter { 0%, 100% { translate: 0 0; } 50% { translate: 5px -2px; } }
+
+        /* Trust cards: the check draws itself */
+        .trust-card:hover .trust-check, .trust-card[aria-expanded="true"] .trust-check { animation: drawCheck 0.5s ease; }
+        @keyframes drawCheck { from { stroke-dashoffset: 15; } to { stroke-dashoffset: 0; } }
+
+        /* Inputs glow when focused */
+        .galop-input { transition: border-color 0.2s ease, box-shadow 0.25s ease; }
+        .galop-input:focus { border-color: ${RED} !important; box-shadow: 0 0 0 4px rgba(239, 42, 48, 0.14); }
 
         @media (prefers-reduced-motion: reduce) {
           .float-slow, .spin-slow, .animate-float { animation: none !important; }
@@ -299,8 +408,10 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-back { transform: none; opacity: 0; transition: opacity 0.2s; }
           .flip-card.is-flipped .flip-back { opacity: 1; }
           .flip-card.is-flipped .flip-face:not(.flip-back) { opacity: 0; }
-          .flip-card, .flip-card:hover, .acc-card:hover, .btn-pill:hover { transform: none; }
-          .acc-panel, .acc-icon { transition: none; }
+          .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
+          .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
+          .btn-gallop::before, .btn-gallop::after, .success-pill::after { display: none; }
+          .plan-card, .plan-dot, .trust-check, .arrow-hop { animation: none !important; }
         }
       `}</style>
     </div>

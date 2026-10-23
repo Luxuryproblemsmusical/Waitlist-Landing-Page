@@ -143,7 +143,8 @@ export function PlanPicker({ source }: { source: string }) {
               type="button"
               onClick={() => setPlan(p.id)}
               aria-pressed={selected}
-              className="text-left transition-all duration-200"
+              className="plan-card text-left"
+              data-fizz="6"
               style={{
                 background: selected ? '#ffffff' : 'rgba(255,255,255,0.6)',
                 border: selected ? `2px solid ${RED}` : '2px solid rgba(239, 42, 48, 0.22)',
@@ -152,7 +153,8 @@ export function PlanPicker({ source }: { source: string }) {
                 overflow: 'hidden',
                 cursor: 'pointer',
                 boxShadow: selected ? '0 10px 24px rgba(239, 42, 48, 0.12)' : 'none',
-                position: 'relative'
+                position: 'relative',
+                transition: 'background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.25s ease'
               }}
             >
               <Gloss delay={3 + i * 1.2} />
@@ -174,7 +176,7 @@ export function PlanPicker({ source }: { source: string }) {
               <div style={{ padding: '16px 18px 18px' }}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
-                    <span aria-hidden="true"
+                    <span aria-hidden="true" className="plan-dot"
                           style={{
                             width: '18px', height: '18px', borderRadius: '9999px', flexShrink: 0, marginTop: '4px',
                             border: `2px solid ${RED}`,
@@ -209,8 +211,8 @@ export function PlanPicker({ source }: { source: string }) {
 
       <div className="mt-5">
         {checkoutUrl ? (
-          <a href={checkoutUrl} className="transition-all duration-300 hover:opacity-90" style={ctaStyle}>
-            <Gloss delay={6} />Start now
+          <a href={checkoutUrl} className="btn-gallop" data-fizz="12" style={ctaStyle}>
+            <Gloss delay={6} /><span className="btn-label">Start now</span>
           </a>
         ) : !isSubmitted ? (
           <>
@@ -227,7 +229,7 @@ export function PlanPicker({ source }: { source: string }) {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
                 required
-                className="focus:outline-none transition-all duration-300"
+                className="galop-input focus:outline-none"
                 style={{
                   background: '#ffffff',
                   borderRadius: '9999px',
@@ -240,9 +242,9 @@ export function PlanPicker({ source }: { source: string }) {
                 }}
               />
               <button type="submit" disabled={isSubmitting}
-                      className="transition-all duration-300 hover:opacity-90 disabled:opacity-60"
+                      className="btn-gallop disabled:opacity-60" data-fizz="12"
                       style={ctaStyle}>
-                <Gloss delay={6} />{isSubmitting ? 'Saving…' : 'Get 20% off'}
+                <Gloss delay={6} /><span className="btn-label">{isSubmitting ? 'Saving…' : 'Get 20% off'}</span>
               </button>
             </form>
             <p className="text-center mt-3"
@@ -251,7 +253,7 @@ export function PlanPicker({ source }: { source: string }) {
             </p>
           </>
         ) : (
-          <div className="text-center animate-fade-in"
+          <div className="success-pill text-center animate-fade-in"
                style={{
                  background: '#ffffff',
                  borderRadius: '9999px',
@@ -264,7 +266,7 @@ export function PlanPicker({ source }: { source: string }) {
                  textTransform: 'uppercase',
                  border: '1px solid rgba(239, 42, 48, 0.2)'
                }}>
-            You&rsquo;re in — watch your inbox
+            <span className="btn-label">You&rsquo;re in — watch your inbox</span>
           </div>
         )}
         {error && (

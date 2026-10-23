@@ -163,7 +163,7 @@ export default function App() {
              textDecoration: 'underline',
              textUnderlineOffset: '0.3em'
            }}>
-          Read Sydney&rsquo;s story →
+          Read Sydney&rsquo;s story <span className="arrow-hop">→</span>
         </a>
       </div>
       </div>

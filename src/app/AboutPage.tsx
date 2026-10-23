@@ -92,7 +92,7 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-16 text-center">
-        <a href="/#shop" className="btn-pill"
+        <a href="/#shop" className="btn-gallop" data-fizz="12"
            style={{
              display: 'inline-block',
              background: RED,
@@ -106,7 +106,7 @@ export default function AboutPage() {
              padding: '18px 36px',
              textDecoration: 'none'
            }}>
-          Shop GALOP
+          <span className="btn-label">Shop GALOP</span>
         </a>
       </div>
     </Layout>
