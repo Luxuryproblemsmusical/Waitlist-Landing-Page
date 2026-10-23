@@ -150,7 +150,7 @@ export default function App() {
            }}>
           — Sydney
         </p>
-        <a href="/about"
+        <a href="/about" className="link-arrow"
            style={{
              display: 'inline-block',
              marginTop: '1.5rem',

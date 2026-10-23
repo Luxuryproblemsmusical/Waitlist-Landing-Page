@@ -1,4 +1,6 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
+import { Gloss } from './Flourish';
+import { Accordion } from './Interactive';
 
 // Sydney: edit freely. Anything medical should be reviewed by the medical advisor before launch.
 const FAQS: [string, string][] = [
@@ -7,7 +9,8 @@ const FAQS: [string, string][] = [
   ['What does it taste like?', 'Bright, classic lemonade. Zero sugar — sweetened with monkfruit and stevia.'],
   ['How do I take it?', 'Stir or shake one stick pack into 8–12 oz of cold water. Once a day, whenever it fits your routine.'],
   ['Is GALOP available now?', 'Yes — GALOP just launched. Order a single pouch or subscribe and save, and get 20% off your first order.'],
-  ['How does the subscription work?', 'The Monthly Ritual delivers a fresh 30-pack pouch every month with free shipping. You can pause, skip, or cancel anytime — no calls, no hoops.'],
+  ['How does the subscription work?', 'Subscribe & Save delivers a fresh 30-pack pouch every month with free shipping. You can pause, skip, or cancel anytime — no calls, no hoops.'],
+  ['Is there a first-order discount?', 'Yes — new customers get 20% off their first order.'],
   ['Can I try it without subscribing?', 'Yes — a single pouch is available as a one-time purchase.'],
   ['Is it safe to take with my medication?', 'GALOP is a dietary supplement, not a medication. It is designed to complement a GLP-1 routine, but always check with your doctor before adding any supplement, especially if you are pregnant, nursing, or taking other medications.'],
   ['Where is it made?', 'Doctor-formulated and made in the USA.'],
@@ -22,30 +25,29 @@ export default function FaqPage() {
       </div>
 
       <div className="max-w-2xl mx-auto mt-6">
-        {FAQS.map(([q, a]) => (
-          <div key={q} className="py-5"
-               style={{ borderBottom: '1px solid rgba(239, 42, 48, 0.18)' }}>
-            <p style={{
-                 fontFamily: "'Cormorant Garamond', serif",
-                 fontSize: 'clamp(1.35rem, 3vw, 1.6rem)',
-                 fontWeight: 600,
-                 color: RED,
-                 margin: 0,
-                 lineHeight: 1.2
-               }}>
-              {q}
-            </p>
-            <p className="mt-2"
-               style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: RED, opacity: 0.85, lineHeight: 1.65 }}>
-              {a}
-            </p>
-          </div>
-        ))}
+        <Accordion items={FAQS} variant="cards" defaultOpen={0} />
       </div>
 
-      <div className="max-w-2xl mx-auto mt-12 text-center"
-           style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: RED, opacity: 0.85 }}>
-        Still curious? Email <a href="mailto:galoplife@gmail.com" style={{ color: RED, textDecoration: 'underline', textUnderlineOffset: '0.2em' }}>galoplife@gmail.com</a>.
+      {/* Still curious */}
+      <div className="max-w-2xl mx-auto mt-12 text-center lift"
+           style={{ position: 'relative', background: RED, color: '#ffffff', borderRadius: '24px', padding: 'clamp(28px, 5vw, 40px) 24px' }}>
+        <Gloss delay={2} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>
+            Still curious?
+          </p>
+          <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 500, opacity: 0.9 }}>
+            Ask us anything. We&rsquo;d love to hear from you.
+          </p>
+          <a href="mailto:galoplife@gmail.com" className="btn-pill"
+             style={{
+               display: 'inline-block', marginTop: '1.25rem', background: '#ffffff', color: RED,
+               fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.16em',
+               textTransform: 'uppercase', borderRadius: '9999px', padding: '14px 28px', textDecoration: 'none'
+             }}>
+            Email galoplife@gmail.com
+          </a>
+        </div>
       </div>
     </Layout>
   );
