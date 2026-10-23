@@ -12,7 +12,7 @@ export default function SubscribePage() {
         <div className="flex justify-center my-8">
           <img
             src={heroImage}
-            alt="GALOP lemonade drink mix stick pack beside an iced glass of ginger lemonade"
+            alt="GALOP lemonade drink mix stick pack beside an iced glass of lemonade"
             className="w-44 sm:w-56 h-auto object-contain"
             style={{ filter: 'drop-shadow(0 8px 16px rgba(30, 60, 90, 0.18))' }}
           />

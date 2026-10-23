@@ -4,7 +4,7 @@ import { Layout, Kicker, Heading, RED } from './Layout';
 const FAQS: [string, string][] = [
   ['What is GALOP?', 'A doctor-formulated multivitamin lemonade, with electrolytes, made for people on a GLP-1. Each pouch has 30 single-serve stick packs — mix one into water, once a day.'],
   ['Why do people on a GLP-1 need a different multivitamin?', 'GLP-1 medications reduce appetite, so you eat less — and fewer nutrients reach your body. GALOP is formulated with higher levels of the key vitamins, minerals, and electrolytes that tend to run low, to support hair, energy, hydration, and digestion along the way.'],
-  ['What does it taste like?', 'Lemonade with a hint of ginger. Zero sugar — sweetened with monkfruit and stevia.'],
+  ['What does it taste like?', 'Bright, classic lemonade. Zero sugar — sweetened with monkfruit and stevia.'],
   ['How do I take it?', 'Stir or shake one stick pack into 8–12 oz of cold water. Once a day, whenever it fits your routine.'],
   ['Is GALOP available now?', 'Yes — GALOP just launched. Order a single pouch or subscribe and save, and get 20% off your first order.'],
   ['How does the subscription work?', 'The Monthly Ritual delivers a fresh 30-pack pouch every month with free shipping. You can pause, skip, or cancel anytime — no calls, no hoops.'],

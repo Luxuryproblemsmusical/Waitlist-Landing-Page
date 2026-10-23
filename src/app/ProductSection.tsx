@@ -3,17 +3,18 @@ import { RED } from './Layout';
 import { PlanPicker } from './PlanPicker';
 import { Note, Gloss, SpinBadge } from './Flourish';
 import heroImage from "../imports/hero-lemonade.png";
-import pouchImage from "../imports/pouch-lemonade.png";
+import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
-const GALLERY = [
-  { src: pouchImage, alt: 'GALOP multivitamin drink mix pouch — lemonade with a hint of ginger, 30 stick packs' },
-  { src: heroImage, alt: 'GALOP lemonade drink mix stick pack beside an iced glass of ginger lemonade' },
+/** `fill`: a full studio photo that runs edge to edge in the card instead of floating on white. */
+const GALLERY: { src: string; alt: string; fill?: boolean }[] = [
+  { src: pouchImage, alt: 'GALOP multivitamin drink mix pouch in lemonade, with a single stick pack beside it', fill: true },
+  { src: heroImage, alt: 'GALOP lemonade drink mix stick pack beside an iced glass of lemonade' },
 ];
 
 const BENEFITS = [
   '30+ vitamins & minerals for life on a GLP-1',
   'Electrolytes for hydration & energy',
-  'Supports hair, digestion & nausea',
+  'Helps support hair, digestion, muscle & bone health*',
   'Zero sugar — monkfruit + stevia',
 ];
 
@@ -26,7 +27,7 @@ const TRUST = [
 // Sydney: edit freely — this is the "Why / Ingredients / Directions" accordion set.
 const DETAILS: [string, string][] = [
   ['Why GALOP?', 'GLP-1 medications shrink your appetite, so you eat less — and fewer nutrients reach your body. Standard multivitamins weren’t built for that. GALOP is dosed for life on a GLP-1: higher levels of the vitamins, minerals, and electrolytes that tend to run low, in a once-a-day drink you’ll actually look forward to.'],
-  ['What’s inside', '30+ vitamins and minerals plus electrolytes. Sweetened with monkfruit and stevia, zero sugar. Lemonade with a hint of ginger.'],
+  ['What’s inside', '30+ vitamins and minerals plus electrolytes. Sweetened with monkfruit and stevia, zero sugar. Bright, classic lemonade.'],
   ['How to take it', 'Stir or shake one stick pack into 8–12 oz of cold water, once a day. Morning, afternoon, or whenever it fits your routine.'],
   ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime from your account — no calls, no hoops. New customers get 20% off their first order.'],
 ];
@@ -58,7 +59,7 @@ export function ProductSection() {
             position: 'relative',
             background: '#ffffff',
             borderRadius: '24px',
-            padding: 'clamp(30px, 4vw, 48px) clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px)',
+            padding: GALLERY[active].fill ? 0 : 'clamp(30px, 4vw, 48px) clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px)',
             border: '1px solid rgba(239, 42, 48, 0.12)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             minHeight: '320px'
@@ -66,14 +67,18 @@ export function ProductSection() {
             <Gloss delay={0} />
             <SpinBadge text="JUST LAUNCHED! • JUST LAUNCHED! • " size="clamp(5rem, 9vw, 6.25rem)"
                        style={{ position: 'absolute', top: '-3.6rem', right: '-1.4rem', filter: 'drop-shadow(0 8px 16px rgba(239, 42, 48, 0.3))' }} />
-            <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>
-              30 sticks per pouch ↗
-            </Note>
+            {!GALLERY[active].fill && (
+              <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>
+                30 sticks per pouch ↗
+              </Note>
+            )}
             <img
               src={GALLERY[active].src}
               alt={GALLERY[active].alt}
               className="w-full h-auto object-contain"
-              style={{ maxHeight: '460px', filter: 'drop-shadow(0 10px 20px rgba(30, 60, 90, 0.14))' }}
+              style={GALLERY[active].fill
+                ? { display: 'block', borderRadius: '23px' }
+                : { maxHeight: '460px', filter: 'drop-shadow(0 10px 20px rgba(30, 60, 90, 0.14))' }}
             />
           </div>
           <div className="flex gap-3 mt-3">
@@ -81,12 +86,12 @@ export function ProductSection() {
               <button key={g.alt} type="button" onClick={() => setActive(i)}
                       aria-label={`Show image ${i + 1}`} aria-pressed={active === i}
                       style={{
-                        width: '72px', height: '72px', borderRadius: '14px', padding: '8px',
+                        width: '72px', height: '72px', borderRadius: '14px', padding: g.fill ? 0 : '8px', overflow: 'hidden',
                         background: '#ffffff',
                         border: active === i ? `2px solid ${RED}` : '2px solid rgba(239, 42, 48, 0.15)',
                         cursor: 'pointer'
                       }}>
-                <img src={g.src} alt="" className="w-full h-full object-contain" />
+                <img src={g.src} alt="" className={`w-full h-full ${g.fill ? 'object-cover' : 'object-contain'}`} />
               </button>
             ))}
           </div>
@@ -112,7 +117,7 @@ export function ProductSection() {
             Multivitamin Lemonade
           </h2>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 600, color: RED, lineHeight: 1.5 }}>
-            Ginger lemonade with 30+ vitamins, minerals, and electrolytes, made for life on a GLP&#8209;1. One stick, once a day.
+            Lemonade with 30+ vitamins, minerals, and electrolytes, made for life on a GLP&#8209;1. One stick, once a day.
           </p>
 
           <ul className="mt-5" style={{ padding: 0, listStyle: 'none' }}>
@@ -131,7 +136,7 @@ export function ProductSection() {
               fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, color: '#ffffff',
               background: RED, borderRadius: '9999px', padding: '6px 14px', letterSpacing: '0.08em'
             }}>
-              Lemonade + Ginger
+              Lemonade
             </span>
           </div>
 
