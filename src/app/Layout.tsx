@@ -351,6 +351,16 @@ export function Layout({ title, current, children }: { title: string; current: s
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
         }
 
+        /* Hero horse at rest: a quick cut-out fidget (two snapped poses) every few seconds */
+        .horse-fidget { transform-origin: 50% 100%; animation: horseFidget 4.2s steps(1, end) infinite; }
+        .horse-runner.is-walking .horse-fidget { animation: none; }
+        @keyframes horseFidget {
+          0%, 78% { transform: none; }
+          80% { transform: translateY(-5px) rotate(-5deg); }
+          82.5% { transform: rotate(4deg); }
+          85%, 100% { transform: none; }
+        }
+
         /* Plan cards settle in when chosen, and the radio dot grows in (no overshoot) */
         .plan-card[aria-pressed="true"] { animation: planHop 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
         .plan-card[aria-pressed="true"] .plan-dot { animation: dotPop 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
@@ -433,7 +443,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before, .btn-gallop::after, .success-pill::after { display: none; }
-          .plan-card, .plan-dot, .arrow-hop, .whip, .whip-path, .nav-tag { animation: none !important; }
+          .plan-card, .plan-dot, .arrow-hop, .whip, .whip-path, .nav-tag, .horse-fidget { animation: none !important; }
         }
       `}</style>
     </div>
