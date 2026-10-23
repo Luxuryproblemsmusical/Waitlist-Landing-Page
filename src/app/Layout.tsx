@@ -126,7 +126,7 @@ const Nav = ({ current }: { current: string }) => {
         GALOP
       </a>
       {/* A little red hang tag on a string; it swings when you hover */}
-      <a href={onAbout ? '/' : '/about'} className="nav-tag" data-fizz="8">
+      <a href={onAbout ? '/' : '/about'} className={`nav-tag${onAbout ? ' is-flipped' : ''}`} data-fizz="8">
         <svg className="nav-tag-string" viewBox="0 0 40 30" aria-hidden="true">
           <path d="M33 26 C 26 14, 14 6, 2 2" fill="none" stroke={RED} strokeWidth="1.3" strokeLinecap="round" />
         </svg>
@@ -387,15 +387,19 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes dotPop { 0% { transform: scale(0.4); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
         /* Nav hang tag */
+        /* --dir: 1 hangs from the left and points left (About); -1 is the mirror image (Shop) */
         .nav-tag {
+          --dir: 1;
           position: relative; display: inline-block; text-decoration: none; margin-right: 4px;
-          transform: rotate(-6deg); transform-origin: 8px 50%;
+          transform: rotate(calc(-6deg * var(--dir))); transform-origin: 8px 50%;
           filter: drop-shadow(0 6px 10px rgba(239, 42, 48, 0.22));
         }
+        .nav-tag.is-flipped { --dir: -1; transform-origin: calc(100% - 8px) 50%; margin-right: 26px; }
         .nav-tag:hover { animation: tagSwing 0.9s ease-in-out; }
-        .nav-tag:active { transform: rotate(-6deg) scale(0.95); }
+        .nav-tag:active { transform: rotate(calc(-6deg * var(--dir))) scale(0.95); }
         .nav-tag:focus-visible { outline: 3px solid ${RED}; outline-offset: 6px; border-radius: 6px; }
         .nav-tag-string { position: absolute; left: -22px; top: -12px; width: 40px; height: 30px; overflow: visible; }
+        .is-flipped .nav-tag-string { left: auto; right: -22px; transform: scaleX(-1); }
         .nav-tag-body {
           position: relative; display: inline-flex; align-items: center; overflow: hidden;
           background: ${RED}; color: #ffffff;
@@ -404,10 +408,15 @@ export function Layout({ title, current, children }: { title: string; current: s
           padding: 9px 20px 10px 30px;
           clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
         }
+        .is-flipped .nav-tag-body {
+          padding: 9px 30px 10px 20px;
+          clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+        }
         .nav-tag-hole {
           position: absolute; left: 11px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 9999px;
           background: #e4f4ff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.85);
         }
+        .is-flipped .nav-tag-hole { left: auto; right: 11px; }
         /* sheen across the tag on hover */
         .nav-tag-body::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -416,11 +425,11 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
         .nav-tag:hover .nav-tag-body::after { transform: translateX(120%); transition: transform 0.7s ease; }
         @keyframes tagSwing {
-          0% { transform: rotate(-6deg); }
-          25% { transform: rotate(5deg); }
-          50% { transform: rotate(-11deg); }
-          75% { transform: rotate(-2deg); }
-          100% { transform: rotate(-6deg); }
+          0% { transform: rotate(calc(-6deg * var(--dir))); }
+          25% { transform: rotate(calc(5deg * var(--dir))); }
+          50% { transform: rotate(calc(-11deg * var(--dir))); }
+          75% { transform: rotate(calc(-2deg * var(--dir))); }
+          100% { transform: rotate(calc(-6deg * var(--dir))); }
         }
 
         /* Nav: the wordmark stretches its stride */
