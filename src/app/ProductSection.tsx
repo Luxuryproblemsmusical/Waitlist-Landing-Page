@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RED, LEMON } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Note, Gloss, SpinBadge, Lemon, LemonSlice } from './Flourish';
+import { Note, Gloss, SpinBadge, LemonSlice, PackagingFizz } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
@@ -53,8 +53,9 @@ export function ProductSection() {
   return (
     <section id="shop" className="mt-6">
       <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-start">
-        {/* Gallery */}
-        <div>
+        {/* Gallery — abstract lemon fizz floats around the packaging */}
+        <div style={{ position: 'relative', isolation: 'isolate' }}>
+          <PackagingFizz />
           <div style={{
             position: 'relative',
             background: '#ffffff',
@@ -114,10 +115,10 @@ export function ProductSection() {
                 lineHeight: 1.05,
                 margin: '6px 0 10px'
               }}>
-            Multivitamin <Lemon>Lemonade</Lemon>
+            Multivitamin Drink Mix
           </h2>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 600, color: RED, lineHeight: 1.5 }}>
-            Lemonade with 30+ vitamins, minerals, and electrolytes, made for life on a GLP&#8209;1. One stick, once a day.
+            A lemonade drink mix with 30+ vitamins, minerals, and electrolytes, made for life on a GLP&#8209;1. One stick, once a day.
           </p>
 
           <ul className="mt-5" style={{ padding: 0, listStyle: 'none' }}>

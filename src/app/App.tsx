@@ -1,6 +1,6 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Gloss, Ribbon, Lemon, AmbientFizz } from './Flourish';
+import { Gloss, Ribbon, AmbientFizz } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
@@ -42,7 +42,7 @@ const HorseHero = () => {
 /** Homepage — doubles as the product page, per Sydney's spec. */
 export default function App() {
   return (
-    <Layout title="GALOP — Multivitamin Lemonade for Life on a GLP-1" current="/">
+    <Layout title="GALOP — Multivitamin Drink Mix for Life on a GLP-1" current="/">
       {/* Logo lockup: galloping horse + GALOP wordmark */}
       <div className="relative flex flex-col items-center mt-2 mb-20 animate-fade-in"
            style={{ animation: 'fadeIn 0.8s ease-out', isolation: 'isolate' }}>
@@ -71,7 +71,7 @@ export default function App() {
              textAlign: 'center',
              whiteSpace: 'nowrap'
            }}>
-          The multivitamin <Lemon>lemonade</Lemon> for life on a&nbsp;GLP&#8209;1
+          The multivitamin drink mix for life on a&nbsp;GLP&#8209;1
         </p>
       </div>
 

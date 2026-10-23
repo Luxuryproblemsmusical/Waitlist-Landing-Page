@@ -55,15 +55,47 @@ export const SpinBadge = ({ text, size = '6.5rem', style }: { text: string; size
   </div>
 );
 
-/** A soft, diffuse glow of lemon light behind a word, like sun through a glass of lemonade. */
-export const Lemon = ({ children }: { children: ReactNode }) => (
-  <span style={{ position: 'relative', display: 'inline-block', isolation: 'isolate' }}>
-    <span aria-hidden="true" style={{
-      position: 'absolute', inset: '-0.35em -0.45em', zIndex: -1, borderRadius: '9999px', filter: 'blur(6px)',
-      background: 'radial-gradient(ellipse at 50% 55%, rgba(255, 240, 122, 0.85) 0%, rgba(255, 244, 160, 0.45) 45%, rgba(255, 248, 194, 0) 72%)'
+type Orb = { pos: CSSProperties; size: number; kind: 'lemon' | 'ring' | 'white' | 'dot'; dur: number; delay: number };
+
+// Placed around the edges of the product card (top-right is left clear for the spinning badge).
+const ORBS: Orb[] = [
+  { pos: { left: '-7%', top: '10%' }, size: 58, kind: 'lemon', dur: 6, delay: 0 },
+  { pos: { left: '-4%', top: '34%' }, size: 16, kind: 'ring', dur: 5, delay: 1.2 },
+  { pos: { left: '-9%', top: '62%' }, size: 36, kind: 'ring', dur: 7, delay: 0.6 },
+  { pos: { left: '3%', bottom: '-6%' }, size: 24, kind: 'white', dur: 5.5, delay: 2 },
+  { pos: { left: '28%', bottom: '-4%' }, size: 10, kind: 'dot', dur: 4.5, delay: 0.3 },
+  { pos: { right: '18%', bottom: '-7%' }, size: 44, kind: 'lemon', dur: 6.5, delay: 1.6 },
+  { pos: { right: '-6%', top: '58%' }, size: 28, kind: 'ring', dur: 5.8, delay: 2.4 },
+  { pos: { right: '-4%', top: '38%' }, size: 12, kind: 'dot', dur: 4.8, delay: 0.9 },
+];
+
+const ORB_STYLE: Record<Orb['kind'], CSSProperties> = {
+  lemon: { background: `radial-gradient(circle at 35% 30%, #ffffff 0%, #FFF8C2 38%, ${LEMON} 100%)`, opacity: 0.9 },
+  ring: { border: '2px solid rgba(255, 255, 255, 0.95)', boxShadow: '0 0 0 1px rgba(110, 170, 225, 0.25)' },
+  white: { background: 'radial-gradient(circle at 35% 30%, #ffffff 0%, rgba(255,255,255,0.75) 70%)', boxShadow: '0 0 0 1px rgba(110, 170, 225, 0.25)' },
+  dot: { background: LEMON },
+};
+
+/**
+ * Abstract effervescence around the packaging: a soft pool of lemon light
+ * behind the card, and a few lemon and white orbs drifting at its edges.
+ * Place as the first child of a `position: relative; isolation: isolate` box.
+ */
+export const PackagingFizz = () => (
+  <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none' }}>
+    <span style={{
+      position: 'absolute', left: '-12%', right: '-12%', top: '5%', bottom: '-8%', borderRadius: '9999px', filter: 'blur(30px)',
+      background: 'radial-gradient(ellipse at 40% 60%, rgba(255, 240, 122, 0.55) 0%, rgba(255, 246, 170, 0.25) 45%, rgba(255, 248, 194, 0) 70%)'
     }} />
-    {children}
-  </span>
+    {ORBS.map((o, i) => (
+      <span key={i} className="orb"
+            style={{
+              position: 'absolute', ...o.pos, width: `${o.size}px`, height: `${o.size}px`, borderRadius: '9999px',
+              ...ORB_STYLE[o.kind],
+              ['--dur' as string]: `${o.dur}s`, ['--delay' as string]: `${o.delay}s`,
+            } as CSSProperties} />
+    ))}
+  </div>
 );
 
 /** Tiny lemon-slice icon. */

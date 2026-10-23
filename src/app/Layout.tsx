@@ -390,6 +390,10 @@ export function Layout({ title, current, children }: { title: string; current: s
           100% { opacity: 0; transform: translate(0, var(--rise)); }
         }
 
+        /* Orbs drifting around the packaging (PackagingFizz in Flourish.tsx) */
+        .orb { animation: orbDrift var(--dur) ease-in-out var(--delay) infinite alternate; }
+        @keyframes orbDrift { from { translate: 0 0; } to { translate: 4px -12px; } }
+
         /* Plan cards hop when chosen, and the radio dot pops */
         .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
         .plan-card[aria-pressed="true"] { animation: planHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -432,6 +436,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before, .btn-gallop::after, .success-pill::after, .ambient-bubble { display: none; }
+          .orb { animation: none !important; }
           .plan-card, .plan-dot, .trust-check, .arrow-hop { animation: none !important; }
         }
       `}</style>
