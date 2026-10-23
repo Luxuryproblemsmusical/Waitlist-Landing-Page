@@ -129,7 +129,6 @@ export function PlanPicker({ source }: { source: string }) {
               onClick={() => setPlan(p.id)}
               aria-pressed={selected}
               className="plan-card cut text-left"
-              data-fizz="6"
               style={{
                 ['--cut' as string]: '16px', ['--bw' as string]: '2px',
                 ['--line' as string]: selected ? RED : 'rgba(236, 29, 39, 0.22)',
@@ -192,7 +191,7 @@ export function PlanPicker({ source }: { source: string }) {
 
       <div className="mt-5">
         {checkoutUrl ? (
-          <a href={checkoutUrl} className="btn-gallop cut-solid" data-fizz="12" style={ctaStyle}>
+          <a href={checkoutUrl} className="btn-gallop cut-solid" style={ctaStyle}>
             <Gloss delay={6} /><span className="btn-label">Start now</span>
           </a>
         ) : !isSubmitted ? (
@@ -235,7 +234,7 @@ export function PlanPicker({ source }: { source: string }) {
               />
             </span>
             <button type="submit" disabled={isSubmitting}
-                    className="btn-gallop cut-solid disabled:opacity-60" data-fizz="12"
+                    className="btn-gallop cut-solid disabled:opacity-60"
                     style={ctaStyle}>
               <Gloss delay={6} /><span className="btn-label">{isSubmitting ? 'Saving…' : 'Get 20% off'}</span>
             </button>

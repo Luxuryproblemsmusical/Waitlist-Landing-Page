@@ -40,7 +40,7 @@ export default function FaqPage() {
           <p className="mt-2" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.95rem', fontWeight: 500, opacity: 0.9 }}>
             Ask us anything. We&rsquo;d love to hear from you.
           </p>
-          <a href="mailto:galoplife@gmail.com" className="btn-gallop cut-solid on-light" data-fizz="10"
+          <a href="mailto:galoplife@gmail.com" className="btn-gallop cut-solid on-light"
              style={{
                display: 'inline-block', maxWidth: '100%', marginTop: '1.25rem', background: '#ffffff', color: RED,
                fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.16em',

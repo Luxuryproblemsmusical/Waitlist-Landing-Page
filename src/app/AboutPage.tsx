@@ -54,7 +54,7 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-14 text-center">
-        <a href="/#shop" className="btn-gallop cut-solid" data-fizz="12"
+        <a href="/#shop" className="btn-gallop cut-solid"
            style={{
              display: 'inline-block',
              background: RED,

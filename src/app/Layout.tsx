@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import horseImage from "../imports/galop-horse.png";
 import wordmarkImage from "../imports/galop-wordmark.svg";
 
@@ -69,7 +69,7 @@ const Nav = ({ current }: { current: string }) => {
         <img src={wordmarkImage} alt="GALOP" width={1351} height={301} style={{ width: '5.4rem', height: 'auto' }} />
       </a>
       {/* A hang tag on a cord from the offer bar: it dangles, sways a little, and swings when you hover */}
-      <a href={onAbout ? '/#shop' : '/about'} className="nav-tag" data-fizz="8"
+      <a href={onAbout ? '/#shop' : '/about'} className="nav-tag"
          aria-label={onAbout ? 'Lemonade: shop the Multivitamin Drink Mix' : 'From Sydney: read Sydney\u2019s letter'}>
         <span className="nav-tag-swing">
           <span className="nav-tag-cord" aria-hidden="true" />
@@ -115,27 +115,40 @@ const Footer = () => (
 );
 
 /**
- * Lemonade fizz: a few lemon-and-white bubbles rise from wherever an element
- * marked `data-fizz` (its value = bubble count) is pressed.
+ * A soft light that trails the mouse, so the page catches a sheen as you move (soft-light
+ * blend: it brightens what's under it without washing it out). Mouse only, and off for
+ * reduced motion; it fades out when the pointer leaves the window.
  */
-function fizz(x: number, y: number, count: number) {
-  for (let i = 0; i < count; i++) {
-    const b = document.createElement('span');
-    const size = 4 + Math.random() * 8;
-    b.className = 'fizz-bubble';
-    b.style.left = `${x + (Math.random() - 0.5) * 24}px`;
-    b.style.top = `${y}px`;
-    b.style.width = b.style.height = `${size}px`;
-    b.style.setProperty('--dx', `${(Math.random() - 0.5) * 60}px`);
-    b.style.setProperty('--rise', `${40 + Math.random() * 60}px`);
-    b.style.setProperty('--dur', `${0.6 + Math.random() * 0.5}s`);
-    b.style.animationDelay = `${Math.random() * 0.12}s`;
-    b.style.background = i % 3 === 0
-      ? 'rgba(255, 255, 255, 0.95)'
-      : 'radial-gradient(circle at 30% 30%, #ffffff 0%, #FFF8C2 45%, #FFF07A 100%)';
-    b.addEventListener('animationend', () => b.remove());
-    document.body.appendChild(b);
-  }
+function CursorSheen() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !window.matchMedia('(hover: hover) and (pointer: fine)').matches
+        || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let x = 0, y = 0, tx = 0, ty = 0, frame = 0, placed = false;
+    const step = () => {
+      x += (tx - x) * 0.16;
+      y += (ty - y) * 0.16;
+      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      frame = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(step) : 0;
+    };
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return;
+      tx = e.clientX; ty = e.clientY;
+      if (!placed) { x = tx; y = ty; placed = true; }
+      el.classList.add('is-on');
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+    const onLeave = () => el.classList.remove('is-on');
+    window.addEventListener('pointermove', onMove, { passive: true });
+    document.documentElement.addEventListener('mouseleave', onLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('pointermove', onMove);
+      document.documentElement.removeEventListener('mouseleave', onLeave);
+    };
+  }, []);
+  return <div ref={ref} className="cursor-sheen" aria-hidden="true" />;
 }
 
 /** Shared page chrome: offer bar, nav, footer, brand background, and keyframes. */
@@ -143,17 +156,6 @@ export function Layout({ title, current, children }: { title: string; current: s
   useEffect(() => {
     document.title = title;
   }, [title]);
-
-  useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onDown = (e: PointerEvent) => {
-      const el = (e.target as Element | null)?.closest?.('[data-fizz]');
-      if (!el || reduce.matches) return;
-      fizz(e.clientX, e.clientY, Number(el.getAttribute('data-fizz')) || 10);
-    };
-    document.addEventListener('pointerdown', onDown);
-    return () => document.removeEventListener('pointerdown', onDown);
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start px-6 pt-0 pb-12"
@@ -175,6 +177,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         {children}
         <Footer />
       </div>
+      <CursorSheen />
 
       <style>{`
         @keyframes fadeIn {
@@ -316,7 +319,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         .acc-trigger:hover .acc-icon { transform: rotate(180deg) scale(1.1); }
         .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(0deg) scale(1.1); }
 
-        /* Buttons: a gift-wrap sheen on hover, a squish on press, and lemonade fizz (see fizz()) */
+        /* Buttons: a gift-wrap sheen on hover and a squish on press */
         .btn-gallop {
           position: relative; overflow: hidden; isolation: isolate;
           transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
@@ -337,16 +340,14 @@ export function Layout({ title, current, children }: { title: string; current: s
         .btn-gallop.on-light::before { background: linear-gradient(110deg, rgba(236,29,39,0) 35%, rgba(236,29,39,0.12) 50%, rgba(236,29,39,0) 65%); }
         .success-pill { position: relative; overflow: hidden; isolation: isolate; }
 
-        .fizz-bubble {
-          position: fixed; z-index: 9999; border-radius: 9999px; pointer-events: none; opacity: 0;
-          box-shadow: 0 0 0 1px rgba(30, 60, 90, 0.1);
-          animation: fizzUp var(--dur, 0.8s) cubic-bezier(0.2, 0.6, 0.35, 1) forwards;
+        /* The light that trails the mouse (see CursorSheen) */
+        .cursor-sheen {
+          position: fixed; left: 0; top: 0; width: 460px; height: 460px; margin: -230px 0 0 -230px;
+          border-radius: 50%; pointer-events: none; z-index: 60; opacity: 0; will-change: transform;
+          background: radial-gradient(closest-side, rgba(255,255,255,1), rgba(255,255,255,0.45) 45%, rgba(255,255,255,0) 100%);
+          mix-blend-mode: soft-light; transition: opacity 0.5s ease;
         }
-        @keyframes fizzUp {
-          0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
-          15% { opacity: 1; }
-          100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), calc(var(--rise) * -1)) scale(1); }
-        }
+        .cursor-sheen.is-on { opacity: 1; }
 
 
         /* Founder note: taped polaroid that straightens up when you hover the card */
