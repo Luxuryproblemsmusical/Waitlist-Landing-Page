@@ -1,13 +1,18 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
 import { Gloss, Ribbon } from './Flourish';
+import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 
-const WHY = [
-  ['Less appetite', 'GLP-1s work by quieting hunger — which means smaller meals and fewer nutrients coming in.'],
-  ['Bigger gaps', 'Hair, energy, hydration, and digestion are usually the first things to feel it.'],
-  ['Dosed for it', 'GALOP is formulated for that reality — like a prenatal is for pregnancy — in a drink, not a horse pill.'],
+// [front title, front text, back title, back text]
+const WHY: [string, string, string, string][] = [
+  ['Less appetite', 'GLP-1s work by quieting hunger — which means smaller meals and fewer nutrients coming in.',
+   'One stick covers it', '30+ vitamins and minerals in a single glass, no big meal required.'],
+  ['Bigger gaps', 'Hair, energy, hydration, and digestion are usually the first things to feel it.',
+   'Backed up where it counts', 'Electrolytes plus the nutrients that help support hair, digestion, muscle, and bone.*'],
+  ['Dosed for it', 'GALOP is formulated for that reality — like a prenatal is for pregnancy — in a drink, not a horse pill.',
+   'Doctor-formulated', 'Built with a doctor for life on a GLP-1, and it tastes like lemonade.'],
 ];
 
 /**
@@ -90,13 +95,10 @@ export default function App() {
             Built for the GLP&#8209;1 body.
           </h2>
           <div className="grid gap-5 sm:grid-cols-3 mt-10 text-left">
-            {WHY.map(([h, p], i) => (
-              <div key={h} className="lift"
-                   style={{ position: 'relative', background: '#ffffff', color: RED, borderRadius: '22px', padding: '24px 22px 26px', boxShadow: '0 12px 28px rgba(0,0,0,0.12)' }}>
-                <Gloss delay={2 + i * 0.7} />
-                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>{h}</p>
-                <p className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', opacity: 0.85, lineHeight: 1.6 }}>{p}</p>
-              </div>
+            {WHY.map(([h, p, bh, bp], i) => (
+              <FlipCard key={h} glossDelay={2 + i * 0.7}
+                        front={<><CardKicker>0{i + 1}</CardKicker><CardTitle>{h}</CardTitle><CardText>{p}</CardText></>}
+                        back={<><CardTitle>{bh}</CardTitle><CardText>{bp}</CardText></>} />
             ))}
           </div>
         </div>

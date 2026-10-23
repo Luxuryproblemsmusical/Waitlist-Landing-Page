@@ -241,11 +241,59 @@ export function Layout({ title, current, children }: { title: string; current: s
         .lift { transition: transform 0.25s ease, box-shadow 0.25s ease; }
         .lift:hover { transform: translateY(-4px); }
         input::placeholder { color: rgba(45, 55, 72, 0.5); }
-        .galop-details summary::-webkit-details-marker { display: none; }
-        .galop-details[open] .plus { transform: rotate(45deg); }
+
+        /* Flip cards (Interactive.tsx) */
+        .flip-card {
+          display: block; width: 100%; padding: 0; border: none; background: none; cursor: pointer;
+          perspective: 1400px; border-radius: 22px; text-align: left; font: inherit; color: inherit;
+          transition: transform 0.25s ease;
+        }
+        .flip-card:hover { transform: translateY(-5px); }
+        .flip-card:active { transform: translateY(-2px) scale(0.99); }
+        .flip-card:focus-visible { outline: 3px solid ${RED}; outline-offset: 4px; }
+        .flip-inner {
+          display: grid; height: 100%; border-radius: 22px;
+          transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1), box-shadow 0.25s ease;
+          box-shadow: 0 12px 28px rgba(30, 60, 90, 0.12);
+        }
+        .flip-card:hover .flip-inner { box-shadow: 0 20px 40px rgba(30, 60, 90, 0.2); }
+        .flip-face, .flip-face * { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .flip-face { display: block; }
+        .flip-back { transform: rotateY(180deg); }
+        .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
+        /* The drifting gloss gets its own compositor layer, which Chrome draws through
+           backface-visibility; swap face visibility at the half-turn so it can't show through. */
+        .flip-face { transition: visibility 0s linear 0.3s; }
+        .flip-back, .flip-card.is-flipped .flip-face:not(.flip-back) { visibility: hidden; }
+        .flip-card.is-flipped .flip-back { visibility: visible; }
+
+        /* Accordions (Interactive.tsx) */
+        .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+        .acc-item.is-open .acc-panel { grid-template-rows: 1fr; }
+        .acc-icon { transition: transform 0.3s ease, background 0.2s ease, color 0.2s ease; }
+        .acc-item.is-open .acc-icon { transform: rotate(45deg); }
+        .acc-card { transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease; }
+        .acc-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30, 60, 90, 0.1); }
+        .acc-trigger:focus-visible { outline: 3px solid ${RED}; outline-offset: 2px; border-radius: 14px; }
+        .acc-trigger:hover .acc-icon { transform: scale(1.08); }
+        .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(45deg) scale(1.08); }
+
+        /* Hover polish for pill buttons and text links */
+        .btn-pill { transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease; }
+        .btn-pill:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(239, 42, 48, 0.28); }
+        .btn-pill:active { transform: translateY(0); }
+        .link-arrow { transition: letter-spacing 0.25s ease, opacity 0.2s ease; }
+        .link-arrow:hover { letter-spacing: 0.26em; }
+
         @media (prefers-reduced-motion: reduce) {
           .float-slow, .spin-slow, .animate-float { animation: none !important; }
           .gloss-layer::after { animation: none !important; display: none; }
+          .flip-inner { transition: none; transform: none !important; }
+          .flip-back { transform: none; opacity: 0; transition: opacity 0.2s; }
+          .flip-card.is-flipped .flip-back { opacity: 1; }
+          .flip-card.is-flipped .flip-face:not(.flip-back) { opacity: 0; }
+          .flip-card, .flip-card:hover, .acc-card:hover, .btn-pill:hover { transform: none; }
+          .acc-panel, .acc-icon { transition: none; }
         }
       `}</style>
     </div>

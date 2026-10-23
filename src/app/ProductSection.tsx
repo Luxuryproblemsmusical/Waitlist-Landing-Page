@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RED } from './Layout';
 import { PlanPicker } from './PlanPicker';
 import { Note, Gloss, SpinBadge } from './Flourish';
+import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
 /** `fill`: a full studio photo that runs edge to edge in the card instead of floating on white. */
@@ -17,9 +18,9 @@ const BENEFITS = [
 ];
 
 const TRUST = [
-  { label: 'Doctor-formulated' },
-  { label: 'Made in the USA' },
-  { label: 'Cancel anytime' },
+  { label: 'Doctor-formulated', detail: 'Built with a doctor for life on a GLP-1.' },
+  { label: 'Made in the USA', detail: 'Produced and packed in the USA.' },
+  { label: 'Cancel anytime', detail: 'Pause, skip, or cancel from your account.' },
 ];
 
 // Sydney: edit freely — this is the "Why / Ingredients / Directions" accordion set.
@@ -47,6 +48,7 @@ const TrustIcon = () => (
 /** Gruns-style product page block: gallery left, buy box right, trust row + accordions under. */
 export function ProductSection() {
   const [active, setActive] = useState(0);
+  const [trustOpen, setTrustOpen] = useState(-1);
 
   return (
     <section id="shop" className="mt-6">
@@ -141,37 +143,36 @@ export function ProductSection() {
           <PlanPicker source="galoplife.com" />
 
           {/* Trust row */}
-          <div className="grid grid-cols-3 gap-3 mt-6 text-center">
-            {TRUST.map((t) => (
-              <div key={t.label} className="flex flex-col items-center">
-                <TrustIcon />
-                <span className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: RED, lineHeight: 1.3 }}>
-                  {t.label}
-                </span>
-              </div>
-            ))}
+          <div className="grid grid-cols-3 gap-3 mt-6 text-center items-start">
+            {TRUST.map((t, i) => {
+              const on = trustOpen === i;
+              return (
+                <button key={t.label} type="button" className="lift flex flex-col items-center"
+                        aria-expanded={on} onClick={() => setTrustOpen(on ? -1 : i)}
+                        style={{
+                          background: on ? '#ffffff' : 'rgba(255,255,255,0.5)', borderRadius: '16px', cursor: 'pointer',
+                          border: `2px solid ${on ? RED : 'rgba(239, 42, 48, 0.12)'}`, padding: '12px 8px',
+                          transition: 'transform 0.25s ease, background 0.2s ease, border-color 0.2s ease'
+                        }}>
+                  <TrustIcon />
+                  <span className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: RED, lineHeight: 1.3 }}>
+                    {t.label}
+                  </span>
+                  <span className="acc-panel" style={{ gridTemplateRows: on ? '1fr' : '0fr', width: '100%' }}>
+                    <span style={{ overflow: 'hidden' }}>
+                      <span style={{ display: 'block', paddingTop: '6px', fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 500, color: RED, opacity: 0.85, lineHeight: 1.4 }}>
+                        {t.detail}
+                      </span>
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Accordions */}
           <div className="mt-6">
-            {DETAILS.map(([q, a]) => (
-              <details key={q} className="galop-details"
-                       style={{ borderTop: '1px solid rgba(239, 42, 48, 0.2)' }}>
-                <summary className="flex items-center justify-between"
-                         style={{
-                           cursor: 'pointer', listStyle: 'none', padding: '14px 2px',
-                           fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 700, color: RED
-                         }}>
-                  {q}
-                  <span className="plus" aria-hidden="true"
-                        style={{ fontSize: '1.4rem', lineHeight: 1, fontWeight: 400, transition: 'transform 0.2s' }}>+</span>
-                </summary>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: RED, opacity: 0.85, lineHeight: 1.65, padding: '0 2px 16px', margin: 0 }}>
-                  {a}
-                </p>
-              </details>
-            ))}
-            <div style={{ borderTop: '1px solid rgba(239, 42, 48, 0.2)' }} />
+            <Accordion items={DETAILS} />
           </div>
         </div>
       </div>
