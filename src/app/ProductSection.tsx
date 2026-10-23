@@ -64,7 +64,7 @@ export function ProductSection() {
             minHeight: '320px'
           }}>
             <Gloss delay={0} />
-            <SpinBadge text="LAUNCHING DECEMBER • JOIN THE LIST • " size="clamp(5rem, 9vw, 6.25rem)"
+            <SpinBadge text="LAUNCHING DECEMBER • LAUNCHING DECEMBER • " size="clamp(5rem, 9vw, 6.25rem)"
                        style={{ position: 'absolute', top: '-3.6rem', right: '-1.4rem', filter: 'drop-shadow(0 8px 16px rgba(239, 42, 48, 0.3))' }} />
             <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>
               30 sticks per pouch ↗
