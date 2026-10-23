@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
 import { Gloss, Stationery, Polaroid } from './Flourish';
@@ -130,23 +130,6 @@ export default function App() {
              textAlign: 'center'
            }}>
           The multivitamin drink mix<br className="md:hidden" /> for life on a&nbsp;GLP&#8209;1
-        </p>
-        {/* Slogan: each word cracks in like a whip (flick in, slanted overshoot, snap); hover cracks it again */}
-        <p className="slogan" aria-label="Work. Live. Ride."
-           style={{
-             fontFamily: "'Instrument Serif', serif",
-             fontStyle: 'italic',
-             fontSize: 'clamp(1.9rem, 4.6vw, 2.9rem)',
-             lineHeight: 1,
-             color: RED,
-             margin: 'clamp(12px, 2vw, 20px) 0 0',
-             cursor: 'default'
-           }}>
-          {['Work.', 'Live.', 'Ride.'].map((word, i) => (
-            <span key={word} className="slogan-word" aria-hidden="true" style={{ ['--i' as string]: i } as CSSProperties}>
-              {word}
-            </span>
-          ))}
         </p>
       </div>
 

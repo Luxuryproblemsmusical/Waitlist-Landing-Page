@@ -299,25 +299,6 @@ export function Layout({ title, current, children }: { title: string; current: s
           100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), calc(var(--rise) * -1)) scale(1); }
         }
 
-        /* Slogan words crack in like a whip: a fast flick from the left, a slanted overshoot, a snap */
-        .slogan-word {
-          display: inline-block; margin: 0 0.16em; transform-origin: 0% 100%;
-          animation: whipCrack 0.55s cubic-bezier(0.2, 0.9, 0.25, 1) both;
-          animation-delay: calc(0.9s + var(--i) * 0.26s);
-        }
-        .slogan:hover .slogan-word { animation-name: whipCrackAgain; animation-delay: calc(var(--i) * 0.12s); }
-        @keyframes whipCrack {
-          0% { opacity: 0; transform: translateX(-0.9em) skewX(-30deg) scaleX(1.15); }
-          45% { opacity: 1; transform: translateX(0.14em) skewX(12deg) scaleX(0.96); }
-          70% { transform: translateX(-0.05em) skewX(-5deg); }
-          100% { opacity: 1; transform: none; }
-        }
-        @keyframes whipCrackAgain {
-          0% { transform: none; }
-          35% { transform: translateX(0.12em) skewX(14deg); }
-          65% { transform: translateX(-0.05em) skewX(-6deg); }
-          100% { transform: none; }
-        }
 
         /* Founder note: taped polaroid that straightens up when you hover the card */
         .polaroid {
@@ -427,7 +408,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before { display: none; }
-          .plan-card, .plan-dot, .arrow-hop, .slogan-word, .nav-tag-swing, .horse-fidget { animation: none !important; }
+          .plan-card, .plan-dot, .arrow-hop, .nav-tag-swing, .horse-fidget { animation: none !important; }
         }
       `}</style>
     </div>
