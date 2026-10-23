@@ -30,7 +30,7 @@ export default function FaqPage() {
       </div>
 
       {/* Still curious */}
-      <div className="max-w-2xl mx-auto mt-12 text-center cut-solid"
+      <div className="max-w-2xl mx-auto mt-12 text-center cut-solid" data-no-sheen
            style={{ ['--cut' as string]: '20px', position: 'relative', background: RED, color: '#ffffff', padding: 'clamp(28px, 5vw, 40px) 24px' } as CSSProperties}>
         <Gloss delay={2} />
         <div style={{ position: 'relative', zIndex: 2 }}>

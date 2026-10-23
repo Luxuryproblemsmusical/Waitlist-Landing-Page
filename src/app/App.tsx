@@ -4,7 +4,7 @@ import { ProductSection } from './ProductSection';
 import { Gloss, Stationery, Polaroid } from './Flourish';
 import { FlipCard, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
-import sydneyImage from "../imports/sydney.png";
+import sydneyImage from "../imports/sydney.jpg";
 import wordmarkImage from "../imports/galop-wordmark.svg";
 
 // [front title, front text, back title, back text]
@@ -137,7 +137,7 @@ export default function App() {
       <ProductSection />
 
       {/* Why GLP-1 users need more — full-bleed red band */}
-      <div style={{
+      <div data-no-sheen style={{
         width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
         background: RED, color: '#ffffff', marginTop: '6rem',
         padding: 'clamp(3rem, 6vw, 5rem) 1.5rem',

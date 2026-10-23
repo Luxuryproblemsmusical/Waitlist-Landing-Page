@@ -1,7 +1,7 @@
 import { Layout, Kicker, Heading, RED, INK } from './Layout';
 import { Stationery, Polaroid } from './Flourish';
 import horseImage from "../imports/galop-horse.png";
-import sydneyImage from "../imports/sydney.png";
+import sydneyImage from "../imports/sydney.jpg";
 
 // Sydney's letter. Her words are kept exactly; only the paragraphing and type are ours.
 const letter = { fontFamily: "'Instrument Serif', serif", fontWeight: 500, fontSize: 'clamp(1.2rem, 2.3vw, 1.35rem)', lineHeight: 1.6, color: INK } as const;

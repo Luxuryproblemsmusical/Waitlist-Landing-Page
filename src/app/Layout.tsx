@@ -35,7 +35,7 @@ export const Dot = ({ opacity = 0.85 }: { opacity?: number }) => (
 
 /** Static launch-offer bar at the very top of every page; the nav hang tag hangs from it. */
 const OfferBar = () => (
-  <div style={{
+  <div data-no-sheen style={{
     width: '100vw',
     marginLeft: 'calc(50% - 50vw)',
     marginRight: 'calc(50% - 50vw)',
@@ -115,9 +115,10 @@ const Footer = () => (
 );
 
 /**
- * A soft light that trails the mouse, so the page catches a sheen as you move (soft-light
- * blend: it brightens what's under it without washing it out). Mouse only, and off for
- * reduced motion; it fades out when the pointer leaves the window.
+ * A soft light that trails the mouse, so the page catches a sheen as you move. Plain
+ * see-through white, no blend mode: blending it over the whole page made Safari recomposite
+ * everything under it on every move. Mouse only, off for reduced motion, quiet over buttons,
+ * flip cards and red surfaces, and it fades out when the pointer leaves the window.
  */
 function CursorSheen() {
   const ref = useRef<HTMLDivElement>(null);
@@ -137,8 +138,9 @@ function CursorSheen() {
       tx = e.clientX; ty = e.clientY;
       if (!placed) { x = tx; y = ty; placed = true; }
       el.classList.add('is-on');
-      // buttons have their own hover sheen, so the light steps back over them
-      el.classList.toggle('is-quiet', !!(e.target as Element | null)?.closest?.('.btn-gallop, .success-pill'));
+      // the light steps back over buttons (they have their own sheen), the flip cards (so it never
+      // plays over a turn) and red surfaces (on red it reads as a blotch)
+      el.classList.toggle('is-quiet', !!(e.target as Element | null)?.closest?.('.btn-gallop, .success-pill, .flip-card, [data-no-sheen]'));
       if (!frame) frame = requestAnimationFrame(step);
     };
     const onLeave = () => el.classList.remove('is-on');
@@ -195,11 +197,6 @@ export function Layout({ title, current, children }: { title: string; current: s
           0%, 100% { translate: 0 0; }
           50% { translate: 0 -10px; }
         }
-        @keyframes glossDrift {
-          0%   { transform: translate3d(-22%, -10%, 0); opacity: 0.25; }
-          50%  { opacity: 1; }
-          100% { transform: translate3d(22%, 10%, 0); opacity: 0.25; }
-        }
         /* Sheen round the pouch arch: a white rim lit from the upper left (and, fainter, low on the
            right), with a soft white glow. Static on purpose: an animated gradient repaints every
            frame and made other motion on the page stutter. */
@@ -211,20 +208,14 @@ export function Layout({ title, current, children }: { title: string; current: s
           box-shadow: 0 0 14px 2px rgba(255,255,255,0.9), 0 0 46px 12px rgba(255,255,255,0.55);
         }
 
-        /* Gift-wrap gloss: a broad, soft highlight that slowly drifts and breathes.
-           Drop <Gloss/> inside any position:relative box. */
+        /* Gift-wrap gloss: a broad, soft diagonal highlight. Drop <Gloss/> inside any
+           position:relative box. Static on purpose: three huge drifting layers kept the GPU busy
+           on every frame for a shimmer you could barely see. */
         .gloss-layer {
           position: absolute; inset: 0; overflow: hidden; border-radius: inherit;
           pointer-events: none; z-index: 1;
-          /* faint static specular so surfaces read glossy even between drifts */
-          background: linear-gradient(115deg, rgba(255,255,255,0) 55%, rgba(255,255,255,0.04) 75%, rgba(255,255,255,0) 95%);
-        }
-        .gloss-layer::after {
-          content: ''; position: absolute; inset: -35%;
-          background: linear-gradient(115deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.11) 50%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0) 72%);
-          animation: glossDrift 16s ease-in-out infinite alternate;
-          /* negative delay = start mid-cycle, so every piece is at a different phase */
-          animation-delay: calc(var(--gloss-delay, 0s) * -1);
+          background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0.1) 50%,
+                                      rgba(255,255,255,0.05) 58%, rgba(255,255,255,0) 70%);
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
@@ -233,13 +224,8 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* Hover motion only where there's a real pointer: on phones a tap leaves
            :hover stuck, which left cards lifted or half-turned after tapping. */
         @media (hover: hover) {
-          /* The lift goes on an inner box, so the button's own box never moves out from under
-             the cursor (which made the hover flicker). */
-          .flip-card:hover .flip-lift { transform: translateY(-3px); }
-          .flip-card:hover:active .flip-lift { transform: translateY(-3px) scale(0.985); }
-          .flip-card:hover .flip-shadow { box-shadow: 0 16px 30px rgba(30, 60, 90, 0.2), 0 3px 6px rgba(30, 60, 90, 0.07); }
-          .flip-card:hover .flip-hint svg { transform: rotate(50deg); }
-          .acc-card:hover { transform: translateY(-2px); filter: drop-shadow(0 8px 14px rgba(30, 60, 90, 0.1)); }
+          .acc-card:hover { transform: translateY(-2px); }
+          .acc-card:hover .cut-shadow { opacity: 1; }
           .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
           .founder-note:hover .polaroid { transform: rotate(-1deg) translateY(-4px) scale(1.02); }
         }
@@ -251,8 +237,8 @@ export function Layout({ title, current, children }: { title: string; current: s
 
         /* Tag-cut shape: corners clipped at 45°, like the hang tag and a tack-room plaque.
            The outline and the fill are two clipped layers behind the content, so the
-           element itself stays unclipped: its drop-shadow (filter) follows the cut,
-           and nothing inside gets trimmed. Set --cut, --bw, --line and --fill. */
+           element itself stays unclipped and nothing inside gets trimmed (add a .cut-shadow
+           child for a shadow). Set --cut, --bw, --line and --fill. */
         .cut { --cut: 14px; --bw: 1.5px; --line: transparent; --fill: #ffffff; position: relative; isolation: isolate; }
         .cut::before, .cut::after { content: ''; position: absolute; pointer-events: none; transition: background 0.2s ease; }
         .cut::before {
@@ -271,6 +257,15 @@ export function Layout({ title, current, children }: { title: string; current: s
           clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)),
                              calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
         }
+        /* Shadow for a tag-cut card: a box-shadow on an empty box tucked under the card's layers.
+           (A drop-shadow filter on the card follows the cut exactly, but Safari re-renders filtered
+           cards on scroll and whenever anything inside them moves.) Set --shadow. */
+        .cut-shadow {
+          position: absolute; inset: 6px; z-index: -3; pointer-events: none; border-radius: 22px;
+          box-shadow: var(--shadow); transition: opacity 0.25s ease;
+        }
+        .acc-card .cut-shadow { opacity: 0; }
+
         /* solid buttons: clip the button itself (no outline to keep) */
         .cut-solid {
           --cut: 12px; border-radius: 0 !important;
@@ -279,23 +274,20 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
 
         /* Flip cards (Interactive.tsx). The turn itself is run by FlipCard on .flip-turn; nothing
-           here relies on preserve-3d or backface-visibility, which Safari and phones get wrong. */
+           here relies on preserve-3d or backface-visibility, which Safari and phones get wrong.
+           No hover or press motion either: a lift, a press squish, a deepening shadow and a spinning
+           arrow all fired at once with the turn and fought it. The turn is the only thing that moves. */
         .flip-card {
           display: block; width: 100%; height: 100%; padding: 0; border: none; background: none; cursor: pointer;
           text-align: left; font: inherit; color: inherit; -webkit-tap-highlight-color: transparent;
         }
         .flip-card:focus-visible { outline: 2px solid #ffffff; outline-offset: 5px; } /* flip cards sit on the red band */
-        .flip-lift {
-          display: block; height: 100%; perspective: 1000px;
-          transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .flip-card:active .flip-lift { transform: scale(0.985); transition-duration: 0.12s; }
+        .flip-stage { display: block; height: 100%; perspective: 1000px; }
         .flip-turn { display: grid; height: 100%; will-change: transform; }
         /* the card's shadow turns with it: a box-shadow on an empty box, so turning never repaints it */
         .flip-shadow {
           grid-area: 1 / 1; border-radius: 18px; pointer-events: none;
           box-shadow: 0 12px 24px rgba(30, 60, 90, 0.16), 0 2px 5px rgba(30, 60, 90, 0.06);
-          transition: box-shadow 0.35s ease;
         }
         .flip-face {
           grid-area: 1 / 1; position: relative; display: flex; flex-direction: column;
@@ -308,7 +300,6 @@ export function Layout({ title, current, children }: { title: string; current: s
           font-family: 'Montserrat', sans-serif; font-size: 0.62rem; font-weight: 600; line-height: 1;
           letter-spacing: 0.2em; text-transform: uppercase; color: ${INK}; opacity: 0.75;
         }
-        .flip-hint svg { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
 
         /* Accordions (Interactive.tsx) */
         .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
@@ -334,7 +325,13 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* No lift on hover: the button stays put under the cursor (moving it made
            the hover flicker on and off at its bottom edge); the shadow and sheen
            carry the hover instead. */
-        .btn-gallop:hover { filter: brightness(1.04) saturate(1.06); }
+        /* hover brightens the button with a faint overlay (a brightness filter here was costly in Safari) */
+        .btn-gallop::after {
+          content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+          background: rgba(255, 255, 255, 0.08); opacity: 0; transition: opacity 0.25s ease;
+        }
+        .btn-gallop.on-light::after { background: rgba(236, 29, 39, 0.05); }
+        .btn-gallop:hover::after { opacity: 1; }
         .btn-gallop:active { transform: translateY(0) scale(0.96); transition-duration: 0.08s; }
         .btn-gallop .btn-label, .success-pill .btn-label { position: relative; z-index: 2; }
         /* a quick gift-wrap sheen sweeps across on hover */
@@ -351,8 +348,8 @@ export function Layout({ title, current, children }: { title: string; current: s
         .cursor-sheen {
           position: fixed; left: 0; top: 0; width: 360px; height: 360px; margin: -180px 0 0 -180px;
           border-radius: 50%; pointer-events: none; z-index: 60; opacity: 0; will-change: transform;
-          background: radial-gradient(closest-side, rgba(255,255,255,0.45), rgba(255,255,255,0.14) 50%, rgba(255,255,255,0) 100%);
-          mix-blend-mode: soft-light; transition: opacity 0.35s ease;
+          background: radial-gradient(closest-side, rgba(255,255,255,0.26), rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
+          transition: opacity 0.35s ease;
         }
         .cursor-sheen.is-on { opacity: 1; }
         .cursor-sheen.is-on.is-quiet { opacity: 0; }
@@ -431,14 +428,14 @@ export function Layout({ title, current, children }: { title: string; current: s
           transform: translateX(-120%);
         }
         .nav-tag:hover .nav-tag-body::after { transform: translateX(120%); transition: transform 0.7s ease; }
-        @keyframes tagSway { from { rotate: -2.5deg; } to { rotate: 2.5deg; } }
+        @keyframes tagSway { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
         @keyframes tagSwing {
-          0% { rotate: 0deg; }
-          15% { rotate: 10deg; }
-          35% { rotate: -7deg; }
-          55% { rotate: 4deg; }
-          75% { rotate: -2deg; }
-          100% { rotate: 0deg; }
+          0% { transform: rotate(0deg); }
+          15% { transform: rotate(10deg); }
+          35% { transform: rotate(-7deg); }
+          55% { transform: rotate(4deg); }
+          75% { transform: rotate(-2deg); }
+          100% { transform: rotate(0deg); }
         }
 
         /* Nav: the wordmark stretches its stride */
@@ -458,9 +455,6 @@ export function Layout({ title, current, children }: { title: string; current: s
         @media (prefers-reduced-motion: reduce) {
           .float-slow, .animate-float { animation: none !important; }
           .animate-fade-in { animation: none !important; }
-          .gloss-layer::after { animation: none !important; display: none; }
-          .flip-lift, .flip-shadow, .flip-hint svg { transition: none; }
-          .flip-card:hover .flip-lift, .flip-card:active .flip-lift, .flip-card:hover .flip-hint svg { transform: none; }
           .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon::before, .acc-icon::after, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before { display: none; }

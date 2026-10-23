@@ -134,10 +134,11 @@ export function PlanPicker({ source }: { source: string }) {
                 ['--line' as string]: selected ? RED : 'rgba(236, 29, 39, 0.22)',
                 ['--fill' as string]: selected ? '#ffffff' : '#f5faff', // opaque, or the outline layer tints it pink
                 background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                filter: selected ? 'drop-shadow(0 10px 16px rgba(236, 29, 39, 0.12))' : 'none',
-                transition: 'filter 0.2s ease, transform 0.25s ease'
+                transition: 'transform 0.25s ease'
               } as CSSProperties}
             >
+              <span aria-hidden="true" className="cut-shadow"
+                    style={{ opacity: selected ? 1 : 0, ['--shadow' as string]: '0 10px 18px rgba(236, 29, 39, 0.13)' } as CSSProperties} />
               {p.header && (
                 <div style={{
                   background: selected ? RED : 'rgba(236, 29, 39, 0.12)',

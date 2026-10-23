@@ -52,10 +52,13 @@ export function FlipCard({ numeral, front, back }: { numeral: string; front: Rea
   const [flipped, setFlipped] = useState(false);
   const card = useRef<HTMLSpanElement>(null);
   const turning = useRef(false);
+  const queued = useRef(false);
 
   const turn = async () => {
     const el = card.current;
-    if (!el || turning.current) return;
+    if (!el) return;
+    // a click mid-turn is kept and played straight after, so every click is exactly one turn
+    if (turning.current) { queued.current = true; return; }
     if (!el.animate) { setFlipped((f) => !f); return; }
     turning.current = true;
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -70,11 +73,12 @@ export function FlipCard({ numeral, front, back }: { numeral: string; front: Rea
       await second.finished;
     } catch { /* interrupted, e.g. by leaving the page */ }
     turning.current = false;
+    if (queued.current) { queued.current = false; turn(); }
   };
 
   return (
     <button type="button" className="flip-card" aria-pressed={flipped} onClick={turn}>
-      <span className="flip-lift">
+      <span className="flip-stage">
         <span ref={card} className="flip-turn">
           <span className="flip-shadow" aria-hidden="true" />
           <Face numeral={numeral} hidden={flipped}>{front}</Face>
@@ -130,6 +134,8 @@ export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:
                      // opaque on purpose: a see-through fill lets the outline layer under it tint the card pink
                      ['--fill' as string]: isOpen ? '#ffffff' : '#f5faff' } as CSSProperties
                  : { borderTop: '1px solid rgba(236, 29, 39, 0.2)' }}>
+            {cards && <span aria-hidden="true" className="cut-shadow"
+                            style={{ ['--shadow' as string]: '0 8px 16px rgba(30, 60, 90, 0.1)' } as CSSProperties} />}
             <button type="button" className="acc-trigger" aria-expanded={isOpen} aria-controls={panelId}
                     onClick={() => toggle(i)}
                     style={{

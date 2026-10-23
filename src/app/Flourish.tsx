@@ -48,9 +48,10 @@ export const Stationery = ({ children, className = '', style }: { children: Reac
   <div className={`founder-note cut ${className}`}
        style={{
          ['--cut' as string]: '26px', ['--line' as string]: '#ffffff', ['--fill' as string]: '#ffffff',
-         filter: 'drop-shadow(0 22px 34px rgba(30, 60, 90, 0.12)) drop-shadow(0 2px 4px rgba(30, 60, 90, 0.05))',
          ...style,
        } as CSSProperties}>
+    <span aria-hidden="true" className="cut-shadow"
+          style={{ ['--shadow' as string]: '0 22px 34px rgba(30, 60, 90, 0.12), 0 2px 4px rgba(30, 60, 90, 0.05)' } as CSSProperties} />
     <span aria-hidden="true" className="cut"
           style={{ position: 'absolute', inset: '12px', pointerEvents: 'none',
                    ['--cut' as string]: '18px', ['--bw' as string]: '1px', ['--line' as string]: 'rgba(236, 29, 39, 0.2)', ['--fill' as string]: '#ffffff' } as CSSProperties} />
@@ -76,7 +77,7 @@ export const Sticker = ({ src, alt = '', width, rotate = -8, style }: { src: str
        style={{ width, height: 'auto', transform: `rotate(${rotate}deg)`, filter: 'drop-shadow(0 10px 18px rgba(30, 60, 90, 0.18))', ...style }} />
 );
 
-/** Soft gift-wrap glow: a broad highlight that slowly drifts and breathes. Place inside any `position: relative` box. */
+/** Soft gift-wrap gloss: a broad, static diagonal highlight. Place inside any `position: relative` box. */
 export const Gloss = ({ delay = 0 }: { delay?: number }) => (
   <div aria-hidden="true" className="gloss-layer" style={{ ['--gloss-delay' as string]: `${delay}s` } as CSSProperties} />
 );

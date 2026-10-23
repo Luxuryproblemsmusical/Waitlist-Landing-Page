@@ -1,7 +1,6 @@
 /* Matched to the pouch: Instrument Serif for the condensed serif and its italic, Montserrat for the
-   wide tracked sans (the pouch's small capitals). Caveat is the handwriting. GALOP itself is the
-   wordmark artwork (src/imports/galop-wordmark.png), not a font. */
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Instrument+Serif:ital@0;1&family=Montserrat:wght@400;500;600;700&display=swap');
+   wide tracked sans (the pouch's small capitals). Caveat is the handwriting. The fonts are linked
+   from index.html's head. GALOP itself is the wordmark artwork (src/imports/galop-wordmark.svg). */
 
 /* Everything defaults to the pouch's sans, so nothing can fall back to a system Arial look. */
 html, body { font-family: 'Montserrat', sans-serif; }
