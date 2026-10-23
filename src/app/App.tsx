@@ -5,7 +5,7 @@ import { Gloss, Stationery, Polaroid } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
-import wordmarkImage from "../imports/galop-wordmark.png";
+import wordmarkImage from "../imports/galop-wordmark.svg";
 
 // [front title, front text, back title, back text]
 // Fronts paraphrase Sydney; backs use pouch facts. Her own key line lives only in her note below.
@@ -88,7 +88,7 @@ const HorseHero = () => {
   const mark = (
     <img src={horseImage} alt="" aria-hidden="true" width={278} height={230}
          className={reduceMotion ? undefined : 'horse-fidget'}
-         style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto', display: 'block', marginBottom: '6px' }} />
+         style={{ width: 'clamp(3rem, 10.5vw, 6.5rem)', height: 'auto', display: 'block', marginBottom: '10px' }} />
   );
   if (reduceMotion) return mark;
   return (
@@ -115,7 +115,7 @@ export default function App() {
         <HorseHero />
         {/* the wordmark itself, lifted from the pouch artwork, not set in a font */}
         <h1 style={{ margin: 0, lineHeight: 0 }}>
-          <img src={wordmarkImage} alt="GALOP" width={1866} height={438}
+          <img src={wordmarkImage} alt="GALOP" width={1351} height={301}
                style={{ width: 'clamp(15rem, 62vw, 40rem)', height: 'auto', display: 'block' }} />
         </h1>
         <p style={{

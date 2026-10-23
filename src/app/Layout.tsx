@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import horseImage from "../imports/galop-horse.png";
-import wordmarkImage from "../imports/galop-wordmark.png";
+import wordmarkImage from "../imports/galop-wordmark.svg";
 
 export const RED = '#EF2A30';
 export const BLUE = '#cbeafe';
@@ -64,7 +64,7 @@ const Nav = ({ current }: { current: string }) => {
          className="w-full max-w-4xl flex items-center justify-between gap-4 pb-6 md:pb-0"
          style={{ paddingTop: '4px' }}>
       <a href="/" aria-label="GALOP home" className="nav-logo" style={{ display: 'block', lineHeight: 0 }}>
-        <img src={wordmarkImage} alt="GALOP" width={1866} height={438} style={{ width: '5.4rem', height: 'auto' }} />
+        <img src={wordmarkImage} alt="GALOP" width={1351} height={301} style={{ width: '5.4rem', height: 'auto' }} />
       </a>
       {/* A little red hang tag on a string; it swings when you hover */}
       <a href={onAbout ? '/#shop' : '/about'} className={`nav-tag${onAbout ? ' is-flipped' : ''}`} data-fizz="8"
@@ -267,18 +267,18 @@ export function Layout({ title, current, children }: { title: string; current: s
         .acc-trigger:hover .acc-icon { transform: scale(1.08); }
         .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(45deg) scale(1.08); }
 
-        /* Brand motion: buttons gallop, presses fizz like lemonade */
+        /* Buttons: a gift-wrap sheen on hover, a squish on press, and lemonade fizz (see fizz()) */
         .btn-gallop {
           position: relative; overflow: hidden; isolation: isolate;
           transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
         }
         /* No lift on hover: the button stays put under the cursor (moving it made
-           the hover flicker on and off at its bottom edge); the shadow, sheen and
-           galloping horse carry the hover instead. */
+           the hover flicker on and off at its bottom edge); the shadow and sheen
+           carry the hover instead. */
         .btn-gallop:hover { box-shadow: 0 14px 28px rgba(239, 42, 48, 0.3); }
         .btn-gallop:active { transform: translateY(0) scale(0.96); transition-duration: 0.08s; }
         .btn-gallop .btn-label, .success-pill .btn-label { position: relative; z-index: 2; }
-        /* a quick gift-wrap sheen sweeps across on hover... */
+        /* a quick gift-wrap sheen sweeps across on hover */
         .btn-gallop::before {
           content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
           background: linear-gradient(110deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 65%);
@@ -286,27 +286,6 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
         .btn-gallop:hover::before { transform: translateX(120%); transition: transform 0.75s ease; }
         .btn-gallop.on-light::before { background: linear-gradient(110deg, rgba(239,42,48,0) 35%, rgba(239,42,48,0.12) 50%, rgba(239,42,48,0) 65%); }
-        /* ...while the horse gallops through behind the label */
-        .btn-gallop::after, .success-pill::after {
-          content: ''; position: absolute; top: 50%; left: -3em; z-index: 0; pointer-events: none;
-          width: 3em; height: 2.1em; margin-top: -1.1em; opacity: 0;
-          background: url(${horseImage}) center / contain no-repeat;
-        }
-        .btn-gallop::after { filter: brightness(0) invert(1); }
-        .btn-gallop.on-light::after { filter: none; }
-        .btn-gallop:hover::after, .success-pill::after {
-          animation: gallopAcross 1.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards, gallopBob 0.17s ease-in-out infinite alternate;
-        }
-        @keyframes gallopAcross {
-          0% { left: -3em; opacity: 0; }
-          12% { opacity: 0.75; }
-          85% { opacity: 0.75; }
-          100% { left: calc(100% + 1em); opacity: 0; }
-        }
-        @keyframes gallopBob {
-          from { translate: 0 0.08em; rotate: -5deg; }
-          to { translate: 0 -0.2em; rotate: 4deg; }
-        }
         .success-pill { position: relative; overflow: hidden; isolation: isolate; }
 
         .fizz-bubble {
@@ -361,13 +340,14 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes planHop { from { transform: scale(0.985); } to { transform: scale(1); } }
         @keyframes dotPop { from { transform: scale(0.5); } to { transform: scale(1); } }
 
-        /* Nav hang tag */
-        /* --dir: 1 hangs from the left and points left (From Sydney); -1 is the mirror image (Lemonade) */
+        /* Nav hang tag: a white boutique tag with a thin red keyline round the label, tracked
+           red capitals in the pouch's sans. --dir: 1 hangs from the left and points left
+           (From Sydney); -1 is the mirror image (Lemonade). */
         .nav-tag {
           --dir: 1;
           position: relative; display: inline-block; text-decoration: none; margin-right: 4px;
           transform: rotate(calc(-6deg * var(--dir))); transform-origin: 8px 50%;
-          filter: drop-shadow(0 6px 10px rgba(239, 42, 48, 0.22));
+          filter: drop-shadow(0 6px 12px rgba(30, 60, 90, 0.18)) drop-shadow(0 1px 1px rgba(30, 60, 90, 0.08));
         }
         .nav-tag.is-flipped { --dir: -1; transform-origin: calc(100% - 8px) 50%; margin-right: 26px; }
         .nav-tag:hover { animation: tagSwing 0.9s ease-in-out; }
@@ -377,30 +357,38 @@ export function Layout({ title, current, children }: { title: string; current: s
         .is-flipped .nav-tag-string { left: auto; right: -22px; transform: scaleX(-1); }
         .nav-tag-body {
           position: relative; display: inline-flex; align-items: center; overflow: hidden;
-          background: ${RED}; color: #ffffff;
-          font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 600;
-          font-size: 1.2rem; line-height: 1; letter-spacing: 0.01em;
-          padding: 9px 20px 10px 30px; white-space: nowrap;
+          background: #ffffff; color: ${RED};
+          font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
+          font-size: 0.66rem; line-height: 1; letter-spacing: 0.2em;
+          padding: 11px 15px 11px 30px; white-space: nowrap;
           clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
         }
         .is-flipped .nav-tag-body {
-          padding: 9px 30px 10px 20px;
+          padding: 11px 30px 11px 15px;
           clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
         }
+        /* the printed keyline round the label (it stops short of the hole) */
+        .nav-tag-body::before {
+          content: ''; position: absolute; inset: 4px 4px 4px 22px; pointer-events: none;
+          border: 1px solid rgba(239, 42, 48, 0.45); border-radius: 2px;
+        }
+        .is-flipped .nav-tag-body::before { inset: 4px 22px 4px 4px; }
         .nav-tag-hole {
           position: absolute; left: 11px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 9999px;
-          background: #e4f4ff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+          background: #e4f4ff; box-shadow: inset 0 0 0 1px rgba(239, 42, 48, 0.35);
         }
         .is-flipped .nav-tag-hole { left: auto; right: 11px; }
-        /* phones: a slightly smaller tag so "From Sydney" clears the hero horse */
+        /* phones: a slightly smaller tag */
         @media (max-width: 420px) {
-          .nav-tag-body { font-size: 1.05rem; padding: 8px 16px 9px 26px; }
-          .is-flipped .nav-tag-body { padding: 8px 26px 9px 16px; }
+          .nav-tag-body { font-size: 0.6rem; padding: 10px 12px 10px 27px; }
+          .is-flipped .nav-tag-body { padding: 10px 27px 10px 12px; }
+          .nav-tag-body::before { inset: 4px 4px 4px 20px; }
+          .is-flipped .nav-tag-body::before { inset: 4px 20px 4px 4px; }
         }
         /* sheen across the tag on hover */
         .nav-tag-body::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(110deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 65%);
+          background: linear-gradient(110deg, rgba(239,42,48,0) 35%, rgba(239,42,48,0.08) 50%, rgba(239,42,48,0) 65%);
           transform: translateX(-120%);
         }
         .nav-tag:hover .nav-tag-body::after { transform: translateX(120%); transition: transform 0.7s ease; }
@@ -436,7 +424,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card.is-flipped .flip-face:not(.flip-back) { opacity: 0; }
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
-          .btn-gallop::before, .btn-gallop::after, .success-pill::after { display: none; }
+          .btn-gallop::before { display: none; }
           .plan-card, .plan-dot, .arrow-hop, .whip, .whip-path, .nav-tag, .horse-fidget { animation: none !important; }
         }
       `}</style>
