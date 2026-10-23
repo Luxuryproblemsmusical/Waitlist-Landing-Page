@@ -66,15 +66,15 @@ const Nav = ({ current }: { current: string }) => {
       <a href="/" aria-label="GALOP home" className="nav-logo" style={{ display: 'block', lineHeight: 0 }}>
         <img src={wordmarkImage} alt="GALOP" width={1351} height={301} style={{ width: '5.4rem', height: 'auto' }} />
       </a>
-      {/* A little red hang tag on a string; it swings when you hover */}
-      <a href={onAbout ? '/#shop' : '/about'} className={`nav-tag${onAbout ? ' is-flipped' : ''}`} data-fizz="8"
+      {/* A hang tag on a cord from the offer bar: it dangles, sways a little, and swings when you hover */}
+      <a href={onAbout ? '/#shop' : '/about'} className="nav-tag" data-fizz="8"
          aria-label={onAbout ? 'Lemonade: shop the Multivitamin Drink Mix' : 'From Sydney: read Sydney\u2019s letter'}>
-        <svg className="nav-tag-string" viewBox="0 0 40 30" aria-hidden="true">
-          <path d="M33 26 C 26 14, 14 6, 2 2" fill="none" stroke={RED} strokeWidth="1.3" strokeLinecap="round" />
-        </svg>
-        <span className="nav-tag-body">
-          <span className="nav-tag-hole" aria-hidden="true" />
-          {onAbout ? 'Lemonade' : 'From Sydney'}
+        <span className="nav-tag-swing">
+          <span className="nav-tag-cord" aria-hidden="true" />
+          <span className="nav-tag-body">
+            <span className="nav-tag-hole" aria-hidden="true" />
+            {onAbout ? 'Lemonade' : <>From<br />Sydney</>}
+          </span>
         </span>
       </a>
     </nav>
@@ -340,50 +340,43 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes planHop { from { transform: scale(0.985); } to { transform: scale(1); } }
         @keyframes dotPop { from { transform: scale(0.5); } to { transform: scale(1); } }
 
-        /* Nav hang tag: a white boutique tag with a thin red keyline round the label, tracked
-           red capitals in the pouch's sans. --dir: 1 hangs from the left and points left
-           (From Sydney); -1 is the mirror image (Lemonade). */
+        /* Nav hang tag: a white boutique tag that hangs the way a real one does. A straight cord
+           drops from the red offer bar (its top runs up behind the bar, so it reads as tied on);
+           the tag dangles upright from it, hole at the top. The whole thing pivots on the tie
+           point: a slow sway at rest, a real swing on hover. */
         .nav-tag {
-          --dir: 1;
-          position: relative; display: inline-block; text-decoration: none; margin-right: 4px;
-          transform: rotate(calc(-6deg * var(--dir))); transform-origin: 8px 50%;
-          filter: drop-shadow(0 6px 12px rgba(30, 60, 90, 0.18)) drop-shadow(0 1px 1px rgba(30, 60, 90, 0.08));
+          position: relative; display: block; align-self: flex-start; width: 5.6rem; height: 2.4rem;
+          text-decoration: none;
         }
-        .nav-tag.is-flipped { --dir: -1; transform-origin: calc(100% - 8px) 50%; margin-right: 26px; }
-        .nav-tag:hover { animation: tagSwing 0.9s ease-in-out; }
-        .nav-tag:active { transform: rotate(calc(-6deg * var(--dir))) scale(0.95); }
-        .nav-tag:focus-visible { outline: 3px solid ${RED}; outline-offset: 6px; border-radius: 6px; }
-        .nav-tag-string { position: absolute; left: -22px; top: -12px; width: 40px; height: 30px; overflow: visible; }
-        .is-flipped .nav-tag-string { left: auto; right: -22px; transform: scaleX(-1); }
+        .nav-tag:focus-visible { outline: none; }
+        .nav-tag:focus-visible .nav-tag-body { outline: 3px solid ${RED}; outline-offset: 3px; }
+        .nav-tag-swing {
+          position: absolute; left: 50%; top: -3.4rem; display: flex; flex-direction: column; align-items: center;
+          translate: -50% 0; transform-origin: 50% 0;
+          animation: tagSway 3.4s ease-in-out infinite alternate;
+        }
+        .nav-tag:hover .nav-tag-swing { animation: tagSwing 1.6s cubic-bezier(0.3, 0, 0.3, 1); }
+        .nav-tag-cord { width: 1.5px; height: 3.85rem; background: ${RED}; border-radius: 1px; margin-bottom: -0.6rem; z-index: 1; }
         .nav-tag-body {
-          position: relative; display: inline-flex; align-items: center; overflow: hidden;
-          background: #ffffff; color: ${RED};
+          position: relative; display: block; overflow: hidden; min-width: 5.6rem;
+          background: #ffffff; color: ${RED}; text-align: center;
           font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase;
-          font-size: 0.66rem; line-height: 1; letter-spacing: 0.2em;
-          padding: 11px 15px 11px 30px; white-space: nowrap;
-          clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
+          font-size: 0.62rem; line-height: 1.45; letter-spacing: 0.2em;
+          padding: 1.45rem 0.7rem 0.75rem 0.9rem; white-space: nowrap;
+          /* chamfered top corners, like a luggage tag */
+          clip-path: polygon(0.9rem 0, calc(100% - 0.9rem) 0, 100% 0.9rem, 100% 100%, 0 100%, 0 0.9rem);
+          filter: drop-shadow(0 6px 12px rgba(30, 60, 90, 0.18));
+          transition: transform 0.15s ease;
         }
-        .is-flipped .nav-tag-body {
-          padding: 11px 30px 11px 15px;
-          clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
-        }
-        /* the printed keyline round the label (it stops short of the hole) */
+        .nav-tag:active .nav-tag-body { transform: scale(0.95); }
+        /* the printed keyline round the label, below the hole */
         .nav-tag-body::before {
-          content: ''; position: absolute; inset: 4px 4px 4px 22px; pointer-events: none;
+          content: ''; position: absolute; inset: 1.1rem 4px 4px 4px; pointer-events: none;
           border: 1px solid rgba(239, 42, 48, 0.45); border-radius: 2px;
         }
-        .is-flipped .nav-tag-body::before { inset: 4px 22px 4px 4px; }
         .nav-tag-hole {
-          position: absolute; left: 11px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 9999px;
+          position: absolute; left: 50%; top: 0.42rem; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 9999px;
           background: #e4f4ff; box-shadow: inset 0 0 0 1px rgba(239, 42, 48, 0.35);
-        }
-        .is-flipped .nav-tag-hole { left: auto; right: 11px; }
-        /* phones: a slightly smaller tag */
-        @media (max-width: 420px) {
-          .nav-tag-body { font-size: 0.6rem; padding: 10px 12px 10px 27px; }
-          .is-flipped .nav-tag-body { padding: 10px 27px 10px 12px; }
-          .nav-tag-body::before { inset: 4px 4px 4px 20px; }
-          .is-flipped .nav-tag-body::before { inset: 4px 20px 4px 4px; }
         }
         /* sheen across the tag on hover */
         .nav-tag-body::after {
@@ -392,12 +385,14 @@ export function Layout({ title, current, children }: { title: string; current: s
           transform: translateX(-120%);
         }
         .nav-tag:hover .nav-tag-body::after { transform: translateX(120%); transition: transform 0.7s ease; }
+        @keyframes tagSway { from { rotate: -2.5deg; } to { rotate: 2.5deg; } }
         @keyframes tagSwing {
-          0% { transform: rotate(calc(-6deg * var(--dir))); }
-          25% { transform: rotate(calc(5deg * var(--dir))); }
-          50% { transform: rotate(calc(-11deg * var(--dir))); }
-          75% { transform: rotate(calc(-2deg * var(--dir))); }
-          100% { transform: rotate(calc(-6deg * var(--dir))); }
+          0% { rotate: 0deg; }
+          15% { rotate: 10deg; }
+          35% { rotate: -7deg; }
+          55% { rotate: 4deg; }
+          75% { rotate: -2deg; }
+          100% { rotate: 0deg; }
         }
 
         /* Nav: the wordmark stretches its stride */
@@ -425,7 +420,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before { display: none; }
-          .plan-card, .plan-dot, .arrow-hop, .whip, .whip-path, .nav-tag, .horse-fidget { animation: none !important; }
+          .plan-card, .plan-dot, .arrow-hop, .whip, .whip-path, .nav-tag-swing, .horse-fidget { animation: none !important; }
         }
       `}</style>
     </div>
