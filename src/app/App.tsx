@@ -1,4 +1,4 @@
-import { Layout, Kicker, Heading, RED } from './Layout';
+import { Layout, RED } from './Layout';
 import { ProductSection } from './ProductSection';
 import { Gloss, Ribbon } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
@@ -128,69 +128,57 @@ export default function App() {
         </div>
       </div>
 
-      {/* Founder teaser — full-bleed white band; full story lives on /about */}
-      <div style={{
-        width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
-        background: '#ffffff', marginTop: '4rem',
-        padding: 'clamp(3.5rem, 7vw, 6rem) 1.5rem',
-        position: 'relative'
-      }}>
-      <Gloss delay={5} />
-      <Ribbon corner="tr" width="24rem" offset="2.2rem" className="hidden md:block" />
-      <Ribbon corner="bl" width="24rem" offset="2.2rem" className="hidden lg:block" />
-      <div className="max-w-2xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
-        <img
-          src={sydneyImage}
-          alt="Sydney, founder of GALOP"
-          style={{
-            width: 'clamp(5rem, 10vw, 7rem)',
-            height: 'clamp(5rem, 10vw, 7rem)',
-            borderRadius: '9999px',
-            objectFit: 'cover',
-            border: '3px solid #EF2A30',
-            boxShadow: '0 6px 18px rgba(239, 42, 48, 0.18)',
-            margin: '0 auto 1.25rem'
-          }}
-        />
-        <Kicker>A note from our founder</Kicker>
-        <Heading>Why I made GALOP</Heading>
-        <p style={{
-             fontFamily: 'Inter, sans-serif',
-             fontSize: '1.05rem',
-             fontWeight: 700,
-             color: RED,
-             lineHeight: 1.6,
-             letterSpacing: '0.005em'
-           }}>
-          I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. A standard multivitamin wasn't built for this — so I found a doctor and built one that was.
-        </p>
-        <p style={{
-             fontFamily: "'Caveat', cursive",
-             fontWeight: 500,
-             fontSize: 'clamp(2rem, 4vw, 2.6rem)',
-             lineHeight: 1,
-             color: RED,
-             marginTop: '1.25rem'
-           }}>
-          — Sydney
-        </p>
-        <a href="/about" className="link-arrow"
-           style={{
-             display: 'inline-block',
-             marginTop: '1.5rem',
-             fontFamily: 'Inter, sans-serif',
-             fontSize: '0.78rem',
-             fontWeight: 700,
-             color: RED,
-             textTransform: 'uppercase',
-             letterSpacing: '0.2em',
-             textDecoration: 'underline',
-             textUnderlineOffset: '0.3em'
-           }}>
-          Read Sydney&rsquo;s story <span className="arrow-hop">→</span>
-        </a>
-      </div>
-      </div>
+      {/* Founder note: a stationery card with a taped-on polaroid; full story lives on /about */}
+      <section className="max-w-4xl mx-auto mt-20 md:mt-24 px-1">
+        <div className="founder-note grid gap-10 md:gap-12 md:grid-cols-[auto_1fr] items-center"
+             style={{
+               position: 'relative', background: '#ffffff', borderRadius: '22px',
+               padding: 'clamp(2.25rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3.5rem)',
+               boxShadow: '0 24px 50px rgba(30, 60, 90, 0.12), 0 2px 6px rgba(30, 60, 90, 0.05)',
+             }}>
+          {/* stationery: a thin red keyline inside the card edge */}
+          <span aria-hidden="true" style={{ position: 'absolute', inset: '12px', borderRadius: '14px', border: '1px solid rgba(239, 42, 48, 0.16)', pointerEvents: 'none' }} />
+          <Gloss delay={5} />
+
+          {/* Polaroid */}
+          <figure className="polaroid justify-self-center" style={{ position: 'relative', zIndex: 2, margin: 0 }}>
+            <span aria-hidden="true" className="polaroid-tape" />
+            <img src={sydneyImage} alt="Sydney, founder of GALOP"
+                 style={{ display: 'block', width: 'clamp(9.5rem, 20vw, 12.5rem)', aspectRatio: '1', objectFit: 'cover' }} />
+            <figcaption style={{ fontFamily: "'Caveat', cursive", fontSize: '1.35rem', fontWeight: 600, color: RED, textAlign: 'center', marginTop: '0.55rem', lineHeight: 1 }}>
+              Sydney, founder
+            </figcaption>
+          </figure>
+
+          {/* Letter */}
+          <div className="text-center md:text-left" style={{ position: 'relative', zIndex: 2 }}>
+            <img src={horseImage} alt="" aria-hidden="true" className="mx-auto md:mx-0"
+                 style={{ width: '2.2rem', height: 'auto', marginBottom: '0.9rem', opacity: 0.9 }} />
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: RED, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85, margin: 0 }}>
+              A note from our founder
+            </p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2rem, 4vw, 2.6rem)', fontWeight: 600, color: RED, lineHeight: 1.05, margin: '0.5rem 0 1.1rem' }}>
+              Why I made GALOP
+            </h2>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.25rem, 2.4vw, 1.5rem)', lineHeight: 1.45, color: RED, margin: 0 }}>
+              &ldquo;I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. A standard multivitamin wasn&rsquo;t built for this &mdash; so I found a doctor and built one that was.&rdquo;
+            </p>
+            <div className="flex flex-wrap items-center justify-center md:justify-between gap-x-6 gap-y-3" style={{ marginTop: '1.4rem' }}>
+              <span style={{ fontFamily: "'Caveat', cursive", fontWeight: 600, fontSize: 'clamp(2.1rem, 4vw, 2.6rem)', lineHeight: 1, color: RED }}>
+                &mdash; Sydney
+              </span>
+              <a href="/about" className="link-arrow"
+                 style={{
+                   fontFamily: 'Inter, sans-serif', fontSize: '0.74rem', fontWeight: 700, color: RED,
+                   textTransform: 'uppercase', letterSpacing: '0.2em',
+                   textDecoration: 'underline', textUnderlineOffset: '0.3em'
+                 }}>
+                Read Sydney&rsquo;s story <span className="arrow-hop">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </Layout>
   );
 }

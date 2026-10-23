@@ -379,6 +379,19 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes whipFlick { 0% { transform: rotate(0); } 40% { transform: rotate(-4deg); } 75% { transform: rotate(1.5deg); } 100% { transform: rotate(0); } }
         @keyframes whipFlickAgain { 0% { transform: rotate(0); } 40% { transform: rotate(-4deg); } 75% { transform: rotate(1.5deg); } 100% { transform: rotate(0); } }
 
+        /* Founder note: taped polaroid that straightens up when you hover the card */
+        .polaroid {
+          background: #ffffff; padding: 10px 10px 12px;
+          box-shadow: 0 14px 30px rgba(30, 60, 90, 0.18), 0 1px 3px rgba(0, 0, 0, 0.08);
+          transform: rotate(-4deg); transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .founder-note:hover .polaroid { transform: rotate(-1deg) translateY(-4px) scale(1.02); }
+        .polaroid-tape {
+          position: absolute; top: -13px; left: 50%; width: 86px; height: 26px; margin-left: -43px; z-index: 3;
+          background: rgba(255, 240, 122, 0.6); transform: rotate(3deg);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        }
+
         /* Plan cards hop when chosen, and the radio dot pops */
         .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
         .plan-card[aria-pressed="true"] { animation: planHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
