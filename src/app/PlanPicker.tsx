@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useId, useState, type CSSProperties } from 'react';
 import { RED, INK } from './Layout';
 import { joinWaitlist } from './waitlist';
 import { Gloss } from './Flourish';
@@ -58,7 +58,6 @@ const ctaStyle = {
   letterSpacing: '0.16em',
   textTransform: 'uppercase' as const,
   border: 'none',
-  borderRadius: '9999px',
   padding: '20px 36px',
   cursor: 'pointer',
   textDecoration: 'none',
@@ -66,13 +65,8 @@ const ctaStyle = {
   overflow: 'hidden' as const,
 };
 
-const Check = () => (
-  <svg viewBox="0 0 20 20" width="1em" height="1em" aria-hidden="true"
-       style={{ flexShrink: 0, marginRight: '0.55em', marginTop: '0.2em' }}>
-    <circle cx="10" cy="10" r="10" fill={RED} opacity="0.12" />
-    <path d="M6 10.5l2.6 2.5L14 7.5" fill="none" stroke={RED} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+/** List bullet: a short red rule, like the one under LEMONADE on the pouch. */
+const Check = () => <span aria-hidden="true" style={{ flexShrink: 0, width: '0.7em', height: '1.5px', background: RED, marginRight: '0.7em', marginTop: '0.85em' }} />;
 
 const PriceSlot = ({ plan }: { plan: Plan }) => {
   const { price, compareAt } = PRICING[plan];
@@ -134,23 +128,20 @@ export function PlanPicker({ source }: { source: string }) {
               type="button"
               onClick={() => setPlan(p.id)}
               aria-pressed={selected}
-              className="plan-card text-left"
+              className="plan-card cut text-left"
               data-fizz="6"
               style={{
-                background: selected ? '#ffffff' : 'rgba(255,255,255,0.6)',
-                border: selected ? `2px solid ${RED}` : '2px solid rgba(239, 42, 48, 0.22)',
-                borderRadius: '18px',
-                padding: 0,
-                overflow: 'hidden',
-                cursor: 'pointer',
-                boxShadow: selected ? '0 10px 24px rgba(239, 42, 48, 0.12)' : 'none',
-                position: 'relative',
-                transition: 'background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.25s ease'
-              }}
+                ['--cut' as string]: '16px', ['--bw' as string]: '2px',
+                ['--line' as string]: selected ? RED : 'rgba(236, 29, 39, 0.22)',
+                ['--fill' as string]: selected ? '#ffffff' : 'rgba(255,255,255,0.6)',
+                background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                filter: selected ? 'drop-shadow(0 10px 16px rgba(236, 29, 39, 0.12))' : 'none',
+                transition: 'filter 0.2s ease, transform 0.25s ease'
+              } as CSSProperties}
             >
               {p.header && (
                 <div style={{
-                  background: selected ? RED : 'rgba(239, 42, 48, 0.12)',
+                  background: selected ? RED : 'rgba(236, 29, 39, 0.12)',
                   color: selected ? '#ffffff' : RED,
                   fontFamily: "'Montserrat', sans-serif",
                   fontSize: '0.64rem',
@@ -201,7 +192,7 @@ export function PlanPicker({ source }: { source: string }) {
 
       <div className="mt-5">
         {checkoutUrl ? (
-          <a href={checkoutUrl} className="btn-gallop" data-fizz="12" style={ctaStyle}>
+          <a href={checkoutUrl} className="btn-gallop cut-solid" data-fizz="12" style={ctaStyle}>
             <Gloss delay={6} /><span className="btn-label">Start now</span>
           </a>
         ) : !isSubmitted ? (
@@ -216,51 +207,52 @@ export function PlanPicker({ source }: { source: string }) {
               style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
             />
             <label htmlFor={emailId} className="sr-only">Email address for 20% off your first order</label>
-            <input
-              id={emailId}
-              type="email"
-              name="email"
-              autoComplete="email"
-              inputMode="email"
-              autoCapitalize="off"
-              autoCorrect="off"
-              spellCheck={false}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email address"
-              required
-              className="galop-input focus:outline-none"
-              style={{
-                background: '#ffffff',
-                borderRadius: '9999px',
-                border: '1px solid rgba(239, 42, 48, 0.2)',
-                padding: '18px 28px',
-                fontFamily: "'Montserrat', sans-serif",
-                fontSize: '1rem',
-                letterSpacing: '0.01em',
-                color: '#2d3748'
-              }}
-            />
+            <span className="galop-field cut" style={{ display: 'block', ['--cut' as string]: '12px', ['--bw' as string]: '1px', ['--line' as string]: 'rgba(236, 29, 39, 0.28)', ['--fill' as string]: '#ffffff' } as CSSProperties}>
+              <input
+                id={emailId}
+                type="email"
+                name="email"
+                autoComplete="email"
+                inputMode="email"
+                autoCapitalize="off"
+                autoCorrect="off"
+                spellCheck={false}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                required
+                className="galop-input focus:outline-none"
+                style={{
+                  display: 'block', width: '100%',
+                  background: 'transparent',
+                  border: 'none',
+                  padding: '18px 28px',
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontSize: '1rem',
+                  letterSpacing: '0.01em',
+                  color: '#2d3748'
+                }}
+              />
+            </span>
             <button type="submit" disabled={isSubmitting}
-                    className="btn-gallop disabled:opacity-60" data-fizz="12"
+                    className="btn-gallop cut-solid disabled:opacity-60" data-fizz="12"
                     style={ctaStyle}>
               <Gloss delay={6} /><span className="btn-label">{isSubmitting ? 'Saving…' : 'Get 20% off'}</span>
             </button>
           </form>
         ) : (
-          <div className="success-pill text-center animate-fade-in" role="status"
+          <div className="success-pill cut text-center animate-fade-in" role="status"
                style={{
-                 background: '#ffffff',
-                 borderRadius: '9999px',
+                 ['--cut' as string]: '12px', ['--bw' as string]: '1px',
+                 ['--line' as string]: 'rgba(236, 29, 39, 0.3)', ['--fill' as string]: '#ffffff',
                  padding: '18px 28px',
                  fontFamily: "'Montserrat', sans-serif",
                  fontSize: '0.95rem',
                  color: RED,
                  fontWeight: 700,
                  letterSpacing: '0.18em',
-                 textTransform: 'uppercase',
-                 border: '1px solid rgba(239, 42, 48, 0.2)'
-               }}>
+                 textTransform: 'uppercase'
+               } as CSSProperties}>
             <span className="btn-label">Thank you &mdash; check your inbox.</span>
           </div>
         )}

@@ -1,4 +1,5 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
+import type { CSSProperties } from 'react';
 import { Gloss } from './Flourish';
 import { Accordion } from './Interactive';
 
@@ -29,8 +30,8 @@ export default function FaqPage() {
       </div>
 
       {/* Still curious */}
-      <div className="max-w-2xl mx-auto mt-12 text-center lift"
-           style={{ position: 'relative', background: RED, color: '#ffffff', borderRadius: '24px', padding: 'clamp(28px, 5vw, 40px) 24px' }}>
+      <div className="max-w-2xl mx-auto mt-12 text-center lift cut"
+           style={{ ['--cut' as string]: '20px', ['--line' as string]: RED, ['--fill' as string]: RED, color: '#ffffff', padding: 'clamp(28px, 5vw, 40px) 24px' } as CSSProperties}>
         <Gloss delay={2} />
         <div style={{ position: 'relative', zIndex: 2 }}>
           <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', fontWeight: 600, lineHeight: 1.1, margin: 0 }}>
@@ -39,11 +40,11 @@ export default function FaqPage() {
           <p className="mt-2" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.95rem', fontWeight: 500, opacity: 0.9 }}>
             Ask us anything. We&rsquo;d love to hear from you.
           </p>
-          <a href="mailto:galoplife@gmail.com" className="btn-gallop on-light" data-fizz="10"
+          <a href="mailto:galoplife@gmail.com" className="btn-gallop cut-solid on-light" data-fizz="10"
              style={{
                display: 'inline-block', maxWidth: '100%', marginTop: '1.25rem', background: '#ffffff', color: RED,
                fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.16em',
-               textTransform: 'uppercase', borderRadius: '9999px', padding: '14px 28px', textDecoration: 'none'
+               textTransform: 'uppercase', padding: '14px 28px', textDecoration: 'none'
              }}>
             <span className="btn-label">Write to us</span>
           </a>

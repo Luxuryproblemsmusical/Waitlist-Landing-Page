@@ -28,12 +28,8 @@ const DETAILS: [string, string][] = [
   ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime — no calls, no hoops. New customers get 20% off their first order.'],
 ];
 
-const Check = () => (
-  <svg viewBox="0 0 20 20" width="1.1em" height="1.1em" aria-hidden="true" style={{ flexShrink: 0, marginRight: '0.6em', marginTop: '0.15em' }}>
-    <circle cx="10" cy="10" r="10" fill={RED} opacity="0.12" />
-    <path d="M6 10.5l2.6 2.5L14 7.5" fill="none" stroke={RED} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+/** List bullet: a short red rule, like the one under LEMONADE on the pouch. */
+const Check = () => <span aria-hidden="true" style={{ flexShrink: 0, width: '0.8em', height: '1.5px', background: RED, marginRight: '0.75em', marginTop: '0.8em' }} />;
 
 /** Product page block: gallery left, buy box right, accordions under. */
 export function ProductSection() {
@@ -45,12 +41,14 @@ export function ProductSection() {
         {/* Gallery — a soft lemon glow sits behind the packaging */}
         <div style={{ position: 'relative', isolation: 'isolate' }}>
           <PackagingGlow />
+          {/* framed in a horseshoe arch, like a stable window */}
           <div style={{
             position: 'relative',
             background: '#ffffff',
-            borderRadius: '24px',
+            borderRadius: '50% 50% 18px 18px / 30% 30% 18px 18px',
+            overflow: 'hidden',
             padding: GALLERY[active].fill ? 0 : 'clamp(30px, 4vw, 48px) clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px)',
-            border: '1px solid rgba(239, 42, 48, 0.12)',
+            border: '1px solid rgba(236, 29, 39, 0.12)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             minHeight: '320px'
           }}>
@@ -62,7 +60,7 @@ export function ProductSection() {
               height={GALLERY[active].height}
               className="w-full h-auto object-contain"
               style={GALLERY[active].fill
-                ? { display: 'block', borderRadius: '23px' }
+                ? { display: 'block' }
                 : { maxHeight: '460px', filter: 'drop-shadow(0 10px 20px rgba(30, 60, 90, 0.14))' }}
             />
           </div>
@@ -73,7 +71,7 @@ export function ProductSection() {
                       style={{
                         width: '72px', height: '72px', borderRadius: '14px', padding: g.fill ? 0 : '8px', overflow: 'hidden',
                         background: '#ffffff',
-                        border: active === i ? `2px solid ${RED}` : '2px solid rgba(239, 42, 48, 0.15)',
+                        border: active === i ? `2px solid ${RED}` : '2px solid rgba(236, 29, 39, 0.15)',
                         cursor: 'pointer'
                       }}>
                 <img src={g.src} alt="" className={`w-full h-full ${g.fill ? 'object-cover' : 'object-contain'}`} />

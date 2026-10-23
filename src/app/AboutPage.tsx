@@ -46,7 +46,7 @@ export default function AboutPage() {
             <p style={{ fontFamily: "'Caveat', cursive", fontWeight: 600, fontSize: 'clamp(2.2rem, 4vw, 2.6rem)', lineHeight: 1, color: RED, marginTop: '1.25rem' }}>
               — Sydney
             </p>
-            <p style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(239, 42, 48, 0.16)', fontStyle: 'italic', fontSize: '1.15rem' }}>
+            <p style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(236, 29, 39, 0.16)', fontStyle: 'italic', fontSize: '1.15rem' }}>
               P.S. GALOP just launched, so your first order is 20% off.
             </p>
           </div>
@@ -54,7 +54,7 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-14 text-center">
-        <a href="/#shop" className="btn-gallop" data-fizz="12"
+        <a href="/#shop" className="btn-gallop cut-solid" data-fizz="12"
            style={{
              display: 'inline-block',
              background: RED,
@@ -64,7 +64,6 @@ export default function AboutPage() {
              fontSize: '0.9rem',
              letterSpacing: '0.18em',
              textTransform: 'uppercase',
-             borderRadius: '9999px',
              padding: '18px 36px',
              textDecoration: 'none'
            }}>

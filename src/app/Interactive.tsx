@@ -1,5 +1,7 @@
 import { useId, useState, type ReactNode } from 'react';
+import type { CSSProperties } from 'react';
 import { RED, BLUE, INK } from './Layout';
+import { Horseshoe } from './Flourish';
 
 /**
  * Card that turns over on click / tap / Enter to show its back. No label: on
@@ -13,8 +15,7 @@ export function FlipCard({ front, back }: { front: ReactNode; back: ReactNode })
   const face = {
     gridArea: '1 / 1',
     position: 'relative' as const,
-    borderRadius: '22px',
-    padding: '26px 22px 28px',
+    padding: '30px 28px 32px',
     textAlign: 'left' as const,
   };
   return (
@@ -72,11 +73,12 @@ export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:
         const isOpen = open.has(i);
         const panelId = `${baseId}-${i}`;
         return (
-          <div key={q} className={`acc-item${cards ? ' acc-card' : ''}${isOpen ? ' is-open' : ''}`}
+          <div key={q} className={`acc-item${cards ? ' acc-card cut' : ''}${isOpen ? ' is-open' : ''}`}
                style={cards
-                 ? { background: isOpen ? '#ffffff' : 'rgba(255,255,255,0.65)', borderRadius: '18px',
-                     border: `2px solid ${isOpen ? RED : 'rgba(239, 42, 48, 0.16)'}`, position: 'relative' }
-                 : { borderTop: '1px solid rgba(239, 42, 48, 0.2)' }}>
+                 ? { ['--cut' as string]: '16px', ['--bw' as string]: '2px',
+                     ['--line' as string]: isOpen ? RED : 'rgba(236, 29, 39, 0.16)',
+                     ['--fill' as string]: isOpen ? '#ffffff' : 'rgba(255,255,255,0.65)' } as CSSProperties
+                 : { borderTop: '1px solid rgba(236, 29, 39, 0.2)' }}>
             <button type="button" className="acc-trigger" aria-expanded={isOpen} aria-controls={panelId}
                     onClick={() => toggle(i)}
                     style={{
@@ -88,14 +90,10 @@ export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:
                       fontWeight: 600, lineHeight: 1.2,
                     }}>
               {q}
+              {/* a horseshoe: upside down while closed, flips lucky side up when open */}
               <span className="acc-icon" aria-hidden="true"
-                    style={{
-                      flexShrink: 0, width: '1.9rem', height: '1.9rem', borderRadius: '9999px',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: isOpen ? RED : 'rgba(239, 42, 48, 0.1)', color: isOpen ? '#ffffff' : RED,
-                      fontFamily: "'Montserrat', sans-serif", fontSize: '1.15rem', fontWeight: 500, lineHeight: 1,
-                    }}>
-                +
+                    style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '1.9rem', height: '1.9rem', color: RED }}>
+                <Horseshoe size="1.25rem" />
               </span>
             </button>
             <div id={panelId} role="region" className="acc-panel" aria-hidden={!isOpen}>
@@ -112,7 +110,7 @@ export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:
           </div>
         );
       })}
-      {!cards && <div style={{ borderTop: '1px solid rgba(239, 42, 48, 0.2)' }} />}
+      {!cards && <div style={{ borderTop: '1px solid rgba(236, 29, 39, 0.2)' }} />}
     </div>
   );
 }

@@ -2,15 +2,17 @@ import { useEffect, type ReactNode } from 'react';
 import horseImage from "../imports/galop-horse.png";
 import wordmarkImage from "../imports/galop-wordmark.svg";
 
-export const RED = '#EF2A30';
+/** The logo's red (the designer's wordmark file): anything that should stand out. */
+export const RED = '#ec1d27';
 export const BLUE = '#cbeafe';
 /** Pale lemon accent, used sparingly around lemonade moments. */
 export const LEMON = '#FFF07A';
 /**
- * Deeper ink red for text under ~24px: 4.8:1 on #cbeafe and 6.0:1 on white (brand RED is
- * 3.3:1 and 4.2:1). Headings, wordmark, hang tag, buttons, icons and the horse stay RED.
+ * Oxblood, the second tone: supporting text (body copy, kickers, small caps, footer), so the
+ * brand red is left for what should stand out. 7.4:1 on #cbeafe and 9.3:1 on white (RED is
+ * 3.5:1 and 4.4:1). Headings, wordmark, hang tag, buttons, icons and the horse stay RED.
  */
-export const INK = '#C4161C';
+export const INK = '#8F1219';
 
 /** Small dot separator. */
 export const Dot = ({ opacity = 0.85 }: { opacity?: number }) => (
@@ -94,9 +96,9 @@ const Footer = () => (
           }}>
     {/* hairline, horse, hairline: a quiet sign-off */}
     <div className="flex items-center justify-center gap-4 mb-6" aria-hidden="true">
-      <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(239, 42, 48, 0.3)' }} />
+      <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(236, 29, 39, 0.3)' }} />
       <img src={horseImage} alt="" style={{ width: '1.9rem', height: 'auto', opacity: 0.9 }} />
-      <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(239, 42, 48, 0.3)' }} />
+      <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(236, 29, 39, 0.3)' }} />
     </div>
     <p>© {new Date().getFullYear()} GALOP. All rights reserved.</p>
     <p style={{ marginTop: '0.5rem' }} className="flex flex-wrap justify-center gap-x-5 gap-y-1">
@@ -219,28 +221,61 @@ export function Layout({ title, current, children }: { title: string; current: s
           .lift:hover { transform: translateY(-4px); }
           /* The lift and the "I flip" tilt go on the inner card, so the button's own
              box never moves out from under the cursor (which made it flicker). */
-          .flip-card:hover .flip-inner { box-shadow: 0 20px 40px rgba(30, 60, 90, 0.2); transform: translateY(-5px) rotateY(-16deg); }
+          .flip-card:hover .flip-inner { transform: translateY(-5px) rotateY(-16deg); }
           .flip-card.is-flipped:hover .flip-inner { transform: translateY(-5px) rotateY(164deg); }
-          .acc-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30, 60, 90, 0.1); }
+          .acc-card:hover { transform: translateY(-2px); filter: drop-shadow(0 8px 14px rgba(30, 60, 90, 0.1)); }
           .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
           .founder-note:hover .polaroid { transform: rotate(-1deg) translateY(-4px) scale(1.02); }
+        }
+
+        /* Tag-cut shape: corners clipped at 45°, like the hang tag and a tack-room plaque.
+           The outline and the fill are two clipped layers behind the content, so the
+           element itself stays unclipped: its drop-shadow (filter) follows the cut,
+           and nothing inside gets trimmed. Set --cut, --bw, --line and --fill. */
+        .cut { --cut: 14px; --bw: 1.5px; --line: transparent; --fill: #ffffff; position: relative; isolation: isolate; }
+        .cut::before, .cut::after { content: ''; position: absolute; pointer-events: none; transition: background 0.2s ease; }
+        .cut::before {
+          inset: 0; z-index: -2; background: var(--line);
+          clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)),
+                             calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
+        }
+        .cut::after {
+          --c2: max(0px, calc(var(--cut) - var(--bw) * 0.414));
+          inset: var(--bw); z-index: -1; background: var(--fill);
+          clip-path: polygon(var(--c2) 0, calc(100% - var(--c2)) 0, 100% var(--c2), 100% calc(100% - var(--c2)),
+                             calc(100% - var(--c2)) 100%, var(--c2) 100%, 0 calc(100% - var(--c2)), 0 var(--c2));
+        }
+        .cut > .gloss-layer {
+          border-radius: 0;
+          clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)),
+                             calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
+        }
+        /* solid buttons: clip the button itself (no outline to keep) */
+        .cut-solid {
+          --cut: 12px; border-radius: 0 !important;
+          clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)),
+                             calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
         }
 
         /* Flip cards (Interactive.tsx) */
         .flip-card {
           display: block; width: 100%; padding: 0; border: none; background: none; cursor: pointer;
-          perspective: 1400px; border-radius: 22px; text-align: left; font: inherit; color: inherit;
+          perspective: 1400px; text-align: left; font: inherit; color: inherit;
+          /* the shadow sits on the button so it follows the faces' tag-cut corners */
+          filter: drop-shadow(0 12px 18px rgba(30, 60, 90, 0.14));
         }
         .flip-card:focus-visible { outline: 3px solid #ffffff; outline-offset: 4px; } /* flip cards sit on the red band */
         .flip-inner {
-          display: grid; height: 100%; border-radius: 22px;
-          transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1), box-shadow 0.25s ease;
-          box-shadow: 0 12px 28px rgba(30, 60, 90, 0.12);
+          display: grid; height: 100%;
+          transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1);
         }
         /* Only the faces hide their backs. Putting backface-visibility on everything inside them
            (an earlier attempt) makes Safari depth-sort each piece separately, and when the card
            tilts it draws the face's background over its own text, so the content vanishes. */
-        .flip-face { display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: flat; }
+        .flip-face { display: flex; flex-direction: column; justify-content: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: flat;
+          clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px); }
+        /* Stacked, a face shorter than its other side sits centred; in a row, titles line up across the top */
+        @media (min-width: 640px) { .flip-face { justify-content: flex-start; } }
         .flip-back { transform: rotateY(180deg); }
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
         /* The "I flip" cue: hover starts the turn (above); touch screens get one small peek. */
@@ -261,11 +296,13 @@ export function Layout({ title, current, children }: { title: string; current: s
         .acc-icon { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, color 0.2s ease; }
         .acc-item .acc-panel > div { opacity: 0; transform: translateY(-6px); transition: opacity 0.3s ease, transform 0.35s ease; }
         .acc-item.is-open .acc-panel > div { opacity: 1; transform: none; }
-        .acc-item.is-open .acc-icon { transform: rotate(45deg); }
+        /* horseshoe toggle: upside down while closed, lucky side up when open */
+        .acc-icon { transform: rotate(180deg); }
+        .acc-item.is-open .acc-icon { transform: rotate(0deg); }
         .acc-card { transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease; }
         .acc-trigger:focus-visible { outline: 3px solid ${RED}; outline-offset: 2px; border-radius: 14px; }
-        .acc-trigger:hover .acc-icon { transform: scale(1.08); }
-        .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(45deg) scale(1.08); }
+        .acc-trigger:hover .acc-icon { transform: rotate(180deg) scale(1.1); }
+        .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(0deg) scale(1.1); }
 
         /* Buttons: a gift-wrap sheen on hover, a squish on press, and lemonade fizz (see fizz()) */
         .btn-gallop {
@@ -275,7 +312,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* No lift on hover: the button stays put under the cursor (moving it made
            the hover flicker on and off at its bottom edge); the shadow and sheen
            carry the hover instead. */
-        .btn-gallop:hover { box-shadow: 0 14px 28px rgba(239, 42, 48, 0.3); }
+        .btn-gallop:hover { filter: brightness(1.04) saturate(1.06); }
         .btn-gallop:active { transform: translateY(0) scale(0.96); transition-duration: 0.08s; }
         .btn-gallop .btn-label, .success-pill .btn-label { position: relative; z-index: 2; }
         /* a quick gift-wrap sheen sweeps across on hover */
@@ -285,7 +322,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           transform: translateX(-120%);
         }
         .btn-gallop:hover::before { transform: translateX(120%); transition: transform 0.75s ease; }
-        .btn-gallop.on-light::before { background: linear-gradient(110deg, rgba(239,42,48,0) 35%, rgba(239,42,48,0.12) 50%, rgba(239,42,48,0) 65%); }
+        .btn-gallop.on-light::before { background: linear-gradient(110deg, rgba(236,29,39,0) 35%, rgba(236,29,39,0.12) 50%, rgba(236,29,39,0) 65%); }
         .success-pill { position: relative; overflow: hidden; isolation: isolate; }
 
         .fizz-bubble {
@@ -360,16 +397,16 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* the printed keyline round the label, below the hole */
         .nav-tag-body::before {
           content: ''; position: absolute; inset: 1.1rem 4px 4px 4px; pointer-events: none;
-          border: 1px solid rgba(239, 42, 48, 0.45); border-radius: 2px;
+          border: 1px solid rgba(236, 29, 39, 0.45); border-radius: 2px;
         }
         .nav-tag-hole {
           position: absolute; left: 50%; top: 0.42rem; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 9999px;
-          background: #e4f4ff; box-shadow: inset 0 0 0 1px rgba(239, 42, 48, 0.35);
+          background: #e4f4ff; box-shadow: inset 0 0 0 1px rgba(236, 29, 39, 0.35);
         }
         /* sheen across the tag on hover */
         .nav-tag-body::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(110deg, rgba(239,42,48,0) 35%, rgba(239,42,48,0.08) 50%, rgba(239,42,48,0) 65%);
+          background: linear-gradient(110deg, rgba(236,29,39,0) 35%, rgba(236,29,39,0.08) 50%, rgba(236,29,39,0) 65%);
           transform: translateX(-120%);
         }
         .nav-tag:hover .nav-tag-body::after { transform: translateX(120%); transition: transform 0.7s ease; }
@@ -394,8 +431,8 @@ export function Layout({ title, current, children }: { title: string; current: s
 
 
         /* Inputs glow when focused */
-        .galop-input { transition: border-color 0.2s ease, box-shadow 0.25s ease; }
-        .galop-input:focus { border-color: ${RED} !important; box-shadow: 0 0 0 4px rgba(239, 42, 48, 0.14); }
+        /* the email field's tag-cut frame turns brand red while you type */
+        .galop-field:focus-within { --line: ${RED} !important; --bw: 1.5px !important; }
 
         @media (prefers-reduced-motion: reduce) {
           .float-slow, .animate-float { animation: none !important; }
