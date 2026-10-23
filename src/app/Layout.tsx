@@ -137,6 +137,8 @@ function CursorSheen() {
       tx = e.clientX; ty = e.clientY;
       if (!placed) { x = tx; y = ty; placed = true; }
       el.classList.add('is-on');
+      // buttons have their own hover sheen, so the light steps back over them
+      el.classList.toggle('is-quiet', !!(e.target as Element | null)?.closest?.('.btn-gallop, .success-pill'));
       if (!frame) frame = requestAnimationFrame(step);
     };
     const onLeave = () => el.classList.remove('is-on');
@@ -345,9 +347,10 @@ export function Layout({ title, current, children }: { title: string; current: s
           position: fixed; left: 0; top: 0; width: 360px; height: 360px; margin: -180px 0 0 -180px;
           border-radius: 50%; pointer-events: none; z-index: 60; opacity: 0; will-change: transform;
           background: radial-gradient(closest-side, rgba(255,255,255,0.45), rgba(255,255,255,0.14) 50%, rgba(255,255,255,0) 100%);
-          mix-blend-mode: soft-light; transition: opacity 0.5s ease;
+          mix-blend-mode: soft-light; transition: opacity 0.35s ease;
         }
         .cursor-sheen.is-on { opacity: 1; }
+        .cursor-sheen.is-on.is-quiet { opacity: 0; }
 
 
         /* Founder note: taped polaroid that straightens up when you hover the card */
