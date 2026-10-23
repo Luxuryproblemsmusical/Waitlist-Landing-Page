@@ -1,6 +1,6 @@
 import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Gloss, Ribbon, Stationery, Polaroid } from './Flourish';
+import { Gloss, Stationery, Polaroid } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
@@ -112,8 +112,6 @@ export default function App() {
         position: 'relative'
       }}>
         <Gloss delay={1} />
-        <Ribbon corner="tl" tone="white" width="22rem" offset="2.4rem" className="hidden md:block" />
-        <Ribbon corner="br" tone="white" width="22rem" offset="2.4rem" className="hidden xl:block" />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
           <p className="mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.22em' }}>
             Why it exists

@@ -17,12 +17,6 @@ const BENEFITS = [
   'Zero sugar, sweetened with monkfruit & stevia',
 ];
 
-const TRUST = [
-  { label: 'Doctor-formulated', detail: 'Built with a doctor for life on a GLP-1.' },
-  { label: 'Made in the USA', detail: 'Produced and packed in the USA.' },
-  { label: 'Cancel anytime', detail: 'Pause, skip, or cancel from your account.' },
-];
-
 // Sydney: edit freely — this is the "Why / Ingredients / Directions" accordion set.
 const DETAILS: [string, string][] = [
   ['Why GALOP?', 'GLP-1 medications shrink your appetite, so you eat less — and fewer nutrients reach your body. Standard multivitamins weren’t built for that. GALOP is dosed for life on a GLP-1: higher levels of the vitamins, minerals, and electrolytes that tend to run low, in a once-a-day drink you’ll actually look forward to.'],
@@ -38,17 +32,9 @@ const Check = () => (
   </svg>
 );
 
-const TrustIcon = () => (
-  <svg viewBox="0 0 24 24" width="2rem" height="2rem" aria-hidden="true">
-    <circle cx="12" cy="12" r="11" fill="none" stroke={RED} strokeWidth="1.6" />
-    <path className="trust-check" d="M7 12.5l3 3 7-7" fill="none" stroke={RED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="15" />
-  </svg>
-);
-
-/** Gruns-style product page block: gallery left, buy box right, trust row + accordions under. */
+/** Product page block: gallery left, buy box right, accordions under. */
 export function ProductSection() {
   const [active, setActive] = useState(0);
-  const [trustOpen, setTrustOpen] = useState(-1);
 
   return (
     <section id="shop" className="mt-6" style={{ scrollMarginTop: '16px' }}>
@@ -127,34 +113,6 @@ export function ProductSection() {
           </ul>
 
           <PlanPicker source="galoplife.com" />
-
-          {/* Trust row */}
-          <div className="grid grid-cols-3 gap-3 mt-6 text-center items-start">
-            {TRUST.map((t, i) => {
-              const on = trustOpen === i;
-              return (
-                <button key={t.label} type="button" className="trust-card lift flex flex-col items-center"
-                        aria-expanded={on} onClick={() => setTrustOpen(on ? -1 : i)}
-                        style={{
-                          background: on ? '#ffffff' : 'rgba(255,255,255,0.5)', borderRadius: '16px', cursor: 'pointer',
-                          border: `2px solid ${on ? RED : 'rgba(239, 42, 48, 0.12)'}`, padding: '12px 8px',
-                          transition: 'transform 0.25s ease, background 0.2s ease, border-color 0.2s ease'
-                        }}>
-                  <TrustIcon />
-                  <span className="mt-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: RED, lineHeight: 1.3 }}>
-                    {t.label}
-                  </span>
-                  <span className="acc-panel" style={{ gridTemplateRows: on ? '1fr' : '0fr', width: '100%' }}>
-                    <span style={{ overflow: 'hidden' }}>
-                      <span style={{ display: 'block', paddingTop: '6px', fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 500, color: RED, opacity: 0.85, lineHeight: 1.4 }}>
-                        {t.detail}
-                      </span>
-                    </span>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
 
           {/* Accordions */}
           <div className="mt-6">

@@ -11,20 +11,6 @@ export const LEMON = '#FFF07A';
  */
 export const INK = '#C4161C';
 
-/** Tiny white horse mark used as the separator in the marquee banners. */
-const MarqueeHorse = () => (
-  <img src={horseImage} alt="" aria-hidden="true"
-       style={{
-         display: 'inline-block',
-         height: '1.15em',
-         width: 'auto',
-         verticalAlign: '-0.2em',
-         margin: '0 1.1rem',
-         filter: 'brightness(0) invert(1)',
-         opacity: 0.95,
-       }} />
-);
-
 /** Small dot separator. */
 export const Dot = ({ opacity = 0.85 }: { opacity?: number }) => (
   <svg
@@ -60,36 +46,6 @@ const OfferBar = () => (
        style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 600, fontSize: 'clamp(1rem, 3.6vw, 1.1rem)', letterSpacing: '0.01em', lineHeight: 1.3, margin: 0 }}>
       Just launched &mdash; 20% off your first order.
     </p>
-  </div>
-);
-
-const Marquee = () => (
-  <div style={{
-    width: '100vw',
-    marginLeft: 'calc(50% - 50vw)',
-    marginRight: 'calc(50% - 50vw)',
-    background: RED,
-    color: '#ffffff',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    padding: '10px 0',
-    borderTop: '1px solid rgba(0,0,0,0.05)',
-  }}>
-    <div style={{
-      display: 'inline-block',
-      animation: 'marquee 30s linear infinite',
-      fontFamily: "'Cormorant Garamond', serif",
-      fontSize: '0.95rem',
-      letterSpacing: '0.25em',
-      textTransform: 'uppercase',
-      fontWeight: 500
-    }}>
-      {Array.from({ length: 10 }).map((_, i) => (
-        <span key={i} style={{ marginRight: '3rem' }}>
-          Just Launched <MarqueeHorse /> 20% Off Your First Order <MarqueeHorse />
-        </span>
-      ))}
-    </div>
   </div>
 );
 
@@ -188,7 +144,7 @@ function fizz(x: number, y: number, count: number) {
   }
 }
 
-/** Shared page chrome: offer bar, marquee, nav, footer, brand background, and keyframes. */
+/** Shared page chrome: offer bar, nav, footer, brand background, and keyframes. */
 export function Layout({ title, current, children }: { title: string; current: string; children: ReactNode }) {
   useEffect(() => {
     document.title = title;
@@ -222,13 +178,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         <Footer />
       </div>
 
-      <Marquee />
-
       <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-20px); }
           to { opacity: 1; transform: translateY(0); }
@@ -454,9 +404,6 @@ export function Layout({ title, current, children }: { title: string; current: s
         .link-arrow:hover .arrow-hop { animation: arrowCanter 0.5s ease-in-out infinite; }
         @keyframes arrowCanter { 0%, 100% { translate: 0 0; } 50% { translate: 5px -2px; } }
 
-        /* Trust cards: the check draws itself */
-        .trust-card:hover .trust-check, .trust-card[aria-expanded="true"] .trust-check { animation: drawCheck 0.5s ease; }
-        @keyframes drawCheck { from { stroke-dashoffset: 15; } to { stroke-dashoffset: 0; } }
 
         /* Inputs glow when focused */
         .galop-input { transition: border-color 0.2s ease, box-shadow 0.25s ease; }
@@ -473,7 +420,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before, .btn-gallop::after, .success-pill::after { display: none; }
-          .plan-card, .plan-dot, .trust-check, .arrow-hop, .whip, .whip-path, .nav-tag { animation: none !important; }
+          .plan-card, .plan-dot, .arrow-hop, .whip, .whip-path, .nav-tag { animation: none !important; }
         }
       `}</style>
     </div>
