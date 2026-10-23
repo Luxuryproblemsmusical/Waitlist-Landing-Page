@@ -55,12 +55,12 @@ export const SpinBadge = ({ text, size = '6.5rem', style }: { text: string; size
   </div>
 );
 
-/** Pale-lemon highlighter swipe behind a word, for lemonade moments. */
+/** A soft, diffuse glow of lemon light behind a word, like sun through a glass of lemonade. */
 export const Lemon = ({ children }: { children: ReactNode }) => (
   <span style={{ position: 'relative', display: 'inline-block', isolation: 'isolate' }}>
     <span aria-hidden="true" style={{
-      position: 'absolute', left: '-0.08em', right: '-0.08em', bottom: '0.04em', height: '0.45em',
-      background: LEMON, transform: 'skewX(-10deg) rotate(-1.5deg)', borderRadius: '3px', zIndex: -1
+      position: 'absolute', inset: '-0.35em -0.45em', zIndex: -1, borderRadius: '9999px', filter: 'blur(6px)',
+      background: 'radial-gradient(ellipse at 50% 55%, rgba(255, 240, 122, 0.85) 0%, rgba(255, 244, 160, 0.45) 45%, rgba(255, 248, 194, 0) 72%)'
     }} />
     {children}
   </span>

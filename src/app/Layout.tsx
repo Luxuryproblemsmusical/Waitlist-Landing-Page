@@ -104,7 +104,6 @@ export const NAV_LINKS = [
   { href: '/', label: 'Shop' },
   { href: '/about', label: 'About' },
   { href: '/faq', label: 'FAQ' },
-  { href: '/advisors', label: 'Advisors' },
 ];
 
 const Nav = ({ current }: { current: string }) => (
