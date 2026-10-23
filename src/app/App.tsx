@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
 import { Gloss, Stationery, Polaroid } from './Flourish';
@@ -18,14 +18,70 @@ const WHY: [string, string, string, string][] = [
 ];
 
 /**
+ * Cartoon hop path: `hops` springy bounds from `fromX` to `toX` (px), with squash
+ * on every take-off/landing and stretch at the top of each arc, then a little
+ * settle-bounce when `settle` is set. Offsets are fractions of the whole run.
+ */
+function hopFrames(fromX: number, toX: number, hops: number, height: number, settle: boolean): Keyframe[] {
+  const run = settle ? 0.84 : 1;
+  const frames: Keyframe[] = [];
+  for (let k = 0; k < hops; k++) {
+    const x0 = fromX + ((toX - fromX) * k) / hops;
+    const x1 = fromX + ((toX - fromX) * (k + 1)) / hops;
+    const at = (run * k) / hops;
+    const step = run / hops;
+    frames.push({ offset: at, transform: `translate(${x0}px, 0) scale(1.12, 0.86)`, easing: 'cubic-bezier(0.2, 0.6, 0.4, 1)' });
+    frames.push({ offset: at + step * 0.5, transform: `translate(${(x0 + x1) / 2}px, ${-height}px) scale(0.94, 1.08)`, easing: 'cubic-bezier(0.6, 0, 0.8, 0.4)' });
+  }
+  frames.push({ offset: run, transform: `translate(${toX}px, 0) scale(1.14, 0.84)`, easing: 'ease-out' });
+  if (settle) {
+    frames.push({ offset: 0.92, transform: `translate(${toX}px, ${-height * 0.25}px) scale(0.97, 1.04)`, easing: 'ease-in' });
+    frames.push({ offset: 1, transform: `translate(${toX}px, 0) scale(1, 1)` });
+  }
+  return frames;
+}
+
+/**
  * The horse mark, alive: an 8s loop of the logo galloping at its source 24fps
- * (half speed meant holding each frame twice, which looked choppy), as an
- * animated WebP with a real alpha channel, so it sits on the page background
- * with no box in any browser. Reduced-motion users get the static mark.
+ * (an animated WebP with a real alpha channel, so it sits on the page with no box).
+ * On load it bounds in from off-screen left in cartoon hops and lands above the
+ * wordmark; tap it and it hops off to the right and back in.
+ * Reduced-motion users get the static mark.
  */
 const HorseHero = () => {
   const reduceMotion =
     typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const runner = useRef<HTMLSpanElement>(null);
+  const busy = useRef(false);
+
+  // How far off-screen each side is from where the horse rests.
+  const distances = () => {
+    const el = runner.current!;
+    const r = el.getBoundingClientRect();
+    return { left: r.right + 24, right: window.innerWidth - r.left + 24, hops: window.innerWidth < 640 ? 4 : 6 };
+  };
+  const hopIn = () => {
+    const { left, hops } = distances();
+    return runner.current!.animate(hopFrames(-left, 0, hops, 26, true), { duration: hops * 270 / 0.84, delay: 0, fill: 'backwards' }).finished;
+  };
+
+  useEffect(() => {
+    if (reduceMotion || !runner.current?.animate) return;
+    hopIn().catch(() => {});
+  }, []);
+
+  const again = async () => {
+    if (reduceMotion || busy.current || !runner.current?.animate) return;
+    busy.current = true;
+    try {
+      const { right, hops } = distances();
+      await runner.current.animate(hopFrames(0, right, hops, 26, false), { duration: hops * 270, fill: 'forwards' }).finished;
+      await hopIn();
+      runner.current.getAnimations().forEach((a) => a.cancel());
+    } catch { /* interrupted by navigation */ }
+    busy.current = false;
+  };
+
   // Matches the original lockup: the visible horse is ~1/5 the width of the
   // wordmark (the horse fills ~75% of the frame). No negative margins.
   const width = 'clamp(4rem, 15vw, 10rem)';
@@ -33,16 +89,18 @@ const HorseHero = () => {
     return <img src={horseImage} alt="" aria-hidden="true" width={278} height={230} style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
   return (
-    <img
-      src="/horse-gallop.webp"
-      alt=""
-      aria-hidden="true"
-      // Intrinsic size, so the space is held while the 1.7MB file loads and the
-      // wordmark below doesn't jump down when it arrives.
-      width={480}
-      height={342}
-      style={{ width, height: 'auto', display: 'block', marginBottom: '4px' }}
-    />
+    <span ref={runner} onClick={again} aria-hidden="true"
+          style={{ display: 'block', transformOrigin: '50% 100%', cursor: 'pointer', willChange: 'transform' }}>
+      <img
+        src="/horse-gallop.webp"
+        alt=""
+        // Intrinsic size, so the space is held while the 1.7MB file loads and the
+        // wordmark below doesn't jump down when it arrives.
+        width={480}
+        height={342}
+        style={{ width, height: 'auto', display: 'block', marginBottom: '4px' }}
+      />
+    </span>
   );
 };
 
