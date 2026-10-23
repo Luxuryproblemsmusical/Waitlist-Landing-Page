@@ -16,7 +16,8 @@ const WHY: [string, string, string, string][] = [
 ];
 
 /**
- * The horse mark, alive: a 16s half-speed loop of the logo galloping as an
+ * The horse mark, alive: an 8s loop of the logo galloping at its source 24fps
+ * (half speed meant holding each frame twice, which looked choppy), as an
  * animated WebP with a real alpha channel, so it sits on the page background
  * with no box in any browser. Reduced-motion users get the static mark.
  */
