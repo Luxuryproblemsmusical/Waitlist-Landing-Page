@@ -55,46 +55,16 @@ export const SpinBadge = ({ text, size = '6.5rem', style }: { text: string; size
   </div>
 );
 
-type Orb = { pos: CSSProperties; size: number; kind: 'lemon' | 'ring' | 'white' | 'dot'; dur: number; delay: number };
-
-// Placed around the edges of the product card (top-right is left clear for the spinning badge).
-const ORBS: Orb[] = [
-  { pos: { left: '-7%', top: '10%' }, size: 58, kind: 'lemon', dur: 6, delay: 0 },
-  { pos: { left: '-4%', top: '34%' }, size: 16, kind: 'ring', dur: 5, delay: 1.2 },
-  { pos: { left: '-9%', top: '62%' }, size: 36, kind: 'ring', dur: 7, delay: 0.6 },
-  { pos: { left: '3%', bottom: '-6%' }, size: 24, kind: 'white', dur: 5.5, delay: 2 },
-  { pos: { left: '28%', bottom: '-4%' }, size: 10, kind: 'dot', dur: 4.5, delay: 0.3 },
-  { pos: { right: '18%', bottom: '-7%' }, size: 44, kind: 'lemon', dur: 6.5, delay: 1.6 },
-  { pos: { right: '-6%', top: '58%' }, size: 28, kind: 'ring', dur: 5.8, delay: 2.4 },
-  { pos: { right: '-4%', top: '38%' }, size: 12, kind: 'dot', dur: 4.8, delay: 0.9 },
-];
-
-const ORB_STYLE: Record<Orb['kind'], CSSProperties> = {
-  lemon: { background: `radial-gradient(circle at 35% 30%, #ffffff 0%, #FFF8C2 38%, ${LEMON} 100%)`, opacity: 0.9 },
-  ring: { border: '2px solid rgba(255, 255, 255, 0.95)', boxShadow: '0 0 0 1px rgba(110, 170, 225, 0.25)' },
-  white: { background: 'radial-gradient(circle at 35% 30%, #ffffff 0%, rgba(255,255,255,0.75) 70%)', boxShadow: '0 0 0 1px rgba(110, 170, 225, 0.25)' },
-  dot: { background: LEMON },
-};
-
 /**
- * Abstract effervescence around the packaging: a soft pool of lemon light
- * behind the card, and a few lemon and white orbs drifting at its edges.
+ * A soft pool of lemon light behind the packaging: no shapes, just glow.
  * Place as the first child of a `position: relative; isolation: isolate` box.
  */
-export const PackagingFizz = () => (
+export const PackagingGlow = () => (
   <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none' }}>
     <span style={{
-      position: 'absolute', left: '-12%', right: '-12%', top: '5%', bottom: '-8%', borderRadius: '9999px', filter: 'blur(30px)',
-      background: 'radial-gradient(ellipse at 40% 60%, rgba(255, 240, 122, 0.55) 0%, rgba(255, 246, 170, 0.25) 45%, rgba(255, 248, 194, 0) 70%)'
+      position: 'absolute', left: '-14%', right: '-14%', top: '2%', bottom: '-10%', borderRadius: '9999px', filter: 'blur(36px)',
+      background: 'radial-gradient(ellipse at 42% 58%, rgba(255, 240, 122, 0.6) 0%, rgba(255, 246, 170, 0.28) 45%, rgba(255, 248, 194, 0) 70%)'
     }} />
-    {ORBS.map((o, i) => (
-      <span key={i} className="orb"
-            style={{
-              position: 'absolute', ...o.pos, width: `${o.size}px`, height: `${o.size}px`, borderRadius: '9999px',
-              ...ORB_STYLE[o.kind],
-              ['--dur' as string]: `${o.dur}s`, ['--delay' as string]: `${o.delay}s`,
-            } as CSSProperties} />
-    ))}
   </div>
 );
 
@@ -108,30 +78,6 @@ export const LemonSlice = ({ size = '1em' }: { size?: string }) => (
     ))}
     <circle cx="12" cy="12" r="1.4" fill="#ffffff" />
   </svg>
-);
-
-// [left %, size px, duration s, delay s, sway px, rise px, opacity, lemon?]
-const AMBIENT: [number, number, number, number, number, number, number, boolean][] = [
-  [6, 14, 11, 0, 14, -420, 0.85, false], [14, 9, 9, 3.5, -10, -380, 0.8, true], [24, 18, 13, 1.2, 18, -460, 0.7, false],
-  [38, 10, 10, 6, -12, -400, 0.8, true], [52, 13, 12, 2.4, 10, -440, 0.75, false], [63, 8, 8, 4.8, -8, -360, 0.85, true],
-  [74, 16, 14, 0.6, -16, -470, 0.7, false], [84, 10, 9.5, 5.5, 12, -390, 0.8, true], [93, 12, 12.5, 2.9, -14, -430, 0.75, false],
-];
-
-/** Slow, faint bubbles drifting up behind a section, like a fresh glass. Place inside a `position: relative` box. */
-export const AmbientFizz = () => (
-  <div aria-hidden="true" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
-    {AMBIENT.map(([left, size, dur, delay, sway, rise, op, lemon], i) => (
-      <span key={i} className="ambient-bubble"
-            style={{
-              left: `${left}%`, width: `${size}px`, height: `${size}px`,
-              background: lemon
-                ? 'radial-gradient(circle at 32% 30%, #ffffff 0%, rgba(255, 244, 150, 0.85) 55%, rgba(255, 236, 110, 0.7) 100%)'
-                : 'radial-gradient(circle at 32% 30%, #ffffff 0%, rgba(255, 255, 255, 0.35) 55%, rgba(255, 255, 255, 0.15) 100%)',
-              ['--dur' as string]: `${dur}s`, ['--delay' as string]: `${delay}s`, ['--sway' as string]: `${sway}px`,
-              ['--rise' as string]: `${rise}px`, ['--op' as string]: op,
-            } as CSSProperties} />
-    ))}
-  </div>
 );
 
 /** Floating prop image (sticker) with a gentle bob. */

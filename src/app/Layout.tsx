@@ -376,24 +376,6 @@ export function Layout({ title, current, children }: { title: string; current: s
           100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), calc(var(--rise) * -1)) scale(1); }
         }
 
-        /* Ambient fizz behind the hero (Flourish.tsx) */
-        .ambient-bubble {
-          position: absolute; bottom: -10px; border-radius: 9999px; pointer-events: none; opacity: 0;
-          box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(110, 170, 225, 0.3);
-          animation: ambientRise var(--dur) ease-in infinite; animation-delay: var(--delay);
-        }
-        @keyframes ambientRise {
-          0% { opacity: 0; transform: translate(0, 0); }
-          15% { opacity: var(--op); }
-          50% { transform: translate(var(--sway), calc(var(--rise) / 2)); }
-          85% { opacity: var(--op); }
-          100% { opacity: 0; transform: translate(0, var(--rise)); }
-        }
-
-        /* Orbs drifting around the packaging (PackagingFizz in Flourish.tsx) */
-        .orb { animation: orbDrift var(--dur) ease-in-out var(--delay) infinite alternate; }
-        @keyframes orbDrift { from { translate: 0 0; } to { translate: 4px -12px; } }
-
         /* Plan cards hop when chosen, and the radio dot pops */
         .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
         .plan-card[aria-pressed="true"] { animation: planHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -435,8 +417,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card.is-flipped .flip-face:not(.flip-back) { opacity: 0; }
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
-          .btn-gallop::before, .btn-gallop::after, .success-pill::after, .ambient-bubble { display: none; }
-          .orb { animation: none !important; }
+          .btn-gallop::before, .btn-gallop::after, .success-pill::after { display: none; }
           .plan-card, .plan-dot, .trust-check, .arrow-hop { animation: none !important; }
         }
       `}</style>

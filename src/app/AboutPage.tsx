@@ -74,7 +74,8 @@ export default function AboutPage() {
           That&rsquo;s what GALOP is for.
         </p>
         <p style={{ fontFamily: "'Caveat', cursive", fontWeight: 500, fontSize: 'clamp(2.25rem, 4vw, 3rem)', lineHeight: 1, marginTop: '1rem' }}>
-          — Sydney
+          Ride with me.
+          <span style={{ display: 'block', fontSize: '0.8em', marginTop: '0.35rem' }}>— Sydney</span>
         </p>
       </div>
 

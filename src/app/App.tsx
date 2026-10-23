@@ -1,6 +1,6 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Gloss, Ribbon, AmbientFizz } from './Flourish';
+import { Gloss, Ribbon } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
@@ -45,8 +45,7 @@ export default function App() {
     <Layout title="GALOP — Multivitamin Drink Mix for Life on a GLP-1" current="/">
       {/* Logo lockup: galloping horse + GALOP wordmark */}
       <div className="relative flex flex-col items-center mt-2 mb-20 animate-fade-in"
-           style={{ animation: 'fadeIn 0.8s ease-out', isolation: 'isolate' }}>
-        <div style={{ position: 'absolute', inset: '-1rem -2rem 0', zIndex: -1 }}><AmbientFizz /></div>
+           style={{ animation: 'fadeIn 0.8s ease-out' }}>
         <HorseHero />
         <h1 aria-label="GALOP"
             style={{
@@ -149,7 +148,8 @@ export default function App() {
              color: RED,
              marginTop: '1.25rem'
            }}>
-          — Sydney
+          Ride with me.
+          <span style={{ display: 'block', fontSize: '0.8em', marginTop: '0.35rem' }}>— Sydney</span>
         </p>
         <a href="/about" className="link-arrow"
            style={{

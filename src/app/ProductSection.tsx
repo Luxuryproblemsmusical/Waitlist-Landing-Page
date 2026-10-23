@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RED, LEMON } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Note, Gloss, SpinBadge, LemonSlice, PackagingFizz } from './Flourish';
+import { Note, Gloss, SpinBadge, LemonSlice, PackagingGlow } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
@@ -53,9 +53,9 @@ export function ProductSection() {
   return (
     <section id="shop" className="mt-6">
       <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-start">
-        {/* Gallery — abstract lemon fizz floats around the packaging */}
+        {/* Gallery — a soft lemon glow sits behind the packaging */}
         <div style={{ position: 'relative', isolation: 'isolate' }}>
-          <PackagingFizz />
+          <PackagingGlow />
           <div style={{
             position: 'relative',
             background: '#ffffff',
