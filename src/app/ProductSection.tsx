@@ -2,13 +2,11 @@ import { useState } from 'react';
 import { RED } from './Layout';
 import { PlanPicker } from './PlanPicker';
 import { Note, Gloss, SpinBadge } from './Flourish';
-import heroImage from "../imports/hero-lemonade.png";
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
 /** `fill`: a full studio photo that runs edge to edge in the card instead of floating on white. */
 const GALLERY: { src: string; alt: string; fill?: boolean }[] = [
   { src: pouchImage, alt: 'GALOP multivitamin drink mix pouch in lemonade, with a single stick pack beside it', fill: true },
-  { src: heroImage, alt: 'GALOP lemonade drink mix stick pack beside an iced glass of lemonade' },
 ];
 
 const BENEFITS = [
@@ -81,7 +79,7 @@ export function ProductSection() {
                 : { maxHeight: '460px', filter: 'drop-shadow(0 10px 20px rgba(30, 60, 90, 0.14))' }}
             />
           </div>
-          <div className="flex gap-3 mt-3">
+          {GALLERY.length > 1 && <div className="flex gap-3 mt-3">
             {GALLERY.map((g, i) => (
               <button key={g.alt} type="button" onClick={() => setActive(i)}
                       aria-label={`Show image ${i + 1}`} aria-pressed={active === i}
@@ -94,7 +92,7 @@ export function ProductSection() {
                 <img src={g.src} alt="" className={`w-full h-full ${g.fill ? 'object-cover' : 'object-contain'}`} />
               </button>
             ))}
-          </div>
+          </div>}
         </div>
 
         {/* Buy box */}
