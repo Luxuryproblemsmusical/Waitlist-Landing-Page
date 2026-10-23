@@ -125,22 +125,15 @@ const Nav = ({ current }: { current: string }) => {
          }}>
         GALOP
       </a>
-      <a href={onAbout ? '/' : '/about'} className="btn-gallop on-light" data-fizz="8"
-         style={{
-           display: 'inline-block',
-           fontFamily: 'Inter, sans-serif',
-           fontSize: '0.72rem',
-           fontWeight: 700,
-           color: RED,
-           background: 'rgba(255, 255, 255, 0.75)',
-           border: `1.5px solid ${RED}`,
-           borderRadius: '9999px',
-           padding: '9px 20px',
-           textTransform: 'uppercase',
-           letterSpacing: '0.2em',
-           textDecoration: 'none'
-         }}>
-        <span className="btn-label">{onAbout ? 'Shop' : 'About'}</span>
+      {/* A little red hang tag on a string; it swings when you hover */}
+      <a href={onAbout ? '/' : '/about'} className="nav-tag" data-fizz="8">
+        <svg className="nav-tag-string" viewBox="0 0 40 30" aria-hidden="true">
+          <path d="M33 26 C 26 14, 14 6, 2 2" fill="none" stroke={RED} strokeWidth="1.3" strokeLinecap="round" />
+        </svg>
+        <span className="nav-tag-body">
+          <span className="nav-tag-hole" aria-hidden="true" />
+          {onAbout ? 'Shop' : 'About'}
+        </span>
       </a>
     </nav>
   );
@@ -393,6 +386,43 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes planHop { 0% { transform: scale(0.98); } 60% { transform: scale(1.015); } 100% { transform: scale(1); } }
         @keyframes dotPop { 0% { transform: scale(0.4); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
+        /* Nav hang tag */
+        .nav-tag {
+          position: relative; display: inline-block; text-decoration: none; margin-right: 4px;
+          transform: rotate(-6deg); transform-origin: 8px 50%;
+          filter: drop-shadow(0 6px 10px rgba(239, 42, 48, 0.22));
+        }
+        .nav-tag:hover { animation: tagSwing 0.9s ease-in-out; }
+        .nav-tag:active { transform: rotate(-6deg) scale(0.95); }
+        .nav-tag:focus-visible { outline: 3px solid ${RED}; outline-offset: 6px; border-radius: 6px; }
+        .nav-tag-string { position: absolute; left: -22px; top: -12px; width: 40px; height: 30px; overflow: visible; }
+        .nav-tag-body {
+          position: relative; display: inline-flex; align-items: center; overflow: hidden;
+          background: ${RED}; color: #ffffff;
+          font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
+          font-size: 1.2rem; line-height: 1; letter-spacing: 0.01em;
+          padding: 9px 20px 10px 30px;
+          clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
+        }
+        .nav-tag-hole {
+          position: absolute; left: 11px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 9999px;
+          background: #e4f4ff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+        }
+        /* sheen across the tag on hover */
+        .nav-tag-body::after {
+          content: ''; position: absolute; inset: 0; pointer-events: none;
+          background: linear-gradient(110deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 65%);
+          transform: translateX(-120%);
+        }
+        .nav-tag:hover .nav-tag-body::after { transform: translateX(120%); transition: transform 0.7s ease; }
+        @keyframes tagSwing {
+          0% { transform: rotate(-6deg); }
+          25% { transform: rotate(5deg); }
+          50% { transform: rotate(-11deg); }
+          75% { transform: rotate(-2deg); }
+          100% { transform: rotate(-6deg); }
+        }
+
         /* Nav: the wordmark stretches its stride */
         .nav-logo { transition: letter-spacing 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .nav-logo:hover { letter-spacing: 0.08em !important; }
@@ -420,7 +450,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card, .flip-card:hover, .acc-card:hover, .btn-gallop:hover, .plan-card:hover { transform: none; }
           .acc-panel, .acc-icon, .acc-item .acc-panel > div { transition: none; }
           .btn-gallop::before, .btn-gallop::after, .success-pill::after { display: none; }
-          .plan-card, .plan-dot, .trust-check, .arrow-hop, .whip, .whip-path { animation: none !important; }
+          .plan-card, .plan-dot, .trust-check, .arrow-hop, .whip, .whip-path, .nav-tag { animation: none !important; }
         }
       `}</style>
     </div>
