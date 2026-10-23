@@ -37,7 +37,7 @@ const HorseHero = () => {
 /** Homepage — doubles as the product page, per Sydney's spec. */
 export default function App() {
   return (
-    <Layout title="GALOP — Coming Soon" current="/">
+    <Layout title="GALOP — Multivitamin Lemonade for Life on a GLP-1" current="/">
       {/* Logo lockup: galloping horse + GALOP wordmark */}
       <div className="flex flex-col items-center mt-2 mb-20 animate-fade-in"
            style={{ animation: 'fadeIn 0.8s ease-out' }}>
@@ -65,7 +65,7 @@ export default function App() {
              textAlign: 'center',
              whiteSpace: 'nowrap'
            }}>
-          The multivitamin drink mix for life on a&nbsp;GLP&#8209;1
+          The multivitamin lemonade for life on a&nbsp;GLP&#8209;1
         </p>
       </div>
 

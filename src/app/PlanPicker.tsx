@@ -6,8 +6,8 @@ import { Gloss } from './Flourish';
 export type Plan = 'monthly' | 'onetime';
 
 /**
- * Checkout is a placeholder until the Shopify store exists. Paste the real
- * checkout links here and the CTA flips from waitlist capture to checkout.
+ * Checkout links. Until these are pasted in, the CTA captures an email for the
+ * first-order discount instead of going to checkout.
  */
 export const CHECKOUT_URLS: Record<Plan, string | null> = {
   monthly: null, // TODO: Shopify selling-plan checkout link
@@ -15,8 +15,8 @@ export const CHECKOUT_URLS: Record<Plan, string | null> = {
 };
 
 /**
- * Prices in USD. Leave null until Sydney sets them — the card then shows
- * "Launch price" instead of a number. `compareAt` renders struck-through.
+ * Prices in USD. Leave null until Sydney sets them — the card then shows the
+ * first-order offer instead of a number. `compareAt` renders struck-through.
  */
 export const PRICING: Record<Plan, { price: number | null; compareAt?: number }> = {
   monthly: { price: null },
@@ -29,13 +29,12 @@ const PLANS: { id: Plan; name: string; header?: string; blurb: string; bullets: 
   {
     id: 'monthly',
     name: 'Subscribe & Save',
-    header: 'Most popular · Launch pricing',
+    header: 'Most popular',
     blurb: `${STICKS_PER_POUCH} stick packs every month`,
     bullets: [
-      'Launch price, locked for life',
+      '20% off your first order',
       'Free shipping',
       'Pause, skip, or cancel anytime',
-      'First deliveries December',
     ],
   },
   {
@@ -82,10 +81,10 @@ const PriceSlot = ({ plan }: { plan: Plan }) => {
     return (
       <div className="text-right" style={{ color: RED, lineHeight: 1.15 }}>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.35rem', fontWeight: 600 }}>
-          Launch price
+          20% off
         </div>
         <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 700, opacity: 0.75, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          announced in December
+          your first order
         </div>
       </div>
     );
@@ -107,7 +106,7 @@ const PriceSlot = ({ plan }: { plan: Plan }) => {
   );
 };
 
-/** Gruns-style buy box: highlighted subscribe card, one-time card, CTA, pre-launch email capture. */
+/** Gruns-style buy box: highlighted subscribe card, one-time card, CTA (email capture until checkout links exist). */
 export function PlanPicker({ source }: { source: string }) {
   const [plan, setPlan] = useState<Plan>('monthly');
   const [email, setEmail] = useState('');
@@ -243,12 +242,12 @@ export function PlanPicker({ source }: { source: string }) {
               <button type="submit" disabled={isSubmitting}
                       className="transition-all duration-300 hover:opacity-90 disabled:opacity-60"
                       style={ctaStyle}>
-                <Gloss delay={6} />{isSubmitting ? 'Saving…' : 'Lock in launch pricing'}
+                <Gloss delay={6} />{isSubmitting ? 'Saving…' : 'Get 20% off'}
               </button>
             </form>
             <p className="text-center mt-3"
                style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: RED, opacity: 0.85, lineHeight: 1.5 }}>
-              Checkout opens in December. Join the list and we&rsquo;ll hold your launch price.
+              Enter your email for 20% off your first order.
             </p>
           </>
         ) : (
@@ -265,7 +264,7 @@ export function PlanPicker({ source }: { source: string }) {
                  textTransform: 'uppercase',
                  border: '1px solid rgba(239, 42, 48, 0.2)'
                }}>
-            You&rsquo;re in — see you in December
+            You&rsquo;re in — watch your inbox
           </div>
         )}
         {error && (

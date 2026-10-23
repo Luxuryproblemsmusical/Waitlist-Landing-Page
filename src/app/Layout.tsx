@@ -91,7 +91,7 @@ const Marquee = () => (
     }}>
       {Array.from({ length: 10 }).map((_, i) => (
         <span key={i} style={{ marginRight: '3rem' }}>
-          Launching Soon <MarqueeHorse /> Join the Waitlist <MarqueeHorse />
+          Just Launched <MarqueeHorse /> 20% Off Your First Order <MarqueeHorse />
         </span>
       ))}
     </div>

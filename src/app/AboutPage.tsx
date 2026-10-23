@@ -59,7 +59,7 @@ export default function AboutPage() {
         {/* Sydney: add more here — background, the GLP-1 story in more depth, how the formula came together. */}
 
         <div className="mt-16">
-          <a href="/"
+          <a href="/#shop"
              style={{
                display: 'inline-block',
                background: RED,
@@ -73,7 +73,7 @@ export default function AboutPage() {
                padding: '16px 32px',
                textDecoration: 'none'
              }}>
-            Join the waitlist
+            Shop GALOP
           </a>
         </div>
       </div>
