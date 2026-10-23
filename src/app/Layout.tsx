@@ -286,8 +286,10 @@ export function Layout({ title, current, children }: { title: string; current: s
           box-shadow: 0 12px 28px rgba(30, 60, 90, 0.12);
         }
         .flip-card:hover .flip-inner { box-shadow: 0 20px 40px rgba(30, 60, 90, 0.2); }
-        .flip-face, .flip-face * { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-        .flip-face { display: block; }
+        /* Only the faces hide their backs. Putting backface-visibility on everything inside them
+           (an earlier attempt) makes Safari depth-sort each piece separately, and when the card
+           tilts it draws the face's background over its own text, so the content vanishes. */
+        .flip-face { display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: flat; }
         .flip-back { transform: rotateY(180deg); }
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
         /* The "I flip" cue: hover starts the turn; touch screens get one small peek. */
@@ -298,7 +300,8 @@ export function Layout({ title, current, children }: { title: string; current: s
           .flip-card:not(.is-flipped) .flip-inner { animation: flipPeek 0.9s ease-in-out 1.2s 1; }
         }
         /* The drifting gloss gets its own compositor layer, which Chrome draws through
-           backface-visibility; swap face visibility at the half-turn so it can't show through. */
+           backface-visibility; swapping face visibility at the half-turn means the hidden
+           face can never show through, in any browser. */
         .flip-face { transition: visibility 0s linear 0.3s; }
         .flip-back, .flip-card.is-flipped .flip-face:not(.flip-back) { visibility: hidden; }
         .flip-card.is-flipped .flip-back { visibility: visible; }
