@@ -1,9 +1,8 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Divider, Note, Sticker, Gloss, Ribbon } from './Flourish';
+import { Divider, Note, Gloss, Ribbon } from './Flourish';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
-import stickerImage from "../imports/sticker-lemon-ginger.png";
 
 const WHY = [
   ['Less appetite', 'GLP-1s work by quieting hunger — which means smaller meals and fewer nutrients coming in.'],
@@ -70,36 +69,17 @@ export default function App() {
         </p>
       </div>
 
-      {/* Hero line — script accent word, LP-style, with a floating prop */}
-      <div className="relative max-w-3xl mx-auto text-center mt-4 mb-10 px-4">
-        {/* Prop sits in the margin beside the headline (hidden on phones, where there is no margin). */}
-        <div className="hidden lg:block" style={{ position: 'absolute', left: '-6rem', top: '-0.5rem' }}>
-          <Sticker src={stickerImage} width="clamp(4.5rem, 9vw, 7rem)" rotate={-10} />
-        </div>
-        <h2 style={{
-              position: 'relative', zIndex: 1,
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 600,
-              color: RED,
-              fontSize: 'clamp(2.4rem, 7vw, 4.6rem)',
-              lineHeight: 1.02,
-              letterSpacing: '-0.015em',
-              margin: 0
-            }}>
-          Less appetite.{' '}
-          <span style={{ whiteSpace: 'nowrap' }}>
-            More{' '}
-            <span style={{ position: 'relative', display: 'inline-block', fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: '1.22em', lineHeight: 1 }}>
-              <span aria-hidden="true" style={{
-                position: 'absolute', left: '-0.08em', right: '-0.02em', bottom: '0.08em', height: '0.42em',
-                background: 'rgba(255, 255, 255, 0.6)', transform: 'skewX(-10deg) rotate(-2deg)', borderRadius: '2px', zIndex: -1
-              }} />
-              you.
-            </span>
-          </span>
-        </h2>
-        <p className="mt-4"
-           style={{ position: 'relative', zIndex: 1, fontFamily: 'Inter, sans-serif', fontSize: 'clamp(0.95rem, 1.6vw, 1.1rem)', fontWeight: 600, color: RED, lineHeight: 1.55, opacity: 0.9 }}>
+      {/* Intro line — quiet serif italic, with a handwritten aside */}
+      <div className="relative max-w-2xl mx-auto text-center mt-2 mb-10 px-4">
+        <p style={{
+             fontFamily: "'Cormorant Garamond', serif",
+             fontStyle: 'italic',
+             fontWeight: 500,
+             color: RED,
+             fontSize: 'clamp(1.35rem, 3vw, 1.85rem)',
+             lineHeight: 1.35,
+             margin: 0
+           }}>
           A once&#8209;a&#8209;day vitamin + electrolyte drink, dosed for the GLP&#8209;1 body — and it tastes like lemonade.
         </p>
         <div className="mt-3" style={{ position: 'relative', zIndex: 1 }}>
