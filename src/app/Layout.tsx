@@ -37,7 +37,42 @@ export const Dot = ({ opacity = 0.85 }: { opacity?: number }) => (
   </svg>
 );
 
-const Marquee = ({ position }: { position: 'top' | 'bottom' }) => (
+/** Static launch-offer bar at the very top of every page. */
+const OfferBar = () => (
+  <div style={{
+    width: '100vw',
+    marginLeft: 'calc(50% - 50vw)',
+    marginRight: 'calc(50% - 50vw)',
+    marginBottom: 'clamp(12px, 2vw, 24px)',
+    background: RED,
+    color: '#ffffff',
+    borderBottom: '1px solid rgba(0,0,0,0.05)',
+    padding: '9px 16px',
+  }}>
+    <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center"
+       style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.04em', lineHeight: 1.3 }}>
+      <span style={{
+        background: '#ffffff',
+        color: RED,
+        borderRadius: '999px',
+        padding: '2px 10px',
+        fontSize: '0.66rem',
+        fontWeight: 800,
+        letterSpacing: '0.18em',
+        textTransform: 'uppercase',
+      }}>
+        Launch offer
+      </span>
+      <span>Waitlist members lock in launch pricing for life.</span>
+      <a href="/#shop"
+         style={{ color: '#ffffff', fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '0.2em', whiteSpace: 'nowrap' }}>
+        Join the waitlist &rarr;
+      </a>
+    </p>
+  </div>
+);
+
+const Marquee = () => (
   <div style={{
     width: '100vw',
     marginLeft: 'calc(50% - 50vw)',
@@ -46,10 +81,8 @@ const Marquee = ({ position }: { position: 'top' | 'bottom' }) => (
     color: '#ffffff',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    padding: position === 'top' ? '8px 0' : '10px 0',
-    marginBottom: position === 'top' ? 'clamp(12px, 2vw, 24px)' : 0,
-    borderBottom: position === 'top' ? '1px solid rgba(0,0,0,0.05)' : undefined,
-    borderTop: position === 'bottom' ? '1px solid rgba(0,0,0,0.05)' : undefined,
+    padding: '10px 0',
+    borderTop: '1px solid rgba(0,0,0,0.05)',
   }}>
     <div style={{
       display: 'inline-block',
@@ -146,7 +179,7 @@ const Footer = () => (
   </footer>
 );
 
-/** Shared page chrome: marquees, nav, footer, brand background, and keyframes. */
+/** Shared page chrome: offer bar, marquee, nav, footer, brand background, and keyframes. */
 export function Layout({ title, current, children }: { title: string; current: string; children: ReactNode }) {
   useEffect(() => {
     document.title = title;
@@ -155,7 +188,7 @@ export function Layout({ title, current, children }: { title: string; current: s
   return (
     <div className="min-h-screen flex flex-col items-center justify-start px-6 pt-0 pb-12"
          style={{ background: BLUE, fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'clip' }}>
-      <Marquee position="top" />
+      <OfferBar />
       <Nav current={current} />
 
       <div className="w-full max-w-4xl">
@@ -163,7 +196,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         <Footer />
       </div>
 
-      <Marquee position="bottom" />
+      <Marquee />
 
       <style>{`
         @keyframes marquee {
