@@ -342,9 +342,9 @@ export function Layout({ title, current, children }: { title: string; current: s
 
         /* The light that trails the mouse (see CursorSheen) */
         .cursor-sheen {
-          position: fixed; left: 0; top: 0; width: 460px; height: 460px; margin: -230px 0 0 -230px;
+          position: fixed; left: 0; top: 0; width: 360px; height: 360px; margin: -180px 0 0 -180px;
           border-radius: 50%; pointer-events: none; z-index: 60; opacity: 0; will-change: transform;
-          background: radial-gradient(closest-side, rgba(255,255,255,1), rgba(255,255,255,0.45) 45%, rgba(255,255,255,0) 100%);
+          background: radial-gradient(closest-side, rgba(255,255,255,0.45), rgba(255,255,255,0.14) 50%, rgba(255,255,255,0) 100%);
           mix-blend-mode: soft-light; transition: opacity 0.5s ease;
         }
         .cursor-sheen.is-on { opacity: 1; }
