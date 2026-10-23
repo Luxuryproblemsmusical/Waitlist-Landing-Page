@@ -5,7 +5,7 @@ import { Accordion } from './Interactive';
 // Sydney: edit freely. Anything medical should be reviewed by the medical advisor before launch.
 const FAQS: [string, string][] = [
   ['What is GALOP?', 'A doctor-formulated multivitamin drink mix with electrolytes, in lemonade, made for people on a GLP-1. Each pouch has 30 single-serve stick packs — mix one into water, once a day.'],
-  ['Why do people on a GLP-1 need a different multivitamin?', 'GLP-1 medications reduce appetite, so you eat less — and fewer nutrients reach your body. GALOP is formulated with higher levels of the key vitamins, minerals, and electrolytes that tend to run low, to support hair, energy, hydration, and digestion along the way.'],
+  ['Why do people on a GLP-1 need a different multivitamin?', 'GLP-1 medications reduce appetite, so you eat less — and fewer nutrients reach your body. GALOP is formulated with higher levels of the key vitamins, minerals, and electrolytes that tend to run low, to help support hair health, digestive comfort, energy, muscle maintenance and bone health.*'],
   ['What does it taste like?', 'Bright, classic lemonade. Zero sugar — sweetened with monkfruit and stevia.'],
   ['How do I take it?', 'Stir or shake one stick pack into 8–12 oz of cold water. Once a day, whenever it fits your routine.'],
   ['Is GALOP available now?', 'Yes — GALOP just launched. Order a single pouch or subscribe and save, and get 20% off your first order.'],
@@ -21,7 +21,7 @@ export default function FaqPage() {
     <Layout title="FAQ — GALOP" current="/faq">
       <div className="max-w-2xl mx-auto mt-10 text-center">
         <Kicker>Frequently asked</Kicker>
-        <Heading size="lg">Good questions.</Heading>
+        <Heading size="lg" as="h1">Good questions.</Heading>
       </div>
 
       <div className="max-w-2xl mx-auto mt-6">

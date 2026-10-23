@@ -7,8 +7,8 @@ export default function SubscribePage() {
   return (
     <Layout title="Subscribe & Save — GALOP" current="/">
       <div className="max-w-2xl mx-auto mt-10 text-center">
-        <Kicker>Your monthly ritual for life on a GLP&#8209;1</Kicker>
-        <Heading size="lg">Subscribe &amp; save.</Heading>
+        <Kicker>A fresh pouch every month, for life on a GLP&#8209;1</Kicker>
+        <Heading size="lg" as="h1">Subscribe &amp; save.</Heading>
         <div className="flex justify-center my-8">
           <img
             src={pouchImage}

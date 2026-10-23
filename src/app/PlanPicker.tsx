@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { RED } from './Layout';
+import { useId, useState } from 'react';
+import { RED, INK } from './Layout';
 import { joinWaitlist } from './waitlist';
 import { Gloss } from './Flourish';
 
@@ -29,7 +29,6 @@ const PLANS: { id: Plan; name: string; header?: string; blurb: string; bullets: 
   {
     id: 'monthly',
     name: 'Subscribe & Save',
-    header: 'Most popular',
     blurb: `${STICKS_PER_POUCH} stick packs every month`,
     bullets: [
       '20% off your first order',
@@ -41,7 +40,7 @@ const PLANS: { id: Plan; name: string; header?: string; blurb: string; bullets: 
     id: 'onetime',
     name: 'One-Time Purchase',
     blurb: `${STICKS_PER_POUCH} stick packs, delivered once`,
-    bullets: ['Try a full month, no commitment'],
+    bullets: ['20% off your first order', 'Try a full month, no commitment'],
   },
 ];
 
@@ -77,18 +76,8 @@ const Check = () => (
 
 const PriceSlot = ({ plan }: { plan: Plan }) => {
   const { price, compareAt } = PRICING[plan];
-  if (price == null) {
-    return (
-      <div className="text-right" style={{ color: RED, lineHeight: 1.15 }}>
-        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.35rem', fontWeight: 600 }}>
-          20% off
-        </div>
-        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 700, opacity: 0.75, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          your first order
-        </div>
-      </div>
-    );
-  }
+  // No price set yet: show nothing rather than repeat the offer on every card.
+  if (price == null) return null;
   return (
     <div className="text-right" style={{ color: RED, lineHeight: 1.1 }}>
       <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.5rem', fontWeight: 700 }}>
@@ -110,6 +99,7 @@ const PriceSlot = ({ plan }: { plan: Plan }) => {
 export function PlanPicker({ source }: { source: string }) {
   const [plan, setPlan] = useState<Plan>('monthly');
   const [email, setEmail] = useState('');
+  const emailId = useId();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -135,7 +125,7 @@ export function PlanPicker({ source }: { source: string }) {
   return (
     <div>
       <div className="grid gap-3">
-        {PLANS.map((p, i) => {
+        {PLANS.map((p) => {
           const selected = plan === p.id;
           return (
             <button
@@ -157,7 +147,6 @@ export function PlanPicker({ source }: { source: string }) {
                 transition: 'background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.25s ease'
               }}
             >
-              <Gloss delay={3 + i * 1.2} />
               {p.header && (
                 <div style={{
                   background: selected ? RED : 'rgba(239, 42, 48, 0.12)',
@@ -184,10 +173,10 @@ export function PlanPicker({ source }: { source: string }) {
                             boxShadow: selected ? 'inset 0 0 0 3px #ffffff' : 'none'
                           }} />
                     <div>
-                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.05rem', fontWeight: 700, color: RED, lineHeight: 1.2 }}>
+                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.5rem', fontWeight: 600, color: RED, lineHeight: 1.1 }}>
                         {p.name}
                       </div>
-                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: RED, opacity: 0.8, marginTop: '2px' }}>
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500, color: INK, marginTop: '4px' }}>
                         {p.blurb}
                       </div>
                     </div>
@@ -197,7 +186,7 @@ export function PlanPicker({ source }: { source: string }) {
                 {selected && (
                   <ul className="mt-3" style={{ marginLeft: '30px', padding: 0, listStyle: 'none' }}>
                     {p.bullets.map((b) => (
-                      <li key={b} className="flex" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: RED, fontWeight: 600, lineHeight: 1.7 }}>
+                      <li key={b} className="flex" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: INK, fontWeight: 500, lineHeight: 1.7 }}>
                         <Check />{b}
                       </li>
                     ))}
@@ -215,43 +204,39 @@ export function PlanPicker({ source }: { source: string }) {
             <Gloss delay={6} /><span className="btn-label">Start now</span>
           </a>
         ) : !isSubmitted ? (
-          <>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <input
-                type="email"
-                name="email"
-                autoComplete="email"
-                inputMode="email"
-                autoCapitalize="off"
-                autoCorrect="off"
-                spellCheck={false}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email address"
-                required
-                className="galop-input focus:outline-none"
-                style={{
-                  background: '#ffffff',
-                  borderRadius: '9999px',
-                  border: '1px solid rgba(239, 42, 48, 0.2)',
-                  padding: '18px 28px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '1rem',
-                  letterSpacing: '0.01em',
-                  color: '#2d3748'
-                }}
-              />
-              <button type="submit" disabled={isSubmitting}
-                      className="btn-gallop disabled:opacity-60" data-fizz="12"
-                      style={ctaStyle}>
-                <Gloss delay={6} /><span className="btn-label">{isSubmitting ? 'Saving…' : 'Get 20% off'}</span>
-              </button>
-            </form>
-            <p className="text-center mt-3"
-               style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: RED, opacity: 0.85, lineHeight: 1.5 }}>
-              Enter your email for 20% off your first order.
-            </p>
-          </>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <label htmlFor={emailId} className="sr-only">Email address for 20% off your first order</label>
+            <input
+              id={emailId}
+              type="email"
+              name="email"
+              autoComplete="email"
+              inputMode="email"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck={false}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+              required
+              className="galop-input focus:outline-none"
+              style={{
+                background: '#ffffff',
+                borderRadius: '9999px',
+                border: '1px solid rgba(239, 42, 48, 0.2)',
+                padding: '18px 28px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '1rem',
+                letterSpacing: '0.01em',
+                color: '#2d3748'
+              }}
+            />
+            <button type="submit" disabled={isSubmitting}
+                    className="btn-gallop disabled:opacity-60" data-fizz="12"
+                    style={ctaStyle}>
+              <Gloss delay={6} /><span className="btn-label">{isSubmitting ? 'Saving…' : 'Get 20% off'}</span>
+            </button>
+          </form>
         ) : (
           <div className="success-pill text-center animate-fade-in"
                style={{
@@ -266,7 +251,7 @@ export function PlanPicker({ source }: { source: string }) {
                  textTransform: 'uppercase',
                  border: '1px solid rgba(239, 42, 48, 0.2)'
                }}>
-            <span className="btn-label">You&rsquo;re in — watch your inbox</span>
+            <span className="btn-label">Thank you &mdash; check your inbox.</span>
           </div>
         )}
         {error && (

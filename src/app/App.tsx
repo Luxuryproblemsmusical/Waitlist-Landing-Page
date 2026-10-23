@@ -1,18 +1,19 @@
-import { Layout, RED } from './Layout';
+import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Gloss, Ribbon } from './Flourish';
+import { Gloss, Ribbon, Stationery, Polaroid } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 
 // [front title, front text, back title, back text]
+// Fronts use Sydney's own words; backs use the pouch's wording.
 const WHY: [string, string, string, string][] = [
-  ['Less appetite', 'GLP-1s work by quieting hunger — which means smaller meals and fewer nutrients coming in.',
-   'One stick covers it', '30+ vitamins and minerals in a single glass, no big meal required.'],
-  ['Bigger gaps', 'Hair, energy, hydration, and digestion are usually the first things to feel it.',
-   'Backed up where it counts', 'Electrolytes plus the nutrients that help support hair, digestion, muscle, and bone.*'],
-  ['Dosed for it', 'GALOP is formulated for that reality — like a prenatal is for pregnancy — in a drink, not a horse pill.',
-   'Doctor-formulated', 'Built with a doctor for life on a GLP-1, and it tastes like lemonade.'],
+  ['Less appetite', 'GLP-1 medications reduce your appetite, which means fewer nutrients reach your body.',
+   'One stick, once a day', '30+ vitamins and minerals plus electrolytes, stirred into cold water.'],
+  ['Bigger gaps', 'A standard multivitamin wasn\u2019t built for this.',
+   'Where it counts', 'Electrolytes, plus nutrients that help support hair health, digestive comfort, energy, muscle maintenance and bone health.*'],
+  ['Made for it', 'Just like a pregnant person takes a prenatal, GALOP is the multivitamin for life on a GLP-1.',
+   'Doctor-formulated', 'Sydney found a doctor and built it for life on a GLP-1. It tastes like lemonade.'],
 ];
 
 /**
@@ -27,13 +28,15 @@ const HorseHero = () => {
   // wordmark (the horse fills ~75% of the frame). No negative margins.
   const width = 'clamp(4rem, 15vw, 10rem)';
   if (reduceMotion) {
-    return <img src={horseImage} alt="" aria-hidden="true" style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
+    return <img src={horseImage} alt="" aria-hidden="true" width={278} height={230} style={{ width: 'clamp(5.5rem, 21vw, 15rem)', height: 'auto' }} />;
   }
   return (
     <img
       src="/horse-gallop.webp"
       alt=""
       aria-hidden="true"
+      width={480}
+      height={342}
       style={{ width, height: 'auto', display: 'block', marginBottom: '4px' }}
     />
   );
@@ -62,15 +65,15 @@ export default function App() {
         <p style={{
              marginTop: 'clamp(8px, 1.5vw, 16px)',
              fontFamily: 'Inter, sans-serif',
-             fontSize: 'clamp(0.55rem, 2.4vw, 0.95rem)',
-             fontWeight: 700,
-             color: RED,
+             fontSize: 'clamp(0.7rem, 2.4vw, 0.95rem)',
+             fontWeight: 500,
+             color: INK,
              textTransform: 'uppercase',
-             letterSpacing: 'clamp(0.12em, 0.4vw, 0.22em)',
-             textAlign: 'center',
-             whiteSpace: 'nowrap'
+             letterSpacing: '0.18em',
+             lineHeight: 1.6,
+             textAlign: 'center'
            }}>
-          The multivitamin drink mix for life on a&nbsp;GLP&#8209;1
+          The multivitamin drink mix<br className="md:hidden" /> for life on a&nbsp;GLP&#8209;1
         </p>
         {/* Slogan with a little riding-whip flourish that cracks itself into place */}
         <div className="whip-wrap flex flex-col items-center"
@@ -112,7 +115,7 @@ export default function App() {
         <Ribbon corner="tl" tone="white" width="22rem" offset="2.4rem" className="hidden md:block" />
         <Ribbon corner="br" tone="white" width="22rem" offset="2.4rem" className="hidden xl:block" />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85 }}>
+          <p className="mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.22em' }}>
             Why it exists
           </p>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
@@ -120,42 +123,26 @@ export default function App() {
           </h2>
           <div className="grid gap-5 sm:grid-cols-3 mt-10 text-left">
             {WHY.map(([h, p, bh, bp], i) => (
-              <FlipCard key={h} glossDelay={2 + i * 0.7}
-                        front={<><CardKicker>0{i + 1}</CardKicker><CardTitle>{h}</CardTitle><CardText>{p}</CardText></>}
+              <FlipCard key={h}
+                        front={<><CardKicker>{['i.', 'ii.', 'iii.'][i]}</CardKicker><CardTitle>{h}</CardTitle><CardText>{p}</CardText></>}
                         back={<><CardTitle>{bh}</CardTitle><CardText>{bp}</CardText></>} />
             ))}
           </div>
         </div>
       </div>
 
-      {/* Founder note: a stationery card with a taped-on polaroid; full story lives on /about */}
+      {/* Sydney's note: house stationery with a taped polaroid; her full letter lives on /about */}
       <section className="max-w-4xl mx-auto mt-20 md:mt-24 px-1">
-        <div className="founder-note grid gap-10 md:gap-12 md:grid-cols-[auto_1fr] items-center"
-             style={{
-               position: 'relative', background: '#ffffff', borderRadius: '22px',
-               padding: 'clamp(2.25rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3.5rem)',
-               boxShadow: '0 24px 50px rgba(30, 60, 90, 0.12), 0 2px 6px rgba(30, 60, 90, 0.05)',
-             }}>
-          {/* stationery: a thin red keyline inside the card edge */}
-          <span aria-hidden="true" style={{ position: 'absolute', inset: '12px', borderRadius: '14px', border: '1px solid rgba(239, 42, 48, 0.16)', pointerEvents: 'none' }} />
-          <Gloss delay={5} />
-
-          {/* Polaroid */}
-          <figure className="polaroid justify-self-center" style={{ position: 'relative', zIndex: 2, margin: 0 }}>
-            <span aria-hidden="true" className="polaroid-tape" />
-            <img src={sydneyImage} alt="Sydney, founder of GALOP"
-                 style={{ display: 'block', width: 'clamp(9.5rem, 20vw, 12.5rem)', aspectRatio: '1', objectFit: 'cover' }} />
-            <figcaption style={{ fontFamily: "'Caveat', cursive", fontSize: '1.35rem', fontWeight: 600, color: RED, textAlign: 'center', marginTop: '0.55rem', lineHeight: 1 }}>
-              Sydney, founder
-            </figcaption>
-          </figure>
+        <Stationery className="grid gap-10 md:gap-12 md:grid-cols-[auto_1fr] items-center"
+                    style={{ padding: 'clamp(2.25rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3.5rem)' }}>
+          <Polaroid className="justify-self-center" src={sydneyImage} alt="Sydney, founder of GALOP" caption="Sydney, founder" />
 
           {/* Letter */}
           <div className="text-center md:text-left" style={{ position: 'relative', zIndex: 2 }}>
             <img src={horseImage} alt="" aria-hidden="true" className="mx-auto md:mx-0"
                  style={{ width: '2.2rem', height: 'auto', marginBottom: '0.9rem', opacity: 0.9 }} />
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: RED, textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85, margin: 0 }}>
-              A note from our founder
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.9rem', fontWeight: 600, color: INK, textTransform: 'uppercase', letterSpacing: '0.22em', margin: 0 }}>
+              From Sydney
             </p>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2rem, 4vw, 2.6rem)', fontWeight: 600, color: RED, lineHeight: 1.05, margin: '0.5rem 0 1.1rem' }}>
               Why I made GALOP
@@ -169,15 +156,15 @@ export default function App() {
               </span>
               <a href="/about" className="link-arrow"
                  style={{
-                   fontFamily: 'Inter, sans-serif', fontSize: '0.74rem', fontWeight: 700, color: RED,
+                   fontFamily: 'Inter, sans-serif', fontSize: '0.74rem', fontWeight: 700, color: INK,
                    textTransform: 'uppercase', letterSpacing: '0.2em',
                    textDecoration: 'underline', textUnderlineOffset: '0.3em'
                  }}>
-                Read Sydney&rsquo;s story <span className="arrow-hop">→</span>
+                Read the full letter <span className="arrow-hop">→</span>
               </a>
             </div>
           </div>
-        </div>
+        </Stationery>
       </section>
     </Layout>
   );

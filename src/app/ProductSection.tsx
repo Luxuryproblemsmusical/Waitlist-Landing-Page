@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { RED, LEMON } from './Layout';
+import { RED, INK } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Note, Gloss, LemonSlice, PackagingGlow } from './Flourish';
+import { Gloss, PackagingGlow } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
@@ -10,11 +10,11 @@ const GALLERY: { src: string; alt: string; fill?: boolean }[] = [
   { src: pouchImage, alt: 'GALOP multivitamin drink mix pouch in lemonade, with a single stick pack beside it', fill: true },
 ];
 
+// Worded as on the pouch.
 const BENEFITS = [
-  '30+ vitamins & minerals for life on a GLP-1',
-  'Electrolytes for hydration & energy',
-  'Helps support hair, digestion, muscle & bone health*',
-  'Zero sugar — monkfruit + stevia',
+  '30+ vitamins & minerals, plus electrolytes',
+  'Helps support hair health, digestive comfort, energy, muscle maintenance & bone health*',
+  'Zero sugar, sweetened with monkfruit & stevia',
 ];
 
 const TRUST = [
@@ -51,7 +51,7 @@ export function ProductSection() {
   const [trustOpen, setTrustOpen] = useState(-1);
 
   return (
-    <section id="shop" className="mt-6">
+    <section id="shop" className="mt-6" style={{ scrollMarginTop: '16px' }}>
       <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-start">
         {/* Gallery — a soft lemon glow sits behind the packaging */}
         <div style={{ position: 'relative', isolation: 'isolate' }}>
@@ -66,11 +66,6 @@ export function ProductSection() {
             minHeight: '320px'
           }}>
             <Gloss delay={0} />
-            {!GALLERY[active].fill && (
-              <Note rotate={-7} style={{ position: 'absolute', left: '1rem', bottom: '0.9rem', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)' }}>
-                30 sticks per pouch ↗
-              </Note>
-            )}
             <img
               src={GALLERY[active].src}
               alt={GALLERY[active].alt}
@@ -99,8 +94,8 @@ export function ProductSection() {
         {/* Buy box */}
         <div>
           <p style={{
-               fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: RED,
-               textTransform: 'uppercase', letterSpacing: '0.22em', opacity: 0.85
+               fontFamily: "'Cormorant Garamond', serif", fontSize: '0.85rem', fontWeight: 600, color: INK,
+               textTransform: 'uppercase', letterSpacing: '0.22em'
              }}>
             Just Launched
           </p>
@@ -111,36 +106,25 @@ export function ProductSection() {
                 color: RED,
                 letterSpacing: '-0.01em',
                 lineHeight: 1.05,
-                margin: '6px 0 10px'
+                margin: '6px 0 4px'
               }}>
             Multivitamin Drink Mix
           </h2>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 600, color: RED, lineHeight: 1.5 }}>
-            A lemonade drink mix with 30+ vitamins, minerals, and electrolytes, made for life on a GLP&#8209;1. One stick, once a day.
+          {/* the flavor, named the way the pouch names it */}
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.5rem, 3vw, 1.8rem)', color: RED, lineHeight: 1, margin: '0 0 14px' }}>
+            Lemonade
+          </p>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 500, color: INK, lineHeight: 1.55 }}>
+            Sydney&rsquo;s doctor-formulated multivitamin for life on a GLP&#8209;1. One stick in cold water, once a day.
           </p>
 
-          <ul className="mt-5" style={{ padding: 0, listStyle: 'none' }}>
+          <ul className="mt-5 mb-5" style={{ padding: 0, listStyle: 'none' }}>
             {BENEFITS.map((b) => (
-              <li key={b} className="flex" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 600, color: RED, lineHeight: 1.6, marginBottom: '4px' }}>
+              <li key={b} className="flex" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 500, color: INK, lineHeight: 1.6, marginBottom: '4px' }}>
                 <Check />{b}
               </li>
             ))}
           </ul>
-
-          <div className="flex items-center gap-3 mt-5 mb-5">
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: RED, textTransform: 'uppercase', letterSpacing: '0.18em' }}>
-              Flavor
-            </span>
-            <span style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.45em',
-              fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, color: RED,
-              background: LEMON, border: '1.5px solid rgba(239, 42, 48, 0.25)',
-              borderRadius: '9999px', padding: '5px 14px 5px 7px', letterSpacing: '0.08em'
-            }}>
-              <LemonSlice size="1.35em" />
-              Lemonade
-            </span>
-          </div>
 
           <PlanPicker source="galoplife.com" />
 

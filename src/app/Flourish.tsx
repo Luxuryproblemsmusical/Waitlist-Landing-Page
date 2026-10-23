@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { RED, LEMON } from './Layout';
+import { RED } from './Layout';
 import horseImage from "../imports/galop-horse.png";
 
 /** Hairline — horse mark — hairline section divider. */
@@ -42,16 +42,32 @@ export const PackagingGlow = () => (
   </div>
 );
 
-/** Tiny lemon-slice icon. */
-export const LemonSlice = ({ size = '1em' }: { size?: string }) => (
-  <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" style={{ flexShrink: 0 }}>
-    <circle cx="12" cy="12" r="11" fill="#FFE34D" />
-    <circle cx="12" cy="12" r="9" fill="#FFF6B0" />
-    {[0, 45, 90, 135].map((a) => (
-      <line key={a} x1="12" y1="3.5" x2="12" y2="20.5" stroke="#FFE34D" strokeWidth="1.2" transform={`rotate(${a} 12 12)`} />
-    ))}
-    <circle cx="12" cy="12" r="1.4" fill="#ffffff" />
-  </svg>
+/**
+ * House stationery: a white card with a thin red keyline inside its edge. Used for
+ * Sydney's note on the home page and her full letter, so the two always match.
+ */
+export const Stationery = ({ children, className = '', style }: { children: ReactNode; className?: string; style?: CSSProperties }) => (
+  <div className={`founder-note ${className}`}
+       style={{
+         position: 'relative', background: '#ffffff', borderRadius: '22px',
+         boxShadow: '0 24px 50px rgba(30, 60, 90, 0.12), 0 2px 6px rgba(30, 60, 90, 0.05)',
+         ...style,
+       }}>
+    <span aria-hidden="true" style={{ position: 'absolute', inset: '12px', borderRadius: '14px', border: '1px solid rgba(239, 42, 48, 0.16)', pointerEvents: 'none' }} />
+    {children}
+  </div>
+);
+
+/** Taped, tilted polaroid with a handwritten caption; straightens when its Stationery is hovered. */
+export const Polaroid = ({ src, alt, caption, width = 'clamp(9.5rem, 20vw, 12.5rem)', className = '', style }:
+  { src: string; alt: string; caption: string; width?: string; className?: string; style?: CSSProperties }) => (
+  <figure className={`polaroid ${className}`} style={{ position: 'relative', zIndex: 2, margin: 0, ...style }}>
+    <span aria-hidden="true" className="polaroid-tape" />
+    <img src={src} alt={alt} style={{ display: 'block', width, aspectRatio: '1', objectFit: 'cover' }} />
+    <figcaption style={{ fontFamily: "'Caveat', cursive", fontSize: '1.35rem', fontWeight: 600, color: RED, textAlign: 'center', marginTop: '0.55rem', lineHeight: 1 }}>
+      {caption}
+    </figcaption>
+  </figure>
 );
 
 /** Floating prop image (sticker) with a gentle bob. */

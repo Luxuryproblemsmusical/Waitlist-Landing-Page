@@ -1,97 +1,59 @@
-import { Layout, Kicker, Heading, RED } from './Layout';
-import { Note } from './Flourish';
-import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
+import { Layout, Kicker, Heading, RED, INK } from './Layout';
+import { Stationery, Polaroid } from './Flourish';
+import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 
-// [front title, front text, back title, back text]
-const DIFFERENT: [string, string, string, string][] = [
-  ['Doctor-formulated', 'Not a generic multi with a new label.',
-   'Built with a doctor', 'Sydney found a doctor and built the formula around life on a GLP-1.'],
-  ['Dosed for the journey', 'Higher levels of what tends to run low.',
-   'Like a prenatal', 'A prenatal is made for pregnancy. GALOP is made for life on a GLP-1.'],
-  ['Tastes like lemonade', 'Sips, not pills.',
-   'One stick a day', 'Stir one stick into cold water, once a day, whenever it fits your routine.'],
-];
+// Sydney's letter. Her words are kept exactly; only the paragraphing and type are ours.
+const letter = { fontFamily: "'Cormorant Garamond', serif", fontWeight: 500, fontSize: 'clamp(1.2rem, 2.3vw, 1.35rem)', lineHeight: 1.6, color: INK } as const;
 
-const body = { fontFamily: 'Inter, sans-serif', fontSize: '1.08rem', fontWeight: 500, color: RED, lineHeight: 1.75 } as const;
-
+/** From Sydney: one signed letter on the house stationery, with her taped polaroid on top. */
 export default function AboutPage() {
   return (
-    <Layout title="About — GALOP" current="/about">
-      {/* Portrait + title */}
-      <div className="max-w-2xl mx-auto mt-10 text-center">
-        <div className="relative inline-block" style={{ marginBottom: '1.75rem' }}>
-          <img
-            src={sydneyImage}
-            alt="Sydney, founder of GALOP"
-            style={{
-              width: 'clamp(8rem, 18vw, 11rem)',
-              height: 'clamp(8rem, 18vw, 11rem)',
-              borderRadius: '9999px',
-              objectFit: 'cover',
-              border: '4px solid #ffffff',
-              outline: `2px solid ${RED}`,
-              boxShadow: '0 14px 30px rgba(239, 42, 48, 0.2)',
-            }}
-          />
-          <Note rotate={-8} style={{ position: 'absolute', right: '-4.5rem', bottom: '0.2rem', fontSize: '1.4rem' }}>
-            Sydney, founder
-          </Note>
-        </div>
-        <Kicker>A note from our founder</Kicker>
-        <Heading size="lg">Why I made GALOP</Heading>
+    <Layout title="From Sydney — GALOP" current="/about">
+      <div className="max-w-2xl mx-auto" style={{ marginTop: 'clamp(6.5rem, 12vw, 7.5rem)' }}>
+        <Stationery style={{ padding: '2.5rem clamp(1.5rem, 6vw, 4rem) clamp(2.5rem, 6vw, 3.5rem)' }}>
+          {/* the polaroid overlaps the card's top edge (the card's top padding stops the margin collapsing) */}
+          <div className="flex justify-center" style={{ marginTop: '-7rem', position: 'relative', zIndex: 2 }}>
+            <Polaroid src={sydneyImage} alt="Sydney, founder of GALOP" caption="Sydney, founder" width="clamp(9rem, 24vw, 11rem)" />
+          </div>
+
+          <div className="text-center" style={{ position: 'relative', zIndex: 2, marginTop: '1.75rem' }}>
+            <img src={horseImage} alt="" aria-hidden="true" className="mx-auto"
+                 style={{ width: '2.2rem', height: 'auto', marginBottom: '0.9rem', opacity: 0.9 }} />
+            <Kicker>From Sydney</Kicker>
+            <Heading as="h1">Why I made GALOP</Heading>
+          </div>
+
+          <div className="mx-auto" style={{ ...letter, maxWidth: '34em', position: 'relative', zIndex: 2 }}>
+            <p className="mb-5">
+              I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings.
+            </p>
+            <p className="mb-5">
+              GLP-1 medications reduce your appetite, which means fewer nutrients reach your body. This is why people on GLP-1s often need higher doses of key vitamins to support their journey.
+            </p>
+            <p className="text-center" style={{ fontStyle: 'italic', fontSize: 'clamp(1.6rem, 3.6vw, 2rem)', lineHeight: 1.25, color: RED, margin: '2rem 0' }}>
+              A standard multivitamin wasn&rsquo;t built for this.
+            </p>
+            <p className="mb-5">
+              So just like a pregnant person takes a prenatal, I found a doctor and built a multivitamin to optimize our journey.
+            </p>
+            <p className="mb-2">
+              You deserve to feel like your absolute best self on a GLP-1.
+            </p>
+            <p style={{ fontWeight: 600 }}>
+              That&rsquo;s what GALOP is for.
+            </p>
+            <p style={{ fontFamily: "'Caveat', cursive", fontWeight: 600, fontSize: 'clamp(2.2rem, 4vw, 2.6rem)', lineHeight: 1, color: RED, marginTop: '1.25rem' }}>
+              — Sydney
+            </p>
+            <p style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(239, 42, 48, 0.16)', fontStyle: 'italic', fontSize: '1.15rem' }}>
+              P.S. GALOP just launched, so your first order is 20% off.
+            </p>
+          </div>
+        </Stationery>
       </div>
 
-      {/* Story */}
-      <div className="max-w-xl mx-auto mt-2" style={body}>
-        <p className="mb-6">
-          I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. GLP-1 medications reduce your appetite, which means fewer nutrients reach your body. This is why people on GLP-1s often need higher doses of key vitamins to support their journey.
-        </p>
-      </div>
-
-      {/* Pull quote */}
-      <figure className="max-w-2xl mx-auto my-10 text-center">
-        <span aria-hidden="true"
-              style={{ display: 'block', fontFamily: "'Cormorant Garamond', serif", fontSize: '5rem', lineHeight: 0.5, color: RED, opacity: 0.25 }}>
-          &ldquo;
-        </span>
-        <blockquote style={{
-              fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500,
-              fontSize: 'clamp(1.9rem, 4.5vw, 2.8rem)', lineHeight: 1.15, color: RED, margin: 0
-            }}>
-          A standard multivitamin wasn&rsquo;t built for this.
-        </blockquote>
-      </figure>
-
-      <div className="max-w-xl mx-auto" style={body}>
-        <p className="mb-6">
-          So just like a pregnant person takes a prenatal, I found a doctor and built a multivitamin to optimize our journey.
-        </p>
-        <p className="mb-6">
-          You deserve to feel like your absolute best self on a GLP-1.
-        </p>
-        <p className="mb-2" style={{ fontWeight: 700 }}>
-          That&rsquo;s what GALOP is for.
-        </p>
-        <p style={{ fontFamily: "'Caveat', cursive", fontWeight: 500, fontSize: 'clamp(2.25rem, 4vw, 3rem)', lineHeight: 1, marginTop: '1rem' }}>
-          — Sydney
-        </p>
-      </div>
-
-      {/* What makes it different */}
-      <div className="max-w-4xl mx-auto mt-20 text-center">
-        <Kicker>What makes it different</Kicker>
-        <Heading>Made for this, on purpose.</Heading>
-      </div>
-      <div className="max-w-4xl mx-auto grid gap-5 sm:grid-cols-3">
-        {DIFFERENT.map(([h, p, bh, bp], i) => (
-          <FlipCard key={bh} tone="glass" glossDelay={1 + i * 0.8}
-                    front={<><CardKicker>0{i + 1}</CardKicker><CardTitle>{h}</CardTitle><CardText>{p}</CardText></>}
-                    back={<><CardTitle>{bh}</CardTitle><CardText>{bp}</CardText></>} />
-        ))}
-      </div>
-
-      <div className="mt-16 text-center">
+      <div className="mt-14 text-center">
         <a href="/#shop" className="btn-gallop" data-fizz="12"
            style={{
              display: 'inline-block',
@@ -106,7 +68,7 @@ export default function AboutPage() {
              padding: '18px 36px',
              textDecoration: 'none'
            }}>
-          <span className="btn-label">Shop GALOP</span>
+          <span className="btn-label">Get your first pouch</span>
         </a>
       </div>
     </Layout>

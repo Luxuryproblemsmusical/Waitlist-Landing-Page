@@ -5,6 +5,11 @@ export const RED = '#EF2A30';
 export const BLUE = '#cbeafe';
 /** Pale lemon accent, used sparingly around lemonade moments. */
 export const LEMON = '#FFF07A';
+/**
+ * Deeper ink red for text under ~24px: 4.8:1 on #cbeafe and 6.0:1 on white (brand RED is
+ * 3.3:1 and 4.2:1). Headings, wordmark, hang tag, buttons, icons and the horse stay RED.
+ */
+export const INK = '#C4161C';
 
 /** Tiny white horse mark used as the separator in the marquee banners. */
 const MarqueeHorse = () => (
@@ -39,7 +44,7 @@ export const Dot = ({ opacity = 0.85 }: { opacity?: number }) => (
   </svg>
 );
 
-/** Static launch-offer bar at the very top of every page. */
+/** Static launch-offer bar at the very top of every page; the nav hang tag hangs from it. */
 const OfferBar = () => (
   <div style={{
     width: '100vw',
@@ -51,21 +56,9 @@ const OfferBar = () => (
     borderBottom: '1px solid rgba(0,0,0,0.05)',
     padding: '9px 16px',
   }}>
-    <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center"
-       style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.04em', lineHeight: 1.3 }}>
-      <span style={{
-        background: '#ffffff',
-        color: RED,
-        borderRadius: '999px',
-        padding: '2px 10px',
-        fontSize: '0.66rem',
-        fontWeight: 800,
-        letterSpacing: '0.18em',
-        textTransform: 'uppercase',
-      }}>
-        Launch offer
-      </span>
-      <span>Get 20% off your first order.</span>
+    <p className="text-center"
+       style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 600, fontSize: 'clamp(1rem, 3.6vw, 1.1rem)', letterSpacing: '0.01em', lineHeight: 1.3, margin: 0 }}>
+      Just launched &mdash; 20% off your first order.
     </p>
   </div>
 );
@@ -101,12 +94,12 @@ const Marquee = () => (
 );
 
 export const NAV_LINKS = [
-  { href: '/', label: 'Shop' },
-  { href: '/about', label: 'About' },
+  { href: '/#shop', label: 'Lemonade' },
+  { href: '/about', label: 'From Sydney' },
   { href: '/faq', label: 'FAQ' },
 ];
 
-/** Wordmark plus one button: About (or Shop, when you're already on About). */
+/** Wordmark plus one hang tag: From Sydney (her letter), or Lemonade (the shop) when you're on her page. */
 const Nav = ({ current }: { current: string }) => {
   const onAbout = current === '/about';
   return (
@@ -126,18 +119,21 @@ const Nav = ({ current }: { current: string }) => {
         GALOP
       </a>
       {/* A little red hang tag on a string; it swings when you hover */}
-      <a href={onAbout ? '/' : '/about'} className={`nav-tag${onAbout ? ' is-flipped' : ''}`} data-fizz="8">
+      <a href={onAbout ? '/#shop' : '/about'} className={`nav-tag${onAbout ? ' is-flipped' : ''}`} data-fizz="8"
+         aria-label={onAbout ? 'Lemonade: shop the Multivitamin Drink Mix' : 'From Sydney: read Sydney\u2019s letter'}>
         <svg className="nav-tag-string" viewBox="0 0 40 30" aria-hidden="true">
           <path d="M33 26 C 26 14, 14 6, 2 2" fill="none" stroke={RED} strokeWidth="1.3" strokeLinecap="round" />
         </svg>
         <span className="nav-tag-body">
           <span className="nav-tag-hole" aria-hidden="true" />
-          {onAbout ? 'Shop' : 'About'}
+          {onAbout ? 'Lemonade' : 'From Sydney'}
         </span>
       </a>
     </nav>
   );
 };
+
+const footerLink = { color: INK, textDecoration: 'underline', textUnderlineOffset: '0.2em' } as const;
 
 const Footer = () => (
   <footer className="max-w-2xl mx-auto mt-24 pb-10 text-center"
@@ -145,24 +141,25 @@ const Footer = () => (
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.75rem',
             lineHeight: 1.6,
-            color: 'rgba(239, 42, 48, 0.7)',
+            color: INK,
             letterSpacing: '0.02em'
           }}>
+    {/* hairline, horse, hairline: a quiet sign-off */}
+    <div className="flex items-center justify-center gap-4 mb-6" aria-hidden="true">
+      <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(239, 42, 48, 0.3)' }} />
+      <img src={horseImage} alt="" style={{ width: '1.9rem', height: 'auto', opacity: 0.9 }} />
+      <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(239, 42, 48, 0.3)' }} />
+    </div>
     <p>© {new Date().getFullYear()} GALOP. All rights reserved.</p>
     <p style={{ marginTop: '0.5rem' }} className="flex flex-wrap justify-center gap-x-5 gap-y-1">
       {NAV_LINKS.map((l) => (
-        <a key={l.href} href={l.href}
-           style={{ color: 'rgba(239, 42, 48, 0.85)', textDecoration: 'underline', textUnderlineOffset: '0.2em' }}>
-          {l.label}
-        </a>
+        <a key={l.href} href={l.href} style={footerLink}>{l.label}</a>
       ))}
-      <a href="/privacy.html"
-         style={{ color: 'rgba(239, 42, 48, 0.85)', textDecoration: 'underline', textUnderlineOffset: '0.2em' }}>
-        Privacy Policy
-      </a>
+      <a href="mailto:galoplife@gmail.com" style={footerLink}>Write to us</a>
+      <a href="/privacy.html" style={footerLink}>Privacy Policy</a>
     </p>
-    <p style={{ marginTop: '1rem', opacity: 0.8, fontSize: '0.68rem', lineHeight: 1.5 }}>
-      These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
+    <p style={{ marginTop: '1rem', fontSize: '0.7rem', lineHeight: 1.5 }}>
+      *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
     </p>
   </footer>
 );
@@ -403,7 +400,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes dotPop { 0% { transform: scale(0.4); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
         /* Nav hang tag */
-        /* --dir: 1 hangs from the left and points left (About); -1 is the mirror image (Shop) */
+        /* --dir: 1 hangs from the left and points left (From Sydney); -1 is the mirror image (Lemonade) */
         .nav-tag {
           --dir: 1;
           position: relative; display: inline-block; text-decoration: none; margin-right: 4px;
@@ -421,7 +418,7 @@ export function Layout({ title, current, children }: { title: string; current: s
           background: ${RED}; color: #ffffff;
           font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
           font-size: 1.2rem; line-height: 1; letter-spacing: 0.01em;
-          padding: 9px 20px 10px 30px;
+          padding: 9px 20px 10px 30px; white-space: nowrap;
           clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
         }
         .is-flipped .nav-tag-body {
@@ -467,6 +464,7 @@ export function Layout({ title, current, children }: { title: string; current: s
 
         @media (prefers-reduced-motion: reduce) {
           .float-slow, .animate-float { animation: none !important; }
+          .animate-fade-in { animation: none !important; }
           .gloss-layer::after { animation: none !important; display: none; }
           .flip-inner { transition: none; transform: none !important; animation: none !important; }
           .flip-back { transform: none; opacity: 0; transition: opacity 0.2s; }
@@ -482,25 +480,25 @@ export function Layout({ title, current, children }: { title: string; current: s
   );
 }
 
-/** Uppercase red kicker used above section headings. */
+/** Engraved serif small caps above section headings. */
 export const Kicker = ({ children }: { children: ReactNode }) => (
   <p className="mb-4"
      style={{
-       fontFamily: 'Inter, sans-serif',
-       fontSize: '0.8rem',
-       fontWeight: 700,
-       color: RED,
+       fontFamily: "'Cormorant Garamond', serif",
+       fontSize: '0.9rem',
+       fontWeight: 600,
+       color: INK,
        textTransform: 'uppercase',
        letterSpacing: '0.22em',
-       opacity: 0.85
+       lineHeight: 1.3
      }}>
     {children}
   </p>
 );
 
-/** Serif section heading. */
-export const Heading = ({ children, size = 'md' }: { children: ReactNode; size?: 'md' | 'lg' }) => (
-  <h2 className="mb-6"
+/** Serif section heading; `as="h1"` for the page title. */
+export const Heading = ({ children, size = 'md', as: Tag = 'h2' }: { children: ReactNode; size?: 'md' | 'lg'; as?: 'h1' | 'h2' }) => (
+  <Tag className="mb-6"
       style={{
         fontFamily: "'Cormorant Garamond', serif",
         fontSize: size === 'lg' ? 'clamp(2.5rem, 7vw, 4.25rem)' : 'clamp(2rem, 4vw, 2.75rem)',
@@ -510,5 +508,5 @@ export const Heading = ({ children, size = 'md' }: { children: ReactNode; size?:
         lineHeight: 1.1
       }}>
     {children}
-  </h2>
+  </Tag>
 );
