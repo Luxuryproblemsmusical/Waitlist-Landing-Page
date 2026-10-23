@@ -1,6 +1,6 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
 import { ProductSection } from './ProductSection';
-import { Divider, Note, Gloss, Ribbon } from './Flourish';
+import { Gloss, Ribbon } from './Flourish';
 import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 
@@ -39,7 +39,7 @@ export default function App() {
   return (
     <Layout title="GALOP — Coming Soon" current="/">
       {/* Logo lockup: galloping horse + GALOP wordmark */}
-      <div className="flex flex-col items-center mt-2 mb-6 animate-fade-in"
+      <div className="flex flex-col items-center mt-2 mb-16 md:mb-12 animate-fade-in"
            style={{ animation: 'fadeIn 0.8s ease-out' }}>
         <HorseHero />
         <h1 aria-label="GALOP"
@@ -69,27 +69,7 @@ export default function App() {
         </p>
       </div>
 
-      {/* Intro line — quiet serif italic, with a handwritten aside */}
-      <div className="relative max-w-2xl mx-auto text-center mt-2 mb-10 px-4">
-        <p style={{
-             fontFamily: "'Cormorant Garamond', serif",
-             fontStyle: 'italic',
-             fontWeight: 500,
-             color: RED,
-             fontSize: 'clamp(1.35rem, 3vw, 1.85rem)',
-             lineHeight: 1.35,
-             margin: 0
-           }}>
-          A once&#8209;a&#8209;day vitamin + electrolyte drink, dosed for the GLP&#8209;1 body — and it tastes like lemonade.
-        </p>
-        <div className="mt-3" style={{ position: 'relative', zIndex: 1 }}>
-          <Note rotate={-4}>(sips, not pills)</Note>
-        </div>
-      </div>
-
-      <Divider className="mb-10" />
-
-      {/* Product / buy box */}
+      {/* Product / buy box — straight after the logo */}
       <ProductSection />
 
       {/* Why GLP-1 users need more — full-bleed red band */}
