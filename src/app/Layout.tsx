@@ -64,10 +64,6 @@ const OfferBar = () => (
         Launch offer
       </span>
       <span>Get 20% off your first order.</span>
-      <a href="/#shop"
-         style={{ color: '#ffffff', fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '0.2em', whiteSpace: 'nowrap' }}>
-        Join the waitlist &rarr;
-      </a>
     </p>
   </div>
 );
