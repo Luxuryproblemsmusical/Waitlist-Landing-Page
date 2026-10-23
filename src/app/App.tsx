@@ -18,10 +18,11 @@ const WHY: [string, string, string, string][] = [
 ];
 
 /**
- * The horse mark, alive: an 8s loop of the logo galloping at its source 24fps
- * (half speed meant holding each frame twice, which looked choppy), as an
- * animated WebP with a real alpha channel, so it sits on the page background
- * with no box in any browser. Reduced-motion users get the static mark.
+ * The horse mark, alive, in stop motion: every third frame of the 24fps gallop,
+ * each held for 125ms (8fps), with a pixel or two of hand-placed wobble per frame.
+ * An animated WebP with a real alpha channel, so it sits on the page with no box.
+ * The smooth 24fps version is still at /horse-gallop.webp.
+ * Reduced-motion users get the static mark.
  */
 const HorseHero = () => {
   const reduceMotion =
@@ -34,10 +35,10 @@ const HorseHero = () => {
   }
   return (
     <img
-      src="/horse-gallop.webp"
+      src="/horse-gallop-stop.webp"
       alt=""
       aria-hidden="true"
-      // Intrinsic size, so the space is held while the 1.7MB file loads and the
+      // Intrinsic size, so the space is held while the file loads and the
       // wordmark below doesn't jump down when it arrives.
       width={480}
       height={342}
