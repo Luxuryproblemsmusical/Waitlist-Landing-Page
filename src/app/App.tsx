@@ -116,7 +116,7 @@ export default function App() {
             Why it exists
           </p>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
-            Built for the GLP&#8209;1 body.
+            Fuel for the GLP&#8209;1 journey.
           </h2>
           <div className="grid gap-5 sm:grid-cols-3 mt-10 text-left">
             {WHY.map(([h, p, bh, bp], i) => (
