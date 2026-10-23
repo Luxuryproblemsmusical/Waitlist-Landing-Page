@@ -15,8 +15,8 @@ export const CHECKOUT_URLS: Record<Plan, string | null> = {
 };
 
 /**
- * Prices in USD. Leave null until Sydney sets them — the card then shows the
- * first-order offer instead of a number. `compareAt` renders struck-through.
+ * Prices in USD. Leave null until Sydney sets them; the card then shows no
+ * price. `compareAt` renders struck-through.
  */
 export const PRICING: Record<Plan, { price: number | null; compareAt?: number }> = {
   monthly: { price: null },
@@ -95,7 +95,7 @@ const PriceSlot = ({ plan }: { plan: Plan }) => {
   );
 };
 
-/** Gruns-style buy box: highlighted subscribe card, one-time card, CTA (email capture until checkout links exist). */
+/** Buy box: subscribe card, one-time card, CTA (email capture until checkout links exist). */
 export function PlanPicker({ source }: { source: string }) {
   const [plan, setPlan] = useState<Plan>('monthly');
   const [email, setEmail] = useState('');
@@ -238,7 +238,7 @@ export function PlanPicker({ source }: { source: string }) {
             </button>
           </form>
         ) : (
-          <div className="success-pill text-center animate-fade-in"
+          <div className="success-pill text-center animate-fade-in" role="status"
                style={{
                  background: '#ffffff',
                  borderRadius: '9999px',
@@ -255,7 +255,7 @@ export function PlanPicker({ source }: { source: string }) {
           </div>
         )}
         {error && (
-          <p className="mt-3 text-center text-sm" style={{ color: RED, fontFamily: "'Cormorant Garamond', serif" }}>{error}</p>
+          <p role="alert" className="mt-3 text-center text-sm" style={{ color: INK, fontFamily: "'Cormorant Garamond', serif" }}>{error}</p>
         )}
       </div>
     </div>

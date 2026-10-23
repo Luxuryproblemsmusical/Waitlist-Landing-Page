@@ -68,7 +68,7 @@ export default function AboutPage() {
              padding: '18px 36px',
              textDecoration: 'none'
            }}>
-          <span className="btn-label">Get your first pouch</span>
+          <span className="btn-label">Get 20% off your first order</span>
         </a>
       </div>
     </Layout>

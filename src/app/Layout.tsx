@@ -60,8 +60,8 @@ const Nav = ({ current }: { current: string }) => {
   const onAbout = current === '/about';
   return (
     <nav aria-label="Main"
-         className="w-full max-w-4xl flex items-center justify-between gap-4"
-         style={{ padding: '4px 0 0' }}>
+         className="w-full max-w-4xl flex items-center justify-between gap-4 pb-6 md:pb-0"
+         style={{ paddingTop: '4px' }}>
       <a href="/" aria-label="GALOP home" className="nav-logo"
          style={{
            fontFamily: "'Cormorant Garamond', serif",
@@ -168,7 +168,9 @@ export function Layout({ title, current, children }: { title: string; current: s
            background: `radial-gradient(1100px 520px at 88% -8%, rgba(255, 246, 170, 0.5), transparent 62%),
                         radial-gradient(900px 600px at -12% 18%, rgba(255, 255, 255, 0.6), transparent 60%),
                         linear-gradient(180deg, #e4f4ff 0%, ${BLUE} 34%, ${BLUE} 100%)`,
-           fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'clip'
+           fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'clip',
+           /* Cormorant defaults to old-style figures, which print "GLP-1" as "GLP-ı"; the pouch uses lining figures */
+           fontVariantNumeric: 'lining-nums'
          }}>
       <OfferBar />
       <Nav current={current} />
@@ -226,7 +228,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
         .flip-card:hover { transform: translateY(-5px); }
         .flip-card:active { transform: translateY(-2px) scale(0.99); }
-        .flip-card:focus-visible { outline: 3px solid ${RED}; outline-offset: 4px; }
+        .flip-card:focus-visible { outline: 3px solid #ffffff; outline-offset: 4px; } /* flip cards sit on the red band */
         .flip-inner {
           display: grid; height: 100%; border-radius: 22px;
           transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1), box-shadow 0.25s ease;
@@ -380,6 +382,11 @@ export function Layout({ title, current, children }: { title: string; current: s
           background: #e4f4ff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.85);
         }
         .is-flipped .nav-tag-hole { left: auto; right: 11px; }
+        /* phones: a slightly smaller tag so "From Sydney" clears the hero horse */
+        @media (max-width: 420px) {
+          .nav-tag-body { font-size: 1.05rem; padding: 8px 16px 9px 26px; }
+          .is-flipped .nav-tag-body { padding: 8px 26px 9px 16px; }
+        }
         /* sheen across the tag on hover */
         .nav-tag-body::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;

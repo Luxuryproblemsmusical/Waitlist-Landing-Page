@@ -41,11 +41,11 @@ export default function FaqPage() {
           </p>
           <a href="mailto:galoplife@gmail.com" className="btn-gallop on-light" data-fizz="10"
              style={{
-               display: 'inline-block', marginTop: '1.25rem', background: '#ffffff', color: RED,
+               display: 'inline-block', maxWidth: '100%', marginTop: '1.25rem', background: '#ffffff', color: RED,
                fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.16em',
                textTransform: 'uppercase', borderRadius: '9999px', padding: '14px 28px', textDecoration: 'none'
              }}>
-            <span className="btn-label">Email galoplife@gmail.com</span>
+            <span className="btn-label">Write to us</span>
           </a>
         </div>
       </div>

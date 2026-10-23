@@ -22,7 +22,7 @@ const DETAILS: [string, string][] = [
   ['Why GALOP?', 'GLP-1 medications shrink your appetite, so you eat less — and fewer nutrients reach your body. Standard multivitamins weren’t built for that. GALOP is dosed for life on a GLP-1: higher levels of the vitamins, minerals, and electrolytes that tend to run low, in a once-a-day drink you’ll actually look forward to.'],
   ['What’s inside', '30+ vitamins and minerals plus electrolytes. Sweetened with monkfruit and stevia, zero sugar. Bright, classic lemonade.'],
   ['How to take it', 'Stir or shake one stick pack into 8–12 oz of cold water, once a day. Morning, afternoon, or whenever it fits your routine.'],
-  ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime from your account — no calls, no hoops. New customers get 20% off their first order.'],
+  ['Subscription details', 'A fresh 30-pack pouch ships every month with free shipping. Pause, skip, or cancel anytime — no calls, no hoops. New customers get 20% off their first order.'],
 ];
 
 const Check = () => (
@@ -92,6 +92,7 @@ export function ProductSection() {
                 color: RED,
                 letterSpacing: '-0.01em',
                 lineHeight: 1.05,
+                textWrap: 'balance',
                 margin: '6px 0 4px'
               }}>
             Multivitamin Drink Mix

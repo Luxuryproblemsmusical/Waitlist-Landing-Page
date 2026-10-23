@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
 import { Gloss, Stationery, Polaroid } from './Flourish';
@@ -6,14 +7,14 @@ import horseImage from "../imports/galop-horse.png";
 import sydneyImage from "../imports/sydney.png";
 
 // [front title, front text, back title, back text]
-// Fronts use Sydney's own words; backs use the pouch's wording.
+// Fronts paraphrase Sydney; backs use pouch facts. Her own key line lives only in her note below.
 const WHY: [string, string, string, string][] = [
   ['Less appetite', 'GLP-1 medications reduce your appetite, which means fewer nutrients reach your body.',
    'One stick, once a day', '30+ vitamins and minerals plus electrolytes, stirred into cold water.'],
-  ['Bigger gaps', 'A standard multivitamin wasn\u2019t built for this.',
+  ['Bigger gaps', 'People on GLP-1s often need higher doses of key vitamins.',
    'Where it counts', 'Electrolytes, plus nutrients that help support hair health, digestive comfort, energy, muscle maintenance and bone health.*'],
   ['Made for it', 'Just like a pregnant person takes a prenatal, GALOP is the multivitamin for life on a GLP-1.',
-   'Doctor-formulated', 'Sydney found a doctor and built it for life on a GLP-1. It tastes like lemonade.'],
+   'Doctor-formulated', 'Formulated with a doctor for life on a GLP-1. It tastes like lemonade.'],
 ];
 
 /**
@@ -44,6 +45,12 @@ const HorseHero = () => {
 
 /** Homepage — doubles as the product page, per Sydney's spec. */
 export default function App() {
+  // React renders #shop after the browser has looked for it, so links from other
+  // pages to /#shop need a nudge once the page is up.
+  useEffect(() => {
+    if (location.hash === '#shop') requestAnimationFrame(() => document.getElementById('shop')?.scrollIntoView());
+  }, []);
+
   return (
     <Layout title="GALOP — Multivitamin Drink Mix for Life on a GLP-1" current="/">
       {/* Logo lockup: galloping horse + GALOP wordmark */}
@@ -113,7 +120,7 @@ export default function App() {
       }}>
         <Gloss delay={1} />
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.22em' }}>
+          <p className="mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.22em' }}>
             Why it exists
           </p>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 600, letterSpacing: '-0.01em', lineHeight: 1.05, margin: 0 }}>
@@ -146,7 +153,7 @@ export default function App() {
               Why I made GALOP
             </h2>
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.25rem, 2.4vw, 1.5rem)', lineHeight: 1.45, color: RED, margin: 0 }}>
-              &ldquo;I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. A standard multivitamin wasn&rsquo;t built for this &mdash; so I found a doctor and built one that was.&rdquo;
+              &ldquo;I was on a GLP-1, doing everything my doctor told me and still losing my hair and fainting in the mornings. A standard multivitamin wasn&rsquo;t built for this.&rdquo;
             </p>
             <div className="flex flex-wrap items-center justify-center md:justify-between gap-x-6 gap-y-3" style={{ marginTop: '1.4rem' }}>
               <span style={{ fontFamily: "'Caveat', cursive", fontWeight: 600, fontSize: 'clamp(2.1rem, 4vw, 2.6rem)', lineHeight: 1, color: RED }}>
