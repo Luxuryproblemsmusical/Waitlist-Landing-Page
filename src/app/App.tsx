@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
 import { Gloss, Stationery, Polaroid } from './Flourish';
@@ -131,30 +131,23 @@ export default function App() {
            }}>
           The multivitamin drink mix<br className="md:hidden" /> for life on a&nbsp;GLP&#8209;1
         </p>
-        {/* Slogan with a little riding-whip flourish that cracks itself into place */}
-        <div className="whip-wrap flex flex-col items-center"
-             style={{ marginTop: 'clamp(10px, 1.8vw, 18px)', transform: 'rotate(-3deg)' }}>
-          <p style={{
-               fontFamily: "'Caveat', cursive",
-               fontWeight: 600,
-               fontSize: 'clamp(1.9rem, 4.5vw, 2.8rem)',
-               lineHeight: 1,
-               color: RED,
-               margin: 0
-             }}>
-            Ride with us.
-          </p>
-          <svg className="whip" viewBox="0 0 200 30" aria-hidden="true"
-               style={{ width: 'clamp(8.5rem, 16vw, 11rem)', height: 'auto', marginTop: '2px', marginLeft: '2.5rem', overflow: 'visible' }}>
-            {/* handle */}
-            <path className="whip-path" pathLength={1} d="M6 22 L30 17"
-                  fill="none" stroke={RED} strokeWidth="3.2" strokeLinecap="round" />
-            {/* lash, ending in a little curl */}
-            <path className="whip-path whip-lash" pathLength={1}
-                  d="M30 17 C 62 10, 92 25, 126 17 S 172 5, 184 13 C 191 17, 191 25, 185 24 C 180 23, 181 17, 186 16"
-                  fill="none" stroke={RED} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
+        {/* Slogan: each word cracks in like a whip (flick in, slanted overshoot, snap); hover cracks it again */}
+        <p className="slogan" aria-label="Work. Live. Ride."
+           style={{
+             fontFamily: "'Instrument Serif', serif",
+             fontStyle: 'italic',
+             fontSize: 'clamp(1.9rem, 4.6vw, 2.9rem)',
+             lineHeight: 1,
+             color: RED,
+             margin: 'clamp(12px, 2vw, 20px) 0 0',
+             cursor: 'default'
+           }}>
+          {['Work.', 'Live.', 'Ride.'].map((word, i) => (
+            <span key={word} className="slogan-word" aria-hidden="true" style={{ ['--i' as string]: i } as CSSProperties}>
+              {word}
+            </span>
+          ))}
+        </p>
       </div>
 
       {/* Product / buy box — straight after the logo */}
