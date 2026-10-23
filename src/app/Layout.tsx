@@ -190,7 +190,7 @@ function fizz(x: number, y: number, count: number) {
     b.style.animationDelay = `${Math.random() * 0.12}s`;
     b.style.background = i % 3 === 0
       ? 'rgba(255, 255, 255, 0.95)'
-      : 'radial-gradient(circle at 30% 30%, #fffbe0, #FFE45C 70%)';
+      : 'radial-gradient(circle at 30% 30%, #ffffff 0%, #FFF8C2 45%, #FFF07A 100%)';
     b.addEventListener('animationend', () => b.remove());
     document.body.appendChild(b);
   }
@@ -360,7 +360,7 @@ export function Layout({ title, current, children }: { title: string; current: s
 
         .fizz-bubble {
           position: fixed; z-index: 9999; border-radius: 9999px; pointer-events: none; opacity: 0;
-          box-shadow: 0 0 0 1px rgba(239, 42, 48, 0.18);
+          box-shadow: 0 0 0 1px rgba(30, 60, 90, 0.1);
           animation: fizzUp var(--dur, 0.8s) cubic-bezier(0.2, 0.6, 0.35, 1) forwards;
         }
         @keyframes fizzUp {
