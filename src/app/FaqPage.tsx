@@ -18,9 +18,9 @@ const FAQS: [string, string][] = [
 
 export default function FaqPage() {
   return (
-    <Layout title="Q&A — GALOP" current="/faq">
+    <Layout title="FAQ — GALOP" current="/faq">
       <div className="max-w-2xl mx-auto mt-10 text-center">
-        <Kicker>Questions & answers</Kicker>
+        <Kicker>Frequently asked</Kicker>
         <Heading size="lg">Good questions.</Heading>
       </div>
 

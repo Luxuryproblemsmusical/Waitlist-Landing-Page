@@ -1,15 +1,16 @@
 import { Layout, Kicker, Heading, RED } from './Layout';
-import { Note } from './Flourish';
+import type { ReactNode } from 'react';
+import { Note, Lemon } from './Flourish';
 import { FlipCard, CardKicker, CardTitle, CardText } from './Interactive';
 import sydneyImage from "../imports/sydney.png";
 
 // [front title, front text, back title, back text]
-const DIFFERENT: [string, string, string, string][] = [
+const DIFFERENT: [ReactNode, string, string, string][] = [
   ['Doctor-formulated', 'Not a generic multi with a new label.',
    'Built with a doctor', 'Sydney found a doctor and built the formula around life on a GLP-1.'],
   ['Dosed for the journey', 'Higher levels of what tends to run low.',
    'Like a prenatal', 'A prenatal is made for pregnancy. GALOP is made for life on a GLP-1.'],
-  ['Tastes like lemonade', 'Sips, not pills.',
+  [<>Tastes like <Lemon>lemonade</Lemon></>, 'Sips, not pills.',
    'One stick a day', 'Stir one stick into cold water, once a day, whenever it fits your routine.'],
 ];
 
@@ -85,7 +86,7 @@ export default function AboutPage() {
       </div>
       <div className="max-w-4xl mx-auto grid gap-5 sm:grid-cols-3">
         {DIFFERENT.map(([h, p, bh, bp], i) => (
-          <FlipCard key={h} tone="glass" glossDelay={1 + i * 0.8}
+          <FlipCard key={bh} tone="glass" glossDelay={1 + i * 0.8}
                     front={<><CardKicker>0{i + 1}</CardKicker><CardTitle>{h}</CardTitle><CardText>{p}</CardText></>}
                     back={<><CardTitle>{bh}</CardTitle><CardText>{bp}</CardText></>} />
         ))}

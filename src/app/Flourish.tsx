@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { RED } from './Layout';
+import { RED, LEMON } from './Layout';
 import horseImage from "../imports/galop-horse.png";
 
 /** Hairline — horse mark — hairline section divider. */
@@ -52,6 +52,53 @@ export const SpinBadge = ({ text, size = '6.5rem', style }: { text: string; size
            position: 'absolute', left: '50%', top: '50%', width: '42%', height: 'auto',
            transform: 'translate(-50%, -50%)', filter: 'brightness(0) invert(1)'
          }} />
+  </div>
+);
+
+/** Pale-lemon highlighter swipe behind a word, for lemonade moments. */
+export const Lemon = ({ children }: { children: ReactNode }) => (
+  <span style={{ position: 'relative', display: 'inline-block', isolation: 'isolate' }}>
+    <span aria-hidden="true" style={{
+      position: 'absolute', left: '-0.08em', right: '-0.08em', bottom: '0.04em', height: '0.45em',
+      background: LEMON, transform: 'skewX(-10deg) rotate(-1.5deg)', borderRadius: '3px', zIndex: -1
+    }} />
+    {children}
+  </span>
+);
+
+/** Tiny lemon-slice icon. */
+export const LemonSlice = ({ size = '1em' }: { size?: string }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" style={{ flexShrink: 0 }}>
+    <circle cx="12" cy="12" r="11" fill="#FFE34D" />
+    <circle cx="12" cy="12" r="9" fill="#FFF6B0" />
+    {[0, 45, 90, 135].map((a) => (
+      <line key={a} x1="12" y1="3.5" x2="12" y2="20.5" stroke="#FFE34D" strokeWidth="1.2" transform={`rotate(${a} 12 12)`} />
+    ))}
+    <circle cx="12" cy="12" r="1.4" fill="#ffffff" />
+  </svg>
+);
+
+// [left %, size px, duration s, delay s, sway px, rise px, opacity, lemon?]
+const AMBIENT: [number, number, number, number, number, number, number, boolean][] = [
+  [6, 14, 11, 0, 14, -420, 0.85, false], [14, 9, 9, 3.5, -10, -380, 0.8, true], [24, 18, 13, 1.2, 18, -460, 0.7, false],
+  [38, 10, 10, 6, -12, -400, 0.8, true], [52, 13, 12, 2.4, 10, -440, 0.75, false], [63, 8, 8, 4.8, -8, -360, 0.85, true],
+  [74, 16, 14, 0.6, -16, -470, 0.7, false], [84, 10, 9.5, 5.5, 12, -390, 0.8, true], [93, 12, 12.5, 2.9, -14, -430, 0.75, false],
+];
+
+/** Slow, faint bubbles drifting up behind a section, like a fresh glass. Place inside a `position: relative` box. */
+export const AmbientFizz = () => (
+  <div aria-hidden="true" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
+    {AMBIENT.map(([left, size, dur, delay, sway, rise, op, lemon], i) => (
+      <span key={i} className="ambient-bubble"
+            style={{
+              left: `${left}%`, width: `${size}px`, height: `${size}px`,
+              background: lemon
+                ? 'radial-gradient(circle at 32% 30%, #ffffff 0%, rgba(255, 244, 150, 0.85) 55%, rgba(255, 236, 110, 0.7) 100%)'
+                : 'radial-gradient(circle at 32% 30%, #ffffff 0%, rgba(255, 255, 255, 0.35) 55%, rgba(255, 255, 255, 0.15) 100%)',
+              ['--dur' as string]: `${dur}s`, ['--delay' as string]: `${delay}s`, ['--sway' as string]: `${sway}px`,
+              ['--rise' as string]: `${rise}px`, ['--op' as string]: op,
+            } as CSSProperties} />
+    ))}
   </div>
 );
 

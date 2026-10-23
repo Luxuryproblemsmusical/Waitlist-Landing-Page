@@ -64,7 +64,7 @@ export const CardKicker = ({ children }: { children: ReactNode }) => (
 );
 
 /**
- * Smooth accordion. `cards`: each item is its own white rounded card (Q&A
+ * Smooth accordion. `cards`: each item is its own white rounded card (FAQ
  * page); `lines`: hairline-separated rows (product details).
  */
 export function Accordion({ items, variant = 'lines', defaultOpen = -1 }:

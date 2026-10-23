@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { RED } from './Layout';
+import { RED, LEMON } from './Layout';
 import { PlanPicker } from './PlanPicker';
-import { Note, Gloss, SpinBadge } from './Flourish';
+import { Note, Gloss, SpinBadge, Lemon, LemonSlice } from './Flourish';
 import { Accordion } from './Interactive';
 import pouchImage from "../imports/pouch-lemonade-v2.webp";
 
@@ -114,7 +114,7 @@ export function ProductSection() {
                 lineHeight: 1.05,
                 margin: '6px 0 10px'
               }}>
-            Multivitamin Lemonade
+            Multivitamin <Lemon>Lemonade</Lemon>
           </h2>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 600, color: RED, lineHeight: 1.5 }}>
             Lemonade with 30+ vitamins, minerals, and electrolytes, made for life on a GLP&#8209;1. One stick, once a day.
@@ -133,9 +133,12 @@ export function ProductSection() {
               Flavor
             </span>
             <span style={{
-              fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, color: '#ffffff',
-              background: RED, borderRadius: '9999px', padding: '6px 14px', letterSpacing: '0.08em'
+              display: 'inline-flex', alignItems: 'center', gap: '0.45em',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, color: RED,
+              background: LEMON, border: '1.5px solid rgba(239, 42, 48, 0.25)',
+              borderRadius: '9999px', padding: '5px 14px 5px 7px', letterSpacing: '0.08em'
             }}>
+              <LemonSlice size="1.35em" />
               Lemonade
             </span>
           </div>
