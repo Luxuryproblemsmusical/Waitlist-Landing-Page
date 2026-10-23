@@ -72,6 +72,17 @@ export default function App() {
            }}>
           The multivitamin drink mix for life on a&nbsp;GLP&#8209;1
         </p>
+        <p style={{
+             marginTop: 'clamp(10px, 1.8vw, 18px)',
+             fontFamily: "'Caveat', cursive",
+             fontWeight: 600,
+             fontSize: 'clamp(1.9rem, 4.5vw, 2.8rem)',
+             lineHeight: 1,
+             color: RED,
+             transform: 'rotate(-3deg)'
+           }}>
+          Ride with me.
+        </p>
       </div>
 
       {/* Product / buy box — straight after the logo */}
@@ -148,8 +159,7 @@ export default function App() {
              color: RED,
              marginTop: '1.25rem'
            }}>
-          Ride with me.
-          <span style={{ display: 'block', fontSize: '0.8em', marginTop: '0.35rem' }}>— Sydney</span>
+          — Sydney
         </p>
         <a href="/about" className="link-arrow"
            style={{

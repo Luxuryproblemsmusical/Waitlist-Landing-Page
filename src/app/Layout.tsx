@@ -106,44 +106,45 @@ export const NAV_LINKS = [
   { href: '/faq', label: 'FAQ' },
 ];
 
-const Nav = ({ current }: { current: string }) => (
-  <nav aria-label="Main"
-       className="w-full max-w-4xl flex flex-wrap items-center justify-center sm:justify-between gap-x-6 gap-y-2"
-       style={{ padding: '4px 0 0' }}>
-    <a href="/" aria-label="GALOP home" className="nav-logo"
-       style={{
-         fontFamily: "'Cormorant Garamond', serif",
-         fontWeight: 600,
-         color: RED,
-         fontSize: '1.5rem',
-         letterSpacing: '0.02em',
-         textDecoration: 'none',
-         lineHeight: 1
-       }}>
-      GALOP
-    </a>
-    <div className="flex flex-wrap justify-center gap-x-6 gap-y-1">
-      {NAV_LINKS.map((l) => {
-        const active = l.href === current;
-        return (
-          <a key={l.href} href={l.href} className="nav-link"
-             aria-current={active ? 'page' : undefined}
-             style={{
-               fontFamily: 'Inter, sans-serif',
-               fontSize: '0.72rem',
-               fontWeight: 700,
-               color: RED,
-               textTransform: 'uppercase',
-               letterSpacing: '0.2em',
-               textDecoration: 'none'
-             }}>
-            {l.label}
-          </a>
-        );
-      })}
-    </div>
-  </nav>
-);
+/** Wordmark plus one button: About (or Shop, when you're already on About). */
+const Nav = ({ current }: { current: string }) => {
+  const onAbout = current === '/about';
+  return (
+    <nav aria-label="Main"
+         className="w-full max-w-4xl flex items-center justify-between gap-4"
+         style={{ padding: '4px 0 0' }}>
+      <a href="/" aria-label="GALOP home" className="nav-logo"
+         style={{
+           fontFamily: "'Cormorant Garamond', serif",
+           fontWeight: 600,
+           color: RED,
+           fontSize: '1.5rem',
+           letterSpacing: '0.02em',
+           textDecoration: 'none',
+           lineHeight: 1
+         }}>
+        GALOP
+      </a>
+      <a href={onAbout ? '/' : '/about'} className="btn-gallop on-light" data-fizz="8"
+         style={{
+           display: 'inline-block',
+           fontFamily: 'Inter, sans-serif',
+           fontSize: '0.72rem',
+           fontWeight: 700,
+           color: RED,
+           background: 'rgba(255, 255, 255, 0.75)',
+           border: `1.5px solid ${RED}`,
+           borderRadius: '9999px',
+           padding: '9px 20px',
+           textTransform: 'uppercase',
+           letterSpacing: '0.2em',
+           textDecoration: 'none'
+         }}>
+        <span className="btn-label">{onAbout ? 'Shop' : 'About'}</span>
+      </a>
+    </nav>
+  );
+};
 
 const Footer = () => (
   <footer className="max-w-2xl mx-auto mt-24 pb-10 text-center"
@@ -383,15 +384,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         @keyframes planHop { 0% { transform: scale(0.98); } 60% { transform: scale(1.015); } 100% { transform: scale(1); } }
         @keyframes dotPop { 0% { transform: scale(0.4); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
-        /* Nav: the underline springs in from the left; the wordmark stretches its stride */
-        .nav-link { position: relative; padding-bottom: 4px; opacity: 0.8; transition: opacity 0.2s ease; }
-        .nav-link::after {
-          content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px;
-          background: ${RED}; transform: scaleX(0); transform-origin: left;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .nav-link:hover, .nav-link[aria-current="page"] { opacity: 1; }
-        .nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); }
+        /* Nav: the wordmark stretches its stride */
         .nav-logo { transition: letter-spacing 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .nav-logo:hover { letter-spacing: 0.08em !important; }
 
