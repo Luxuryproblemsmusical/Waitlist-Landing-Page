@@ -261,6 +261,13 @@ export function Layout({ title, current, children }: { title: string; current: s
         .flip-face { display: block; }
         .flip-back { transform: rotateY(180deg); }
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
+        /* The "I flip" cue: hover starts the turn; touch screens get one small peek. */
+        .flip-card:hover .flip-inner { transform: rotateY(-16deg); }
+        .flip-card.is-flipped:hover .flip-inner { transform: rotateY(164deg); }
+        @keyframes flipPeek { 0%, 100% { transform: rotateY(0); } 40% { transform: rotateY(-22deg); } }
+        @media (hover: none) {
+          .flip-card:not(.is-flipped) .flip-inner { animation: flipPeek 0.9s ease-in-out 1.2s 1; }
+        }
         /* The drifting gloss gets its own compositor layer, which Chrome draws through
            backface-visibility; swap face visibility at the half-turn so it can't show through. */
         .flip-face { transition: visibility 0s linear 0.3s; }
@@ -288,7 +295,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         @media (prefers-reduced-motion: reduce) {
           .float-slow, .spin-slow, .animate-float { animation: none !important; }
           .gloss-layer::after { animation: none !important; display: none; }
-          .flip-inner { transition: none; transform: none !important; }
+          .flip-inner { transition: none; transform: none !important; animation: none !important; }
           .flip-back { transform: none; opacity: 0; transition: opacity 0.2s; }
           .flip-card.is-flipped .flip-back { opacity: 1; }
           .flip-card.is-flipped .flip-face:not(.flip-back) { opacity: 0; }

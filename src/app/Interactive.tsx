@@ -11,19 +11,20 @@ const FACE_BG: Record<Tone, { front: string; back: string; frontColor: string; b
 };
 
 /**
- * Card that lifts on hover and turns over on click / tap / Enter to show its
- * back. Both faces share one grid cell, so the card is as tall as the taller
- * face and nothing jumps. Reduced-motion users get a crossfade instead.
+ * Card that turns over on click / tap / Enter to show its back. No label: on
+ * hover it starts to turn (and on touch screens it does one small peek), which
+ * says "I flip" by itself. Both faces share one grid cell, so the card is as
+ * tall as the taller face and nothing jumps. Reduced motion gets a crossfade.
  */
-export function FlipCard({ front, back, tone = 'white', hint = 'tap to flip', glossDelay = 0 }:
-  { front: ReactNode; back: ReactNode; tone?: Tone; hint?: string; glossDelay?: number }) {
+export function FlipCard({ front, back, tone = 'white', glossDelay = 0 }:
+  { front: ReactNode; back: ReactNode; tone?: Tone; glossDelay?: number }) {
   const [flipped, setFlipped] = useState(false);
   const c = FACE_BG[tone];
   const face = {
     gridArea: '1 / 1',
     position: 'relative' as const,
     borderRadius: '22px',
-    padding: '26px 22px 44px',
+    padding: '26px 22px 28px',
     textAlign: 'left' as const,
   };
   return (
@@ -35,31 +36,15 @@ export function FlipCard({ front, back, tone = 'white', hint = 'tap to flip', gl
                        border: tone === 'glass' ? '2px solid rgba(239, 42, 48, 0.18)' : 'none' }}>
           <Gloss delay={glossDelay} />
           <span style={{ position: 'relative', zIndex: 2, display: 'block' }}>{front}</span>
-          <FlipHint color={c.frontColor}>{hint}</FlipHint>
         </span>
         <span className="flip-face flip-back" aria-hidden={!flipped}
               style={{ ...face, background: c.back, color: c.backColor }}>
           <span style={{ position: 'relative', zIndex: 2, display: 'block' }}>{back}</span>
-          <FlipHint color={c.backColor}>flip back</FlipHint>
         </span>
       </span>
     </button>
   );
 }
-
-const FlipHint = ({ children, color }: { children: ReactNode; color: string }) => (
-  <span aria-hidden="true"
-        style={{
-          position: 'absolute', right: '18px', bottom: '12px', zIndex: 2,
-          fontFamily: "'Caveat', cursive", fontSize: '1.15rem', fontWeight: 600, color, opacity: 0.75,
-          display: 'flex', alignItems: 'center', gap: '0.3em'
-        }}>
-    {children}
-    <svg viewBox="0 0 20 20" width="0.9em" height="0.9em" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <path d="M16 10a6 6 0 1 1-2-4.5" /><path d="M14.5 2.5v3.5H11" />
-    </svg>
-  </span>
-);
 
 /** Shared type styles for flip-card faces. */
 export const CardTitle = ({ children }: { children: ReactNode }) => (

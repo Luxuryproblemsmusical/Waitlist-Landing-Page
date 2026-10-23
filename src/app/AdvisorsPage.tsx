@@ -50,7 +50,7 @@ const Portrait = ({ a }: { a: Advisor }) => a.photo ? (
 );
 
 const Card = ({ a, i }: { a: Advisor; i: number }) => (
-  <FlipCard tone="glass" glossDelay={1 + i * 0.8} hint="tap for more"
+  <FlipCard tone="glass" glossDelay={1 + i * 0.8}
             front={
               <span className="flex flex-col items-center text-center">
                 <Portrait a={a} />
