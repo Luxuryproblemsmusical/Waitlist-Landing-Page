@@ -1,6 +1,6 @@
 import { useId, useState, type ReactNode } from 'react';
 import type { CSSProperties } from 'react';
-import { RED, BLUE, INK } from './Layout';
+import { RED, INK } from './Layout';
 import { Horseshoe } from './Flourish';
 
 /**
@@ -8,7 +8,7 @@ import { Horseshoe } from './Flourish';
  * hover it starts to turn (and on touch screens it does one small peek), which
  * says "I flip" by itself. Both faces share one grid cell, so the card is as
  * tall as the taller face and nothing jumps. Reduced motion gets a crossfade.
- * Matte white paper on the front, page blue on the back.
+ * White on both sides; the back has a fine red keyline inside its edge, like the stationery.
  */
 export function FlipCard({ front, back }: { front: ReactNode; back: ReactNode }) {
   const [flipped, setFlipped] = useState(false);
@@ -22,12 +22,16 @@ export function FlipCard({ front, back }: { front: ReactNode; back: ReactNode })
     <button type="button" className={`flip-card${flipped ? ' is-flipped' : ''}`}
             aria-pressed={flipped} onClick={() => setFlipped((f) => !f)}>
       <span className="flip-inner">
+        <span className="flip-shadow" aria-hidden="true" />
         <span className="flip-face" aria-hidden={flipped}
               style={{ ...face, background: '#ffffff', color: RED }}>
           <span style={{ position: 'relative', zIndex: 2, display: 'block' }}>{front}</span>
         </span>
         <span className="flip-face flip-back" aria-hidden={!flipped}
-              style={{ ...face, background: BLUE, color: RED }}>
+              style={{ ...face, background: '#ffffff', color: RED }}>
+          <span className="cut" aria-hidden="true"
+                style={{ position: 'absolute', inset: '7px', ['--cut' as string]: '12px', ['--bw' as string]: '1px',
+                         ['--line' as string]: 'rgba(236, 29, 39, 0.3)', ['--fill' as string]: '#ffffff' } as CSSProperties} />
           <span style={{ position: 'relative', zIndex: 2, display: 'block' }}>{back}</span>
         </span>
       </span>

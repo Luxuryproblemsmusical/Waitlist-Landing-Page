@@ -238,8 +238,8 @@ export function Layout({ title, current, children }: { title: string; current: s
           .lift:hover { transform: translateY(-4px); }
           /* The lift and the "I flip" tilt go on the inner card, so the button's own
              box never moves out from under the cursor (which made it flicker). */
-          .flip-card:hover .flip-inner { transform: translateY(-5px) rotateY(-16deg); }
-          .flip-card.is-flipped:hover .flip-inner { transform: translateY(-5px) rotateY(164deg); }
+          .flip-card:hover .flip-inner { transform: translateY(-4px) rotateY(-10deg); }
+          .flip-card.is-flipped:hover .flip-inner { transform: translateY(-4px) rotateY(170deg); }
           .acc-card:hover { transform: translateY(-2px); filter: drop-shadow(0 8px 14px rgba(30, 60, 90, 0.1)); }
           .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
           .founder-note:hover .polaroid { transform: rotate(-1deg) translateY(-4px) scale(1.02); }
@@ -278,13 +278,18 @@ export function Layout({ title, current, children }: { title: string; current: s
         .flip-card {
           display: block; width: 100%; padding: 0; border: none; background: none; cursor: pointer;
           perspective: 1400px; text-align: left; font: inherit; color: inherit;
-          /* the shadow sits on the button so it follows the faces' tag-cut corners */
-          filter: drop-shadow(0 12px 18px rgba(30, 60, 90, 0.14));
         }
         .flip-card:focus-visible { outline: 3px solid #ffffff; outline-offset: 4px; } /* flip cards sit on the red band */
         .flip-inner {
           display: grid; height: 100%;
-          transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1);
+          transform-style: preserve-3d; transition: transform 0.75s cubic-bezier(0.45, 0.05, 0.2, 1);
+          will-change: transform;
+        }
+        /* The card's shadow turns with it. It's a box-shadow on an empty box (not a filter on the
+           button, which had to be repainted every frame of the turn and made the flip stutter). */
+        .flip-shadow {
+          grid-area: 1 / 1; border-radius: 18px; pointer-events: none;
+          box-shadow: 0 12px 24px rgba(30, 60, 90, 0.16), 0 2px 5px rgba(30, 60, 90, 0.06);
         }
         /* Only the faces hide their backs. Putting backface-visibility on everything inside them
            (an earlier attempt) makes Safari depth-sort each piece separately, and when the card
@@ -300,12 +305,6 @@ export function Layout({ title, current, children }: { title: string; current: s
         @media (hover: none) {
           .flip-card:not(.is-flipped) .flip-inner { animation: flipPeek 0.9s ease-in-out 1.2s 1; }
         }
-        /* The drifting gloss gets its own compositor layer, which Chrome draws through
-           backface-visibility; swapping face visibility at the half-turn means the hidden
-           face can never show through, in any browser. */
-        .flip-face { transition: visibility 0s linear 0.3s; }
-        .flip-back, .flip-card.is-flipped .flip-face:not(.flip-back) { visibility: hidden; }
-        .flip-card.is-flipped .flip-back { visibility: visible; }
 
         /* Accordions (Interactive.tsx) */
         .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
