@@ -13,6 +13,8 @@ export default function SubscribePage() {
           <img
             src={pouchImage}
             alt="GALOP multivitamin drink mix pouch in lemonade, with a single stick pack beside it"
+            width={1060}
+            height={1484}
             className="w-56 sm:w-72 h-auto"
             style={{ borderRadius: '20px', boxShadow: '0 12px 28px rgba(30, 60, 90, 0.14)' }}
           />

@@ -18,7 +18,8 @@ const WHY: [string, string, string, string][] = [
 ];
 
 /**
- * The horse mark, alive: a 16s half-speed loop of the logo galloping as an
+ * The horse mark, alive: an 8s loop of the logo galloping at its source 24fps
+ * (half speed meant holding each frame twice, which looked choppy), as an
  * animated WebP with a real alpha channel, so it sits on the page background
  * with no box in any browser. Reduced-motion users get the static mark.
  */
@@ -36,6 +37,8 @@ const HorseHero = () => {
       src="/horse-gallop.webp"
       alt=""
       aria-hidden="true"
+      // Intrinsic size, so the space is held while the 1.7MB file loads and the
+      // wordmark below doesn't jump down when it arrives.
       width={480}
       height={342}
       style={{ width, height: 'auto', display: 'block', marginBottom: '4px' }}
@@ -144,7 +147,7 @@ export default function App() {
 
           {/* Letter */}
           <div className="text-center md:text-left" style={{ position: 'relative', zIndex: 2 }}>
-            <img src={horseImage} alt="" aria-hidden="true" className="mx-auto md:mx-0"
+            <img src={horseImage} alt="" aria-hidden="true" width={278} height={230} className="mx-auto md:mx-0"
                  style={{ width: '2.2rem', height: 'auto', marginBottom: '0.9rem', opacity: 0.9 }} />
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.9rem', fontWeight: 600, color: INK, textTransform: 'uppercase', letterSpacing: '0.22em', margin: 0 }}>
               From Sydney

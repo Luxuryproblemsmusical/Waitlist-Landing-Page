@@ -104,13 +104,14 @@ export function PlanPicker({ source }: { source: string }) {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || isSubmitting) return;
     setError('');
     setIsSubmitting(true);
     try {
-      await joinWaitlist(email, { source, plan });
+      const honeypot = String(new FormData(e.currentTarget).get('galop_hp') ?? '');
+      await joinWaitlist(email, { source, plan, honeypot });
       setIsSubmitted(true);
       setEmail('');
     } catch (err) {
@@ -205,6 +206,15 @@ export function PlanPicker({ source }: { source: string }) {
           </a>
         ) : !isSubmitted ? (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            {/* Honeypot: hidden from people and screen readers, so only bots fill it in. */}
+            <input
+              type="text"
+              name="galop_hp"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+            />
             <label htmlFor={emailId} className="sr-only">Email address for 20% off your first order</label>
             <input
               id={emailId}

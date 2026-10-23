@@ -217,33 +217,39 @@ export function Layout({ title, current, children }: { title: string; current: s
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
         .lift { transition: transform 0.25s ease, box-shadow 0.25s ease; }
-        .lift:hover { transform: translateY(-4px); }
         input::placeholder { color: rgba(45, 55, 72, 0.5); }
+
+        /* Hover motion only where there's a real pointer: on phones a tap leaves
+           :hover stuck, which left cards lifted or half-turned after tapping. */
+        @media (hover: hover) {
+          .lift:hover { transform: translateY(-4px); }
+          /* The lift and the "I flip" tilt go on the inner card, so the button's own
+             box never moves out from under the cursor (which made it flicker). */
+          .flip-card:hover .flip-inner { box-shadow: 0 20px 40px rgba(30, 60, 90, 0.2); transform: translateY(-5px) rotateY(-16deg); }
+          .flip-card.is-flipped:hover .flip-inner { transform: translateY(-5px) rotateY(164deg); }
+          .acc-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30, 60, 90, 0.1); }
+          .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
+          .founder-note:hover .polaroid { transform: rotate(-1deg) translateY(-4px) scale(1.02); }
+        }
 
         /* Flip cards (Interactive.tsx) */
         .flip-card {
           display: block; width: 100%; padding: 0; border: none; background: none; cursor: pointer;
           perspective: 1400px; border-radius: 22px; text-align: left; font: inherit; color: inherit;
-          transition: transform 0.25s ease;
         }
-        .flip-card:hover { transform: translateY(-5px); }
-        .flip-card:active { transform: translateY(-2px) scale(0.99); }
         .flip-card:focus-visible { outline: 3px solid #ffffff; outline-offset: 4px; } /* flip cards sit on the red band */
         .flip-inner {
           display: grid; height: 100%; border-radius: 22px;
           transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1), box-shadow 0.25s ease;
           box-shadow: 0 12px 28px rgba(30, 60, 90, 0.12);
         }
-        .flip-card:hover .flip-inner { box-shadow: 0 20px 40px rgba(30, 60, 90, 0.2); }
         /* Only the faces hide their backs. Putting backface-visibility on everything inside them
            (an earlier attempt) makes Safari depth-sort each piece separately, and when the card
            tilts it draws the face's background over its own text, so the content vanishes. */
         .flip-face { display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: flat; }
         .flip-back { transform: rotateY(180deg); }
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
-        /* The "I flip" cue: hover starts the turn; touch screens get one small peek. */
-        .flip-card:hover .flip-inner { transform: rotateY(-16deg); }
-        .flip-card.is-flipped:hover .flip-inner { transform: rotateY(164deg); }
+        /* The "I flip" cue: hover starts the turn (above); touch screens get one small peek. */
         @keyframes flipPeek { 0%, 100% { transform: rotateY(0); } 40% { transform: rotateY(-22deg); } }
         @media (hover: none) {
           .flip-card:not(.is-flipped) .flip-inner { animation: flipPeek 0.9s ease-in-out 1.2s 1; }
@@ -258,12 +264,11 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* Accordions (Interactive.tsx) */
         .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
         .acc-item.is-open .acc-panel { grid-template-rows: 1fr; }
-        .acc-icon { transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, color 0.2s ease; }
+        .acc-icon { transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, color 0.2s ease; }
         .acc-item .acc-panel > div { opacity: 0; transform: translateY(-6px); transition: opacity 0.3s ease, transform 0.35s ease; }
         .acc-item.is-open .acc-panel > div { opacity: 1; transform: none; }
         .acc-item.is-open .acc-icon { transform: rotate(45deg); }
         .acc-card { transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease; }
-        .acc-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30, 60, 90, 0.1); }
         .acc-trigger:focus-visible { outline: 3px solid ${RED}; outline-offset: 2px; border-radius: 14px; }
         .acc-trigger:hover .acc-icon { transform: scale(1.08); }
         .acc-item.is-open .acc-trigger:hover .acc-icon { transform: rotate(45deg) scale(1.08); }
@@ -271,9 +276,12 @@ export function Layout({ title, current, children }: { title: string; current: s
         /* Brand motion: buttons gallop, presses fizz like lemonade */
         .btn-gallop {
           position: relative; overflow: hidden; isolation: isolate;
-          transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+          transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
         }
-        .btn-gallop:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(239, 42, 48, 0.3); }
+        /* No lift on hover: the button stays put under the cursor (moving it made
+           the hover flicker on and off at its bottom edge); the shadow, sheen and
+           galloping horse carry the hover instead. */
+        .btn-gallop:hover { box-shadow: 0 14px 28px rgba(239, 42, 48, 0.3); }
         .btn-gallop:active { transform: translateY(0) scale(0.96); transition-duration: 0.08s; }
         .btn-gallop .btn-label, .success-pill .btn-label { position: relative; z-index: 2; }
         /* a quick gift-wrap sheen sweeps across on hover... */
@@ -335,21 +343,19 @@ export function Layout({ title, current, children }: { title: string; current: s
         .polaroid {
           background: #ffffff; padding: 10px 10px 12px;
           box-shadow: 0 14px 30px rgba(30, 60, 90, 0.18), 0 1px 3px rgba(0, 0, 0, 0.08);
-          transform: rotate(-4deg); transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: rotate(-4deg); transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .founder-note:hover .polaroid { transform: rotate(-1deg) translateY(-4px) scale(1.02); }
         .polaroid-tape {
           position: absolute; top: -13px; left: 50%; width: 86px; height: 26px; margin-left: -43px; z-index: 3;
           background: rgba(255, 240, 122, 0.6); transform: rotate(3deg);
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
         }
 
-        /* Plan cards hop when chosen, and the radio dot pops */
-        .plan-card[aria-pressed="false"]:hover { transform: translateY(-2px); }
-        .plan-card[aria-pressed="true"] { animation: planHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .plan-card[aria-pressed="true"] .plan-dot { animation: dotPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        @keyframes planHop { 0% { transform: scale(0.98); } 60% { transform: scale(1.015); } 100% { transform: scale(1); } }
-        @keyframes dotPop { 0% { transform: scale(0.4); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        /* Plan cards settle in when chosen, and the radio dot grows in (no overshoot) */
+        .plan-card[aria-pressed="true"] { animation: planHop 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+        .plan-card[aria-pressed="true"] .plan-dot { animation: dotPop 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+        @keyframes planHop { from { transform: scale(0.985); } to { transform: scale(1); } }
+        @keyframes dotPop { from { transform: scale(0.5); } to { transform: scale(1); } }
 
         /* Nav hang tag */
         /* --dir: 1 hangs from the left and points left (From Sydney); -1 is the mirror image (Lemonade) */
@@ -403,7 +409,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
 
         /* Nav: the wordmark stretches its stride */
-        .nav-logo { transition: letter-spacing 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .nav-logo { transition: letter-spacing 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
         .nav-logo:hover { letter-spacing: 0.08em !important; }
 
         /* Text links: the arrow canters */

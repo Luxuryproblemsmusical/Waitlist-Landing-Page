@@ -6,7 +6,7 @@ import horseImage from "../imports/galop-horse.png";
 export const Divider = ({ className = '' }: { className?: string }) => (
   <div className={`flex items-center justify-center gap-4 ${className}`} aria-hidden="true">
     <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(239, 42, 48, 0.35)' }} />
-    <img src={horseImage} alt="" style={{ width: '2.1rem', height: 'auto', opacity: 0.9 }} />
+    <img src={horseImage} alt="" width={278} height={230} style={{ width: '2.1rem', height: 'auto', opacity: 0.9 }} />
     <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(239, 42, 48, 0.35)' }} />
   </div>
 );
