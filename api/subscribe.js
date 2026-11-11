@@ -5,6 +5,13 @@
 //   SHOPIFY_STORE          the store's myshopify domain, e.g. galop-1234.myshopify.com
 //   SHOPIFY_CLIENT_ID      from the Dev Dashboard app (scopes: read_customers, write_customers)
 //   SHOPIFY_CLIENT_SECRET
+//
+// Meta Conversions API (Production only; optional — skipped if unset):
+//   META_PIXEL_ID          2104256736870821 ("Galop Pixel")
+//   META_CAPI_TOKEN        Events Manager → Galop Pixel → Settings → Conversions API → Generate access token
+//   META_TEST_EVENT_CODE   optional, from Events Manager → Test events, to check events arrive
+
+import { createHash } from 'node:crypto';
 
 const API_VERSION = '2026-07';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -67,6 +74,56 @@ async function shopify(query, variables) {
 
 const reply = (status, data) => Response.json(data, { status });
 
+const sha256 = (value) => createHash('sha256').update(value).digest('hex');
+const clean = (value, max = 500) => String(value ?? '').trim().slice(0, max);
+
+// Sends the signup to Meta from the server as a Lead, with the same event_id
+// the browser Pixel used, so Meta deduplicates and counts it once. Catches
+// signups the browser Pixel misses (ad blockers, iOS privacy). Never blocks or
+// fails the signup itself.
+async function sendMetaLead(request, body, email) {
+  const pixelId = process.env.META_PIXEL_ID;
+  const accessToken = process.env.META_CAPI_TOKEN;
+  // Only the live site: preview deploys would otherwise report test signups.
+  if (!pixelId || !accessToken || process.env.VERCEL_ENV !== 'production') return;
+
+  const ip = clean(request.headers.get('x-forwarded-for')).split(',')[0].trim();
+  const userData = { em: [sha256(email)] };
+  if (ip) userData.client_ip_address = ip;
+  const ua = clean(request.headers.get('user-agent'));
+  if (ua) userData.client_user_agent = ua;
+  if (body.fbp) userData.fbp = clean(body.fbp, 200);
+  if (body.fbc) userData.fbc = clean(body.fbc, 500);
+
+  const event = {
+    event_name: 'Lead',
+    event_time: Math.floor(Date.now() / 1000),
+    action_source: 'website',
+    event_source_url: clean(body.event_source_url, 1000) || 'https://www.galoplife.com/',
+    user_data: userData,
+    custom_data: {
+      content_name: [body.utm_campaign, body.utm_content].map((v) => clean(v, 100)).filter(Boolean).join(' / ') || 'direct',
+    },
+  };
+  const eventId = clean(body.event_id, 100);
+  if (eventId) event.event_id = eventId;
+
+  const payload = { data: [event] };
+  if (process.env.META_TEST_EVENT_CODE) payload.test_event_code = process.env.META_TEST_EVENT_CODE;
+
+  try {
+    const res = await fetch(`https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${encodeURIComponent(accessToken)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!res.ok) console.error('Meta CAPI error:', res.status, await res.text());
+  } catch (err) {
+    console.error('Meta CAPI request failed:', err);
+  }
+}
+
 export async function POST(request) {
   let body;
   try {
@@ -108,6 +165,7 @@ export async function POST(request) {
         },
       });
     }
+    await sendMetaLead(request, body, email);
     return reply(200, { ok: true });
   } catch (err) {
     console.error('Waitlist signup failed:', err);
