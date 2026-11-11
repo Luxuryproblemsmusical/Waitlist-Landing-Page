@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { trackWaitlistSignup } from './analytics';
+import { metaBrowserIds, newEventId, trackWaitlistSignup } from './analytics';
 import { getAttribution } from './attribution';
 import horseImage from "../imports/galop-horse.png";
 import heroImage from "../imports/hero-lemonade.png";
@@ -58,6 +58,7 @@ export default function App() {
     setIsSubmitting(true);
     try {
       const attribution = getAttribution();
+      const eventId = newEventId();
       // Adds the signup to Shopify as a subscribed customer (see api/subscribe.js).
       const res = await fetch('/api/subscribe', {
         method: 'POST',
@@ -66,6 +67,8 @@ export default function App() {
           email,
           galop_hp: new FormData(e.currentTarget).get('galop_hp') ?? '',
           ...attribution,
+          event_id: eventId,
+          ...metaBrowserIds(),
         }),
       });
       if (!res.ok) {
@@ -74,7 +77,7 @@ export default function App() {
       }
       setIsSubmitted(true);
       setEmail('');
-      trackWaitlistSignup(attribution.utm_campaign, attribution.utm_content);
+      trackWaitlistSignup(attribution.utm_campaign, attribution.utm_content, eventId);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
