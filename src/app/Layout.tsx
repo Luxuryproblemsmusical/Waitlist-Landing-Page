@@ -260,7 +260,7 @@ export function Layout({ title, current, children }: { title: string; current: s
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out; }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
-        input::placeholder { color: rgba(143, 18, 25, 0.45); }
+        input::placeholder, textarea::placeholder { color: rgba(143, 18, 25, 0.45); }
 
         /* Hover motion only where there's a real pointer: on phones a tap leaves
            :hover stuck, which left cards lifted or half-turned after tapping. */

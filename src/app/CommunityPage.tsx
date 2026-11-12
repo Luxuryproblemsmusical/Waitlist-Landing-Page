@@ -1,6 +1,76 @@
-import type { CSSProperties } from 'react';
+import { useId, useState, type CSSProperties, type FormEvent } from 'react';
 import { Layout, Kicker, Heading, RED, INK } from './Layout';
 import { COMMUNITY } from './links';
+
+const sans = "'Montserrat', sans-serif";
+const field: CSSProperties = {
+  display: 'block', width: '100%', background: 'transparent', border: 'none', padding: '16px 20px',
+  fontFamily: sans, fontSize: '1rem', letterSpacing: '0.01em', color: INK, lineHeight: 1.55,
+};
+const frame = {
+  display: 'block', ['--cut' as string]: '12px', ['--bw' as string]: '1px',
+  ['--line' as string]: 'rgba(236, 29, 39, 0.28)', ['--fill' as string]: '#ffffff',
+} as CSSProperties;
+
+/**
+ * Ask a question. There's no server behind this yet: sending opens the visitor's own email
+ * app with their question written out and addressed to GALOP, so nothing is stored on the site.
+ */
+function AskBox() {
+  const [question, setQuestion] = useState('');
+  const [name, setName] = useState('');
+  const [opened, setOpened] = useState(false);
+  const qId = useId();
+  const nId = useId();
+
+  const send = (e: FormEvent) => {
+    e.preventDefault();
+    const body = question.trim() + (name.trim() ? `\n\n— ${name.trim()}` : '');
+    window.location.href = `mailto:galoplife@gmail.com?subject=${encodeURIComponent('A question about life on a GLP-1')}&body=${encodeURIComponent(body)}`;
+    setOpened(true);
+  };
+
+  return (
+    <section className="max-w-2xl mx-auto mt-16 md:mt-20 text-center" aria-labelledby="ask-heading">
+      <Kicker>Ask us</Kicker>
+      <span id="ask-heading"><Heading>Got questions about life on a GLP&#8209;1?</Heading></span>
+      <p style={{ fontFamily: sans, fontSize: '1rem', fontWeight: 500, color: INK, lineHeight: 1.6, margin: '-0.5rem 0 0' }}>
+        Post it here and we&rsquo;ll get it answered.
+      </p>
+
+      <form onSubmit={send} className="flex flex-col gap-3 mt-6 text-left">
+        <label htmlFor={qId} className="sr-only">Your question</label>
+        <span className="galop-field cut" style={frame}>
+          <textarea id={qId} name="question" rows={4} required maxLength={1500} value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="What would you like to know?"
+                    className="focus:outline-none" style={{ ...field, resize: 'vertical', minHeight: '8rem' }} />
+        </span>
+        <label htmlFor={nId} className="sr-only">First name (optional)</label>
+        <span className="galop-field cut" style={frame}>
+          <input id={nId} type="text" name="name" autoComplete="given-name" maxLength={60} value={name}
+                 onChange={(e) => setName(e.target.value)}
+                 placeholder="First name (optional)"
+                 className="focus:outline-none" style={field} />
+        </span>
+        <button type="submit" className="btn-gallop cut-solid"
+                style={{
+                  background: RED, color: '#ffffff', border: 'none', cursor: 'pointer',
+                  fontFamily: sans, fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.16em',
+                  textTransform: 'uppercase', padding: '17px 28px',
+                }}>
+          <span className="btn-label">Send my question</span>
+        </button>
+      </form>
+
+      <p role="status" style={{ fontFamily: sans, fontSize: '0.82rem', fontWeight: 500, color: INK, lineHeight: 1.6, margin: '1rem 0 0', minHeight: '1.4em' }}>
+        {opened
+          ? 'Your email app should have opened with your question ready to go. Just press send.'
+          : 'Answers are general information, not personal medical advice.'}
+      </p>
+    </section>
+  );
+}
 
 /** Community: where to find Sydney beyond the shop. The cards and their links live in links.ts. */
 export default function CommunityPage() {
@@ -52,6 +122,8 @@ export default function CommunityPage() {
           </div>
         ))}
       </div>
+
+      <AskBox />
     </Layout>
   );
 }
