@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import horseImage from "../imports/galop-horse.png";
 import wordmarkImage from "../imports/galop-wordmark.svg";
+import { SOCIAL } from './links';
 
 /** The logo's red (the designer's wordmark file): anything that should stand out. */
 export const RED = '#ec1d27';
@@ -56,6 +57,7 @@ export const NAV_LINKS = [
   { href: '/#shop', label: 'Lemonade' },
   { href: '/about', label: 'From Sydney' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/community', label: 'Community' },
 ];
 
 /** Wordmark plus one hang tag: From Sydney (her letter), or Lemonade (the shop) when you're on her page. */
@@ -67,6 +69,15 @@ const Nav = ({ current }: { current: string }) => {
          style={{ paddingTop: '4px' }}>
       <a href="/" aria-label="GALOP home" className="nav-logo" style={{ display: 'block', lineHeight: 0 }}>
         <img src={wordmarkImage} alt="GALOP" width={1351} height={301} style={{ width: '5.4rem', height: 'auto' }} />
+      </a>
+      {/* Community: a plain text tab beside the hang tag */}
+      <a href="/community" className="link-arrow" aria-current={current === '/community' ? 'page' : undefined}
+         style={{
+           marginLeft: 'auto', fontFamily: "'Montserrat', sans-serif", fontSize: '0.72rem', fontWeight: 700, color: INK,
+           textTransform: 'uppercase', letterSpacing: '0.18em', padding: '10px 4px',
+           textDecoration: current === '/community' ? 'underline' : 'none', textUnderlineOffset: '0.35em',
+         }}>
+        Community
       </a>
       {/* A hang tag on a cord from the offer bar: it dangles, sways a little, and swings when you hover */}
       <a href={onAbout ? '/#shop' : '/about'} className="nav-tag"
@@ -85,6 +96,35 @@ const Nav = ({ current }: { current: string }) => {
 
 const footerLink = { color: INK, textDecoration: 'underline', textUnderlineOffset: '0.2em' } as const;
 
+/** Footer icons for GALOP's own accounts. Each shows only once its link is filled in (links.ts). */
+const SOCIAL_ICONS: { key: keyof typeof SOCIAL; label: string; path: JSX.Element }[] = [
+  { key: 'instagram', label: 'GALOP on Instagram', path: (
+    <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" /><circle cx="12" cy="12" r="3.9" />
+      <circle cx="17" cy="7" r="0.6" fill="currentColor" />
+    </g>
+  ) },
+  { key: 'facebook', label: 'GALOP on Facebook', path: (
+    <path fill="currentColor" d="M13.6 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.6-1.5h1.5V4.3c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8.2v3h2.6V21z" />
+  ) },
+];
+
+const SocialLinks = () => {
+  const shown = SOCIAL_ICONS.filter((s) => SOCIAL[s.key]);
+  if (!shown.length) return null;
+  return (
+    <p className="flex justify-center gap-3 mb-5">
+      {shown.map((s) => (
+        <a key={s.key} href={SOCIAL[s.key]} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="social-link"
+           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '2.75rem', height: '2.75rem',
+                    color: INK, border: '1.5px solid rgba(143, 18, 25, 0.45)', borderRadius: '8px' }}>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">{s.path}</svg>
+        </a>
+      ))}
+    </p>
+  );
+};
+
 const Footer = () => (
   <footer className="max-w-2xl mx-auto mt-24 pb-10 text-center"
           style={{
@@ -100,6 +140,7 @@ const Footer = () => (
       <img src={horseImage} alt="" style={{ width: '1.9rem', height: 'auto', opacity: 0.9 }} />
       <span style={{ height: '1px', width: 'clamp(3rem, 12vw, 8rem)', background: 'rgba(236, 29, 39, 0.3)' }} />
     </div>
+    <SocialLinks />
     <p>© {new Date().getFullYear()} GALOP. All rights reserved.</p>
     <p style={{ marginTop: '0.5rem' }} className="flex flex-wrap justify-center gap-x-5 gap-y-1">
       {NAV_LINKS.map((l) => (

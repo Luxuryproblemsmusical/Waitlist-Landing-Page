@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Layout, RED, INK } from './Layout';
 import { ProductSection } from './ProductSection';
+import { Compare } from './Compare';
+import { Elements } from './Elements';
 import { Gloss, Stationery, Polaroid } from './Flourish';
 import { FlipCard, CardTitle, CardText } from './Interactive';
 import horseImage from "../imports/galop-horse.png";
@@ -160,6 +162,12 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* What's inside: the ingredients as a periodic table */}
+      <Elements />
+
+      {/* GALOP vs other supplements */}
+      <Compare />
 
       {/* Sydney's note: house stationery with a taped polaroid; her full letter lives on /about */}
       <section className="max-w-4xl mx-auto mt-20 md:mt-24 px-1">

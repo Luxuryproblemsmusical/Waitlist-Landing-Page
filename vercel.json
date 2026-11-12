@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/subscribe", "destination": "/index.html" },
     { "source": "/about", "destination": "/index.html" },
-    { "source": "/faq", "destination": "/index.html" }
+    { "source": "/faq", "destination": "/index.html" },
+    { "source": "/community", "destination": "/index.html" }
   ]
 }

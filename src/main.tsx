@@ -6,6 +6,7 @@
   import SubscribePage from "./app/SubscribePage.tsx";
   import AboutPage from "./app/AboutPage.tsx";
   import FaqPage from "./app/FaqPage.tsx";
+  import CommunityPage from "./app/CommunityPage.tsx";
   import "./styles/index.css";
 
   const ROUTES: Record<string, () => JSX.Element> = {
@@ -13,6 +14,7 @@
     '/subscribe': SubscribePage,
     '/about': AboutPage,
     '/faq': FaqPage,
+    '/community': CommunityPage,
   };
 
   const routeOf = (pathname: string) => pathname.replace(/\/+$/, '') || '/';
