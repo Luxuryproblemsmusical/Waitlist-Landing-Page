@@ -36,6 +36,6 @@ export const COMMUNITY: { kind: string; name: string; text: string; cta: string;
     name: 'Follow along',
     text: 'Metabolism Diaries on Instagram.',
     cta: 'Follow',
-    url: '',
+    url: 'https://www.instagram.com/metabolismdiaries/',
   },
 ];
