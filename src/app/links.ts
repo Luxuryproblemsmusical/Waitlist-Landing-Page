@@ -5,30 +5,37 @@
 /** GALOP's own accounts: the icons in the footer. */
 export const SOCIAL = {
   instagram: 'https://www.instagram.com/galoplife/',
-  facebook: '',
+  facebook: 'https://www.facebook.com/share/1ExQbmKq3d/?mibextid=wwXIfr',
 };
 
-/** The Community page cards, in order. Sydney: edit the wording freely. */
+/** The Community page cards (Metabolism Diaries), in order. Sydney: edit the wording freely. */
 export const COMMUNITY: { kind: string; name: string; text: string; cta: string; url: string }[] = [
   {
     kind: 'Podcast',
-    name: 'The podcast',
-    text: 'Honest conversations about life on a GLP-1.',
+    name: 'Listen on Spotify',
+    text: 'Honest GLP-1 stories, hosted by Sydney.',
     cta: 'Listen',
-    url: '',
+    url: 'https://open.spotify.com/show/38CWtUdLAJQP85hB5zDm3H',
   },
   {
-    kind: 'Instagram',
-    name: 'Metabolism Diaries',
-    text: 'Everyday notes, wins and real talk from the journey.',
-    cta: 'Follow',
-    url: '',
+    kind: 'YouTube',
+    name: 'Watch the episodes',
+    text: 'Metabolism Diaries on video.',
+    cta: 'Watch',
+    url: 'https://www.youtube.com/@metabolismdiaries',
   },
   {
     kind: 'Substack',
-    name: 'The newsletter',
-    text: 'Longer reads from Sydney, straight to your inbox.',
+    name: 'Read the newsletter',
+    text: 'On a GLP-1 and talking about all of it.',
     cta: 'Read',
+    url: 'https://metabolismdiaries.substack.com/',
+  },
+  {
+    kind: 'Instagram',
+    name: 'Follow along',
+    text: 'Metabolism Diaries on Instagram.',
+    cta: 'Follow',
     url: '',
   },
 ];

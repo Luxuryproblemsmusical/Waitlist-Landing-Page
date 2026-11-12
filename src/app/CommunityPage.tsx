@@ -80,11 +80,11 @@ export default function CommunityPage() {
         <Kicker>Community</Kicker>
         <Heading size="lg" as="h1">Join the herd.</Heading>
         <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '1rem', fontWeight: 500, color: INK, lineHeight: 1.6, margin: '-0.25rem 0 0' }}>
-          Listen, follow and read along with Sydney.
+          Metabolism Diaries is Sydney&rsquo;s home for honest GLP&#8209;1 stories. Listen, watch, read and follow along.
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto mt-10 grid gap-5 sm:grid-cols-3">
+      <div className="max-w-3xl mx-auto mt-10 grid gap-5 sm:grid-cols-2">
         {COMMUNITY.map((c) => (
           <div key={c.kind} className="cut flex flex-col text-center"
                style={{
