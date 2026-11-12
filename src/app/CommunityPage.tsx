@@ -12,22 +12,47 @@ const frame = {
   ['--line' as string]: 'rgba(236, 29, 39, 0.28)', ['--fill' as string]: '#ffffff',
 } as CSSProperties;
 
+/** Where questions go. FormSubmit relays the form to this inbox; no server of our own is involved. */
+const ASK_EMAIL = 'galoplife@gmail.com';
+
 /**
- * Ask a question. There's no server behind this yet: sending opens the visitor's own email
- * app with their question written out and addressed to GALOP, so nothing is stored on the site.
+ * Ask a question. The form posts to FormSubmit, which emails it to ASK_EMAIL, so the visitor
+ * never leaves the page. (The first submission from a new site makes FormSubmit send that inbox
+ * a one-time "activate" email; questions are delivered once it's been clicked.) The hidden
+ * _honey field is a honeypot: only bots fill it in, and those are dropped.
  */
 function AskBox() {
   const [question, setQuestion] = useState('');
   const [name, setName] = useState('');
-  const [opened, setOpened] = useState(false);
+  const [honey, setHoney] = useState('');
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const qId = useId();
   const nId = useId();
 
-  const send = (e: FormEvent) => {
+  const send = async (e: FormEvent) => {
     e.preventDefault();
-    const body = question.trim() + (name.trim() ? `\n\n— ${name.trim()}` : '');
-    window.location.href = `mailto:galoplife@gmail.com?subject=${encodeURIComponent('A question about life on a GLP-1')}&body=${encodeURIComponent(body)}`;
-    setOpened(true);
+    if (state === 'sending') return;
+    if (honey) { setState('sent'); return; }
+    setState('sending');
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${ASK_EMAIL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: 'A question about life on a GLP-1',
+          _template: 'box',
+          name: name.trim() || 'Not given',
+          question: question.trim(),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data.success) !== 'true') throw new Error('not sent');
+      setQuestion('');
+      setName('');
+      setState('sent');
+    } catch {
+      setState('error');
+    }
   };
 
   return (
@@ -38,36 +63,56 @@ function AskBox() {
         Post it here and we&rsquo;ll get it answered.
       </p>
 
-      <form onSubmit={send} className="flex flex-col gap-3 mt-6 text-left">
-        <label htmlFor={qId} className="sr-only">Your question</label>
-        <span className="galop-field cut" style={frame}>
-          <textarea id={qId} name="question" rows={4} required maxLength={1500} value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
-                    placeholder="What would you like to know?"
-                    className="focus:outline-none" style={{ ...field, resize: 'vertical', minHeight: '8rem' }} />
-        </span>
-        <label htmlFor={nId} className="sr-only">First name (optional)</label>
-        <span className="galop-field cut" style={frame}>
-          <input id={nId} type="text" name="name" autoComplete="given-name" maxLength={60} value={name}
-                 onChange={(e) => setName(e.target.value)}
-                 placeholder="First name (optional)"
-                 className="focus:outline-none" style={field} />
-        </span>
-        <button type="submit" className="btn-gallop cut-solid"
-                style={{
-                  background: RED, color: '#ffffff', border: 'none', cursor: 'pointer',
-                  fontFamily: sans, fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.16em',
-                  textTransform: 'uppercase', padding: '17px 28px',
-                }}>
-          <span className="btn-label">Send my question</span>
-        </button>
-      </form>
+      {state === 'sent' ? (
+        <div className="cut mt-6" role="status"
+             style={{
+               ['--cut' as string]: '12px', ['--bw' as string]: '1px',
+               ['--line' as string]: 'rgba(236, 29, 39, 0.3)', ['--fill' as string]: '#ffffff',
+               padding: '22px 28px', fontFamily: sans, fontSize: '0.9rem', color: RED, fontWeight: 700,
+               letterSpacing: '0.16em', textTransform: 'uppercase', lineHeight: 1.5,
+             } as CSSProperties}>
+          Thank you &mdash; we&rsquo;ve got your question.
+        </div>
+      ) : (
+        <form onSubmit={send} className="flex flex-col gap-3 mt-6 text-left">
+          <input type="text" name="_honey" tabIndex={-1} autoComplete="off" aria-hidden="true" value={honey}
+                 onChange={(e) => setHoney(e.target.value)}
+                 style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }} />
+          <label htmlFor={qId} className="sr-only">Your question</label>
+          <span className="galop-field cut" style={frame}>
+            <textarea id={qId} name="question" rows={4} required maxLength={1500} value={question}
+                      onChange={(e) => setQuestion(e.target.value)}
+                      placeholder="What would you like to know?"
+                      className="focus:outline-none" style={{ ...field, resize: 'vertical', minHeight: '8rem' }} />
+          </span>
+          <label htmlFor={nId} className="sr-only">First name (optional)</label>
+          <span className="galop-field cut" style={frame}>
+            <input id={nId} type="text" name="name" autoComplete="given-name" maxLength={60} value={name}
+                   onChange={(e) => setName(e.target.value)}
+                   placeholder="First name (optional)"
+                   className="focus:outline-none" style={field} />
+          </span>
+          <button type="submit" disabled={state === 'sending'} className="btn-gallop cut-solid disabled:opacity-60"
+                  style={{
+                    background: RED, color: '#ffffff', border: 'none', cursor: 'pointer',
+                    fontFamily: sans, fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.16em',
+                    textTransform: 'uppercase', padding: '17px 28px',
+                  }}>
+            <span className="btn-label">{state === 'sending' ? 'Sending…' : 'Send my question'}</span>
+          </button>
+        </form>
+      )}
 
-      <p role="status" style={{ fontFamily: sans, fontSize: '0.82rem', fontWeight: 500, color: INK, lineHeight: 1.6, margin: '1rem 0 0', minHeight: '1.4em' }}>
-        {opened
-          ? 'Your email app should have opened with your question ready to go. Just press send.'
-          : 'Answers are general information, not personal medical advice.'}
-      </p>
+      {state === 'error' ? (
+        <p role="alert" style={{ fontFamily: sans, fontSize: '0.82rem', fontWeight: 600, color: INK, lineHeight: 1.6, margin: '1rem 0 0' }}>
+          That didn&rsquo;t send. Please try again, or write to{' '}
+          <a href={`mailto:${ASK_EMAIL}`} style={{ color: INK, textDecoration: 'underline', textUnderlineOffset: '0.2em' }}>{ASK_EMAIL}</a>.
+        </p>
+      ) : (
+        <p style={{ fontFamily: sans, fontSize: '0.82rem', fontWeight: 500, color: INK, lineHeight: 1.6, margin: '1rem 0 0' }}>
+          Answers are general information, not personal medical advice.
+        </p>
+      )}
     </section>
   );
 }
